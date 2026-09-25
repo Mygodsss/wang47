@@ -35,13 +35,39 @@ jobs:
           python Scripts/sync_all.py
 
       - name: Auto Commit & Push (Silent)
+        id: commit_step
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
           if git diff --staged --quiet; then
             echo "无变更，跳过更新。"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
           else
             git commit -m "chore(auto): daily sync rules, profiles and README [skip ci]"
             git push
+            echo "has_changes=true" >> $GITHUB_OUTPUT
           fi
+
+      - name: Send Telegram Notification
+        if: always() && env.TG_BOT_TOKEN != '' && env.TG_CHAT_ID != ''
+        env:
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+          JOB_STATUS: ${{ job.status }}
+          HAS_CHANGES: ${{ steps.commit_step.outputs.has_changes }}
+        run: |
+          if [ "$JOB_STATUS" = "success" ]; then
+            if [ "$HAS_CHANGES" = "true" ]; then
+              MSG="🚀 *QX-Rules 自动同步成功*%0A%0A*状态:* 规则与覆写已更新并推送到仓库%0A*时间:* $(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M:%S') (UTC+8)%0A*仓库:* [wang47](https://github.com/${{ github.repository }})"
+            else
+              MSG="ℹ️ *QX-Rules 自动同步检测*%0A%0A*状态:* 上游规则无变动，跳过更新%0A*时间:* $(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M:%S') (UTC+8)"
+            fi
+          else
+            MSG="❌ *QX-Rules 同步执行失败*%0A%0A*状态:* GitHub Actions 运行报错，请前往排查%0A*链接:* https://github.com/${{ github.repository }}/actions"
+          fi
+
+          curl -s -X POST "https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage" \
+            -d "chat_id=${TG_CHAT_ID}" \
+            -d "parse_mode=Markdown" \
+            -d "text=${MSG}" > /dev/null
