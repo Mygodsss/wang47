@@ -58,7 +58,7 @@
 | **Gate** | 4 / 5 | [gate.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/gate.list) | [gate.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/gate.yaml) |
 | **Coinbase** | 43 / 44 | [coinbase.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/coinbase.list) | [coinbase.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/coinbase.yaml) |
 | **Kraken** | 43 / 44 | [kraken.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/kraken.list) | [kraken.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/kraken.yaml) |
-| **Crypto** | 0 / 1 | [crypto.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/crypto.list) | [crypto.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/crypto.yaml) |
+| **Crypto** | 161 / 161 | [crypto.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/crypto.list) | [crypto.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/crypto.yaml) |
 
 ### Finance 金融支付
 
