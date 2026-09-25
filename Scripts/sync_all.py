@@ -2,17 +2,23 @@ import os
 import urllib.request
 from datetime import datetime
 
+# 分类映射表：完善「Google 全家桶」
 RULES_MAP = {
-    "Crypto": ["OKX", "Binance", "Bybit", "Bitget", "Gate", "Coinbase", "Kraken", "Cryptocurrency"],
-    "AI": ["OpenAI", "Claude", "Gemini"],
-    "Finance": ["Wise", "Stripe", "PayPal"],
-    "Social": ["Telegram", "Twitter", "Discord", "Reddit"],
-    "Media": ["YouTube", "Spotify", "Netflix", "Disney"],
-    "Developer": ["GitHub", "Docker", "Apple", "Microsoft"],
-    "Privacy": ["Advertising"]
+    "Google 全家桶": ["Gemini", "GoogleVoice", "YouTube", "GooglePlay", "GoogleDrive", "Google"],
+    "AI 智能助手": ["OpenAI", "Claude"],
+    "Crypto 加密货币": ["OKX", "Binance", "Bybit", "Bitget", "Gate", "Coinbase", "Kraken", "Cryptocurrency"],
+    "Finance 金融支付": ["Wise", "Stripe", "PayPal"],
+    "Social 社交通讯": ["Telegram", "Twitter", "Discord", "Reddit"],
+    "Media 流媒体服务": ["Spotify", "Netflix", "Disney"],
+    "Developer 开发者与科技": ["GitHub", "Docker", "Apple", "Microsoft"],
+    "Privacy 隐私过滤": ["Advertising"]
 }
 
 NAME_ALIAS = {
+    "gemini": "Gemini",
+    "googlevoice": "GoogleVoice",
+    "googleplay": "GooglePlay",
+    "googledrive": "GoogleDrive",
     "coinbase": "Cryptocurrency",
     "kraken": "Cryptocurrency",
     "gate": "GateIO"
@@ -34,53 +40,44 @@ def write_file(path, content):
     with open(path, "w", encoding="utf-8") as f:
         f.write(content)
 
-print("🚀 开始同步全平台规则（整合 ACL4SSR 实时 Crypto 数据源）...")
+print("🚀 开始同步全平台规则（完善 Google 全家桶）...")
 
-# 1. 抓取 ACL4SSR 官方维护的 Cryptocurrency 规则
-ACL4SSR_CRYPTO_URL = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Cryptocurrency.list"
-acl4ssr_raw_data = fetch_data(ACL4SSR_CRYPTO_URL)
-
-if acl4ssr_raw_data:
+# 1. 抓取 ACL4SSR Cryptocurrency
+acl4ssr_raw = fetch_data("https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Cryptocurrency.list")
+if acl4ssr_raw:
     qx_lines = ["# ACL4SSR Cryptocurrency 规则库 (自动同步)"]
     stash_lines = ["payload:"]
-
-    for raw_line in acl4ssr_raw_data.splitlines():
+    for raw_line in acl4ssr_raw.splitlines():
         line = raw_line.strip()
         if not line or line.startswith("#"):
             continue
         parts = line.split(",")
         if len(parts) >= 2:
-            r_type = parts[0].strip().upper()
-            target = parts[1].strip()
-
-            # 转换为 Quantumult X 语法
+            r_type, target = parts[0].strip().upper(), parts[1].strip()
             qx_type = r_type.replace("DOMAIN-SUFFIX", "HOST-SUFFIX").replace("DOMAIN-KEYWORD", "HOST-KEYWORD").replace("DOMAIN", "HOST")
-            qx_lines.append(f"{qx_type},{target}")
-
-            # 转换为 Stash 语法
             stash_type = r_type.replace("HOST-SUFFIX", "DOMAIN-SUFFIX").replace("HOST-KEYWORD", "DOMAIN-KEYWORD").replace("HOST", "DOMAIN")
+            qx_lines.append(f"{qx_type},{target}")
             stash_lines.append(f"  - {stash_type},{target}")
-
     write_file("rule/QuantumultX/cryptocurrency.list", "\n".join(qx_lines) + "\n")
     write_file("rule/Stash/cryptocurrency.yaml", "\n".join(stash_lines) + "\n")
-    print("✅ [ACL4SSR] Cryptocurrency 规则抓取并转换完成！")
 
-# 2. 遍历其余平台常规规则
+# 2. 遍历拉取 blackmatrix7 规则
 for cat, items in RULES_MAP.items():
     for name in items:
         fname = name.lower()
-        if fname == "cryptocurrency" and acl4ssr_raw_data:
+        if fname == "cryptocurrency" and acl4ssr_raw:
             continue
-
         up_name = NAME_ALIAS.get(fname, name)
 
         # QX 规则
         qx_url = f"https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/QuantumultX/{up_name}/{up_name}.list"
         qx_content = fetch_data(qx_url)
 
-        # 针对特定小众平台的精准补漏
+        # 本地补全备选
         if not qx_content:
-            if fname == "wise":
+            if fname == "googlevoice":
+                qx_content = "HOST,voice.google.com\nHOST,voice.telephony.goog\nHOST-SUFFIX,voice.google.com\nHOST-KEYWORD,voice.telephony"
+            elif fname == "wise":
                 qx_content = "HOST-SUFFIX,wise.com\nHOST-SUFFIX,transferwise.com\nHOST-SUFFIX,wise-pay.com\nHOST-KEYWORD,wise-cdn"
             elif fname == "bybit":
                 qx_content = "HOST-SUFFIX,bybit.com\nHOST-SUFFIX,bybit-global.com\nHOST-SUFFIX,bytick.com\nHOST-KEYWORD,bybit"
@@ -97,7 +94,9 @@ for cat, items in RULES_MAP.items():
         stash_content = fetch_data(stash_url)
 
         if not stash_content:
-            if fname == "wise":
+            if fname == "googlevoice":
+                stash_content = "payload:\n  - DOMAIN,voice.google.com\n  - DOMAIN,voice.telephony.goog\n  - DOMAIN-SUFFIX,voice.google.com\n  - DOMAIN-KEYWORD,voice.telephony"
+            elif fname == "wise":
                 stash_content = "payload:\n  - DOMAIN-SUFFIX,wise.com\n  - DOMAIN-SUFFIX,transferwise.com\n  - DOMAIN-SUFFIX,wise-pay.com\n  - DOMAIN-KEYWORD,wise-cdn"
             elif fname == "bybit":
                 stash_content = "payload:\n  - DOMAIN-SUFFIX,bybit.com\n  - DOMAIN-SUFFIX,bybit-global.com\n  - DOMAIN-SUFFIX,bytick.com\n  - DOMAIN-KEYWORD,bybit"
@@ -118,6 +117,7 @@ def count_lines(path):
     return 0
 
 now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
 md = [
     "# 私有代理分流规则镜像仓库",
     "",
@@ -156,7 +156,6 @@ for cat, items in RULES_MAP.items():
 
     md.append("")
 
-# 鸣谢与致敬模块（置顶 ACL4SSR）
 md.extend([
     "---",
     "",
@@ -164,8 +163,8 @@ md.extend([
     "",
     "本项目分流规则的数据源头与格式参考了以下开源社区及大佬项目的贡献，特此致敬与感谢：",
     "",
+    "- [blackmatrix7 / ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)：全平台分流规则集与自动化转换核心数据源（包括 Google 全家桶各独立服务）。",
     "- [ACL4SSR / ACL4SSR](https://github.com/ACL4SSR/ACL4SSR)：经典国内分流规则架构、策略组模板与高频维护的加密货币 (Cryptocurrency) 核心数据源。",
-    "- [blackmatrix7 / ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)：全平台分流规则集与自动化转换核心数据源。",
     "- [dler-io / Rules](https://github.com/dler-io/Rules)：专业的高精度分流规则集与 Web3 基础设施参考。",
     "- [v2fly / domain-list-community](https://github.com/v2fly/domain-list-community)：社区级根域名与 Geolocation 数据库标准。",
     "- [Loyalsoldier / v2ray-rules-dat](https://github.com/Loyalsoldier/v2ray-rules-dat)：高频维护的高精度直连与白名单分流数据库。",
@@ -181,4 +180,4 @@ md.extend([
 with open("README.md", "w", encoding="utf-8") as f:
     f.write("\n".join(md))
 
-print("🎉 ACL4SSR 规则同步与致敬更新全部完成！")
+print("🎉 Google 全家桶全量扩展完成！")
