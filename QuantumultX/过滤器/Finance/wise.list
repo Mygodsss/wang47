@@ -1,0 +1,5 @@
+# Wise 核心规则 (金融风控分流)
+HOST-SUFFIX,wise.com
+HOST-SUFFIX,transferwise.com
+HOST-SUFFIX,wise-pay.com
+HOST-KEYWORD,wise-cdn
