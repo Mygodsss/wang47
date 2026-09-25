@@ -1,6 +1,6 @@
 # 私有代理分流规则镜像仓库
 
-> **自动更新时间**：`2026-09-25 19:33:59`  
+> **自动更新时间**：`2026-09-25 19:45:11`  
 > **直链托管服务**：`https://raw.githubusercontent.com/Mygodsss/wang47/main`
 
 ### ⚡ 懒人一键集成订阅（推荐：客户端无需任何手动维护）
@@ -71,6 +71,7 @@
 | **Twitter** | 33 / 34 | [twitter.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/twitter.list) | [twitter.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/twitter.yaml) |
 | **Discord** | 29 / 30 | [discord.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/discord.list) | [discord.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/discord.yaml) |
 | **Reddit** | 8 / 9 | [reddit.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/reddit.list) | [reddit.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/reddit.yaml) |
+| **WeChat** | 43 / 23 | [wechat.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/wechat.list) | [wechat.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/wechat.yaml) |
 
 ### Media 流媒体服务
 
@@ -79,6 +80,8 @@
 | **Spotify** | 30 / 31 | [spotify.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/spotify.list) | [spotify.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/spotify.yaml) |
 | **Netflix** | 1158 / 39 | [netflix.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/netflix.list) | [netflix.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/netflix.yaml) |
 | **Disney** | 174 / 175 | [disney.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/disney.list) | [disney.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/disney.yaml) |
+| **TikTok** | 32 / 28 | [tiktok.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/tiktok.list) | [tiktok.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/tiktok.yaml) |
+| **GlobalMedia** | 2341 / 2220 | [globalmedia.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/globalmedia.list) | [globalmedia.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/globalmedia.yaml) |
 
 ### Developer 开发者与科技
 
@@ -88,6 +91,12 @@
 | **Docker** | 7 / 8 | [docker.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/docker.list) | [docker.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/docker.yaml) |
 | **Apple** | 1881 / 34 | [apple.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/apple.list) | [apple.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/apple.yaml) |
 | **Microsoft** | 712 / 671 | [microsoft.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/microsoft.list) | [microsoft.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/microsoft.yaml) |
+
+### Direct & Domestic 直连与白名单
+
+| 平台 / 服务 | 条数 (QX / Stash) | Quantumult X 订阅直链 | Stash 订阅直链 |
+| :--- | :--- | :--- | :--- |
+| **China** | 3753 / 3701 | [china.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/china.list) | [china.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/china.yaml) |
 
 ### Privacy 隐私过滤
 
