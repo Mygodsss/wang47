@@ -73,6 +73,18 @@ proxy-groups:
       - DIRECT
 
 rule-providers:
+  apple:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/apple.yaml"
+    path: ./ruleset/apple.yaml
+    interval: 86400
+  unbreak:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/unbreak.yaml"
+    path: ./ruleset/unbreak.yaml
+    interval: 86400
   tiktok:
     type: http
     behavior: classical
@@ -147,6 +159,8 @@ rule-providers:
     interval: 86400
 
 rules:
+  - RULE-SET,unbreak,DIRECT
+  - RULE-SET,apple,自动选择
   - RULE-SET,tiktok,自动选择
   - RULE-SET,wechat,DIRECT
   - RULE-SET,china,DIRECT

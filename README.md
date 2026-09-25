@@ -89,7 +89,7 @@
 | :--- | :--- | :--- | :--- |
 | **GitHub** | 31 / 32 | [github.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/github.list) | [github.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/github.yaml) |
 | **Docker** | 7 / 8 | [docker.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/docker.list) | [docker.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/docker.yaml) |
-| **Apple** | 1881 / 34 | [apple.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/apple.list) | [apple.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/apple.yaml) |
+| **Apple** | 1881 / 1569 | [apple.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/apple.list) | [apple.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/apple.yaml) |
 | **Microsoft** | 712 / 671 | [microsoft.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/microsoft.list) | [microsoft.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/microsoft.yaml) |
 
 ### Direct & Domestic 直连与白名单
