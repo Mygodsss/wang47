@@ -1,11 +1,11 @@
 # 私有代理分流规则镜像仓库
 
-> **自动更新时间**：`2026-09-25 18:17:57`  
+> **自动更新时间**：`2026-09-25 18:20:09`  
 > **网关直链服务**：`https://rule-proxy.mygods.workers.dev`
 
 ### ⚡ 懒人一键集成订阅（推荐：客户端无需任何手动维护）
 
-- **Quantumult X 一键全量托管直链**：
+- **Quantumult X 一键全量托管分流直链**：
   `https://rule-proxy.mygods.workers.dev/qx/all.list`
   *(包含所有分类、已按精准优先级由细到粗自动排序，并内置绑定好策略组)*
 
@@ -94,96 +94,30 @@
 
 ---
 
-### 🛠️ 官方配置模板参考 (已全量脱敏)
+### 🛠️ 懒人全套配置远程导入
 
-针对 **Web3 交易防封**、**Google 套件防串流** 与 **ccTLD 顶级域名就近路由** 深度调优的客户端完整配置文件：
+> ⚠️ **使用懒人配置前请先做好自己的配置备份，导入配置后可能会覆盖之前的所有配置。**
 
-<details>
-<summary><b>👉 点击展开：Quantumult X 官方自用配置模板 (Template.conf)</b></summary>
+▍ **Wang47 官方全套懒人配置 (已脱敏·推荐)**：
+https://rule-proxy.mygods.workers.dev/conf/qx.conf
 
-> **🌐 远程配置直链**：`https://rule-proxy.mygods.workers.dev/conf/qx.conf`  
-> *(在 Quantumult X 底部轻点小风车 -> 配置文件 -> 下载 -> 粘贴此链接即可一键覆盖应用)*
+▍ **Stash 官方全套规则配置**：
+https://rule-proxy.mygods.workers.dev/conf/stash.yaml
 
-```ini
-[general]
-server_check_url = [http://cp.cloudflare.com/generate_204](http://cp.cloudflare.com/generate_204)
-dns_exclusion_list = *.cmpassport.com, *.id6.me, *.open.e.189.cn
-geo_location_checker = disabled
+▍ **彭于晏配置**：
+https://raw.githubusercontent.com/89996462/Quantumult-X/main/py.conf
 
-[dns]
-no-ipv6
-no-system
-server = 223.5.5.5
-server = 119.29.29.29
-server = [https://dns.google/dns-query](https://dns.google/dns-query)
-server = [https://1.1.1.1/dns-query](https://1.1.1.1/dns-query)
+▍ **Orz-3 配置**：
+https://raw.githubusercontent.com/Orz-3/QuantumultX/master/Orz-3.conf
 
-[policy]
-# 1. 核心业务策略组
-static=🚀 节点选择, direct, proxy, 香港节点, 台湾节点, 狮城节点, 日本节点, 美国节点
-static=🤖 人工智能, 🚀 节点选择, direct
-static=🪙 加密货币, 台湾节点, 狮城节点, 日本节点, direct
-static=📞 谷歌语音, 美国节点, direct
-static=🎬 优兔视频, 🚀 节点选择, direct
-static=🌐 谷歌服务, 🚀 节点选择, direct
-static=🐟 兜底分流, 🚀 节点选择, direct
+▍ **Shawn 配置**：
+https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/QuantumultX_Profiles.conf
 
-# 2. 地区节点池自动聚合
-url-latency-benchmark=香港节点, server-tag-regex=(🇭🇰|港|HK|HongKong), check-interval=600, tolerance=30
-url-latency-benchmark=台湾节点, server-tag-regex=(🇹🇼|台|TW|Taiwan), check-interval=600, tolerance=30
-url-latency-benchmark=狮城节点, server-tag-regex=(🇸🇬|新|狮|SG|Singapore), check-interval=600, tolerance=30
-url-latency-benchmark=日本节点, server-tag-regex=(🇯🇵|日|JP|Japan), check-interval=600, tolerance=30
-url-latency-benchmark=美国节点, server-tag-regex=(🇺🇸|美|US|States), check-interval=600, tolerance=40
+▍ **大飞配置**：
+https://raw.githubusercontent.com/w37fhy/QuantumultX/master/w37fhy_diy.conf
 
-[server_remote]
-# 机场订阅链接 (脱敏占位)
-[https://your-airport.example.com/sub/token=YOUR_TOKEN_HERE](https://your-airport.example.com/sub/token=YOUR_TOKEN_HERE), tag=Airport, update-interval=86400, opt-parser=true, enabled=true
-
-[filter_remote]
-https://rule-proxy.mygods.workers.dev/qx/all.list, tag=Wang47-Master-Rule, update-interval=86400, opt-parser=true, enabled=true
-
-[filter_local]
-ip-cidr, 10.0.0.0/8, direct
-ip-cidr, 127.0.0.0/8, direct
-ip-cidr, 172.16.0.0/12, direct
-ip-cidr, 192.168.0.0/16, direct
-geoip, cn, direct
-final, 🐟 兜底分流
-```
-
-</details>
-
-<details>
-<summary><b>👉 点击展开：Stash / Clash 官方规则集配置模板 (rules.yaml)</b></summary>
-
-> **🌐 远程配置直链**：`https://rule-proxy.mygods.workers.dev/conf/stash.yaml`  
-> *(在 Stash 中通过此链接创建或同步远程 Config Profile)*
-
-```yaml
-rule-providers:
-  crypto:
-    type: http
-    behavior: classical
-    url: "https://rule-proxy.mygods.workers.dev/stash/crypto.yaml"
-    path: ./ruleset/crypto.yaml
-    interval: 86400
-
-  google:
-    type: http
-    behavior: classical
-    url: "https://rule-proxy.mygods.workers.dev/stash/google.yaml"
-    path: ./ruleset/google.yaml
-    interval: 86400
-
-rules:
-  - GEOIP,LAN,DIRECT,no-resolve
-  - RULE-SET,crypto,🪙 加密货币
-  - RULE-SET,google,🌐 谷歌服务
-  - GEOIP,CN,DIRECT
-  - MATCH,🐟 兜底分流
-```
-
-</details>
+▍ **烧烤哥配置**：
+https://raw.githubusercontent.com/Tartarus2014/QuantumultX-Script/main/QuanX.conf
 
 ---
 
