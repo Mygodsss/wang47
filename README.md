@@ -1,13 +1,20 @@
 # 私有代理分流规则镜像仓库
 
-> **自动更新时间**：`2026-09-25 16:14:33`  
+> **自动更新时间**：`2026-09-25 16:18:21`  
 > **网关直链服务**：`https://rule-proxy.mygods.workers.dev`
+
+### 📱 客户端兼容性说明
+
+| 规则类型 | 文件扩展名 | 适用客户端 / 平台 |
+| :--- | :--- | :--- |
+| **标准分流规则** | `.list` | **Quantumult X**、**Surge**、**Loon**、**Shadowrocket (小火箭)**、**Egern** |
+| **Rule-Set 规则集** | `.yaml` | **Stash**、**Clash Verge / Nyanpasu**、**Mihomo (Clash.Meta)**、**Sing-box** |
 
 ---
 
 ### Crypto
 
-| 平台 / 服务 | 条数 (QX / Clash) | Quantumult X 订阅直链 | Stash / Clash 订阅直链 |
+| 平台 / 服务 | 条数 (List / YAML) | List 直链 (QX / Surge / Loon / 小火箭) | YAML 直链 (Stash / Clash / Mihomo) |
 | :--- | :--- | :--- | :--- |
 | **OKX** | 3 / 4 | [okx.list](https://rule-proxy.mygods.workers.dev/qx/Crypto/okx.list) | [okx.yaml](https://rule-proxy.mygods.workers.dev/stash/Crypto/okx.yaml) |
 | **Binance** | 12 / 13 | [binance.list](https://rule-proxy.mygods.workers.dev/qx/Crypto/binance.list) | [binance.yaml](https://rule-proxy.mygods.workers.dev/stash/Crypto/binance.yaml) |
@@ -20,7 +27,7 @@
 
 ### AI
 
-| 平台 / 服务 | 条数 (QX / Clash) | Quantumult X 订阅直链 | Stash / Clash 订阅直链 |
+| 平台 / 服务 | 条数 (List / YAML) | List 直链 (QX / Surge / Loon / 小火箭) | YAML 直链 (Stash / Clash / Mihomo) |
 | :--- | :--- | :--- | :--- |
 | **OpenAI** | 35 / 36 | [openai.list](https://rule-proxy.mygods.workers.dev/qx/AI/openai.list) | [openai.yaml](https://rule-proxy.mygods.workers.dev/stash/AI/openai.yaml) |
 | **Claude** | 3 / 4 | [claude.list](https://rule-proxy.mygods.workers.dev/qx/AI/claude.list) | [claude.yaml](https://rule-proxy.mygods.workers.dev/stash/AI/claude.yaml) |
@@ -28,7 +35,7 @@
 
 ### Finance
 
-| 平台 / 服务 | 条数 (QX / Clash) | Quantumult X 订阅直链 | Stash / Clash 订阅直链 |
+| 平台 / 服务 | 条数 (List / YAML) | List 直链 (QX / Surge / Loon / 小火箭) | YAML 直链 (Stash / Clash / Mihomo) |
 | :--- | :--- | :--- | :--- |
 | **Wise** | 4 / 5 | [wise.list](https://rule-proxy.mygods.workers.dev/qx/Finance/wise.list) | [wise.yaml](https://rule-proxy.mygods.workers.dev/stash/Finance/wise.yaml) |
 | **Stripe** | 1 / 2 | [stripe.list](https://rule-proxy.mygods.workers.dev/qx/Finance/stripe.list) | [stripe.yaml](https://rule-proxy.mygods.workers.dev/stash/Finance/stripe.yaml) |
@@ -36,7 +43,7 @@
 
 ### Social
 
-| 平台 / 服务 | 条数 (QX / Clash) | Quantumult X 订阅直链 | Stash / Clash 订阅直链 |
+| 平台 / 服务 | 条数 (List / YAML) | List 直链 (QX / Surge / Loon / 小火箭) | YAML 直链 (Stash / Clash / Mihomo) |
 | :--- | :--- | :--- | :--- |
 | **Telegram** | 40 / 47 | [telegram.list](https://rule-proxy.mygods.workers.dev/qx/Social/telegram.list) | [telegram.yaml](https://rule-proxy.mygods.workers.dev/stash/Social/telegram.yaml) |
 | **Twitter** | 33 / 34 | [twitter.list](https://rule-proxy.mygods.workers.dev/qx/Social/twitter.list) | [twitter.yaml](https://rule-proxy.mygods.workers.dev/stash/Social/twitter.yaml) |
@@ -45,7 +52,7 @@
 
 ### Media
 
-| 平台 / 服务 | 条数 (QX / Clash) | Quantumult X 订阅直链 | Stash / Clash 订阅直链 |
+| 平台 / 服务 | 条数 (List / YAML) | List 直链 (QX / Surge / Loon / 小火箭) | YAML 直链 (Stash / Clash / Mihomo) |
 | :--- | :--- | :--- | :--- |
 | **YouTube** | 196 / 184 | [youtube.list](https://rule-proxy.mygods.workers.dev/qx/Media/youtube.list) | [youtube.yaml](https://rule-proxy.mygods.workers.dev/stash/Media/youtube.yaml) |
 | **Spotify** | 30 / 31 | [spotify.list](https://rule-proxy.mygods.workers.dev/qx/Media/spotify.list) | [spotify.yaml](https://rule-proxy.mygods.workers.dev/stash/Media/spotify.yaml) |
@@ -54,7 +61,7 @@
 
 ### Developer
 
-| 平台 / 服务 | 条数 (QX / Clash) | Quantumult X 订阅直链 | Stash / Clash 订阅直链 |
+| 平台 / 服务 | 条数 (List / YAML) | List 直链 (QX / Surge / Loon / 小火箭) | YAML 直链 (Stash / Clash / Mihomo) |
 | :--- | :--- | :--- | :--- |
 | **GitHub** | 31 / 32 | [github.list](https://rule-proxy.mygods.workers.dev/qx/Developer/github.list) | [github.yaml](https://rule-proxy.mygods.workers.dev/stash/Developer/github.yaml) |
 | **Docker** | 7 / 8 | [docker.list](https://rule-proxy.mygods.workers.dev/qx/Developer/docker.list) | [docker.yaml](https://rule-proxy.mygods.workers.dev/stash/Developer/docker.yaml) |
@@ -63,6 +70,6 @@
 
 ### Privacy
 
-| 平台 / 服务 | 条数 (QX / Clash) | Quantumult X 订阅直链 | Stash / Clash 订阅直链 |
+| 平台 / 服务 | 条数 (List / YAML) | List 直链 (QX / Surge / Loon / 小火箭) | YAML 直链 (Stash / Clash / Mihomo) |
 | :--- | :--- | :--- | :--- |
 | **Advertising** | 285592 / 768 | [advertising.list](https://rule-proxy.mygods.workers.dev/qx/Privacy/advertising.list) | [advertising.yaml](https://rule-proxy.mygods.workers.dev/stash/Privacy/advertising.yaml) |

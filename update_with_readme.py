@@ -1,5 +1,4 @@
 import os
-import urllib.request
 from datetime import datetime
 
 RULES_MAP = {
@@ -10,13 +9,6 @@ RULES_MAP = {
     "Media": ["YouTube", "Spotify", "Netflix", "Disney"],
     "Developer": ["GitHub", "Docker", "Apple", "Microsoft"],
     "Privacy": ["Advertising"]
-}
-
-NAME_ALIAS = {
-    "coinbase": "Cryptocurrency",
-    "kraken": "Cryptocurrency",
-    "crypto": "Cryptocurrency",
-    "gate": "GateIO"
 }
 
 WORKER_HOST = "https://rule-proxy.mygods.workers.dev"
@@ -35,6 +27,13 @@ def generate_readme():
         f"> **自动更新时间**：`{now_str}`  ",
         f"> **网关直链服务**：`{WORKER_HOST}`",
         "",
+        "### 📱 客户端兼容性说明",
+        "",
+        "| 规则类型 | 文件扩展名 | 适用客户端 / 平台 |",
+        "| :--- | :--- | :--- |",
+        "| **标准分流规则** | `.list` | **Quantumult X**、**Surge**、**Loon**、**Shadowrocket (小火箭)**、**Egern** |",
+        "| **Rule-Set 规则集** | `.yaml` | **Stash**、**Clash Verge / Nyanpasu**、**Mihomo (Clash.Meta)**、**Sing-box** |",
+        "",
         "---",
         ""
     ]
@@ -42,7 +41,7 @@ def generate_readme():
     for cat, items in RULES_MAP.items():
         md.append(f"### {cat}")
         md.append("")
-        md.append("| 平台 / 服务 | 条数 (QX / Clash) | Quantumult X 订阅直链 | Stash / Clash 订阅直链 |")
+        md.append("| 平台 / 服务 | 条数 (List / YAML) | List 直链 (QX / Surge / Loon / 小火箭) | YAML 直链 (Stash / Clash / Mihomo) |")
         md.append("| :--- | :--- | :--- | :--- |")
 
         for name in items:
@@ -62,7 +61,7 @@ def generate_readme():
 
     with open("README.md", "w", encoding="utf-8") as f:
         f.write("\n".join(md))
-    print("✅ README.md 自动更新完毕！")
+    print("✅ 带客户端兼容说明的 README.md 渲染完毕！")
 
 if __name__ == "__main__":
     generate_readme()
