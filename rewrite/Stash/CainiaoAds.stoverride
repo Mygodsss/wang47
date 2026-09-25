@@ -1,0 +1,42 @@
+# Generated from QuantumultX/CainiaoAds.conf
+name: CainiaoAds
+http:
+  mitm:
+    - "*.cainiao.com"
+    - "acs4miniapp-inner.m.taobao.com"
+    - "guide-acs.m.taobao.com"
+  url-rewrite:
+  - ^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.(?!.*_home) - reject
+  - ^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.mshow\.cn - reject
+  - ^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.nbcps\.presentation\.fetch\.cn - reject
+  - ^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.app\.home\.v\d+\.bottom\.area - reject
+  - ^https?:\/\/[a-zA-Z0-9_.-]+\.taobao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\. - reject
+  - ^https?:\/\/[a-zA-Z0-9_.-]+\.taobao\.com\/gw\/mtop\.alimama\.abyss\.unionpage\.get - reject
+  - ^https?:\/\/[a-zA-Z0-9_.-]+\.taobao\.com\/gw\/mtop\.cainiao\.adx\.flyad\.getad - reject
+  - ^https?:\/\/[a-zA-Z0-9_.-]+\.taobao\.com\/gw\/mtop\.cainiao\.nbmensa\.research\.researchservice\.consultmerge - reject
+  script:
+    - match: ^http:\/\/amdc\.m\.taobao\.com
+      name: amdc
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.app\.e2e\.engine\.page\.fetch
+      name: cainiao_json
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.homepage\.merge\.get\.cn
+      name: cainiao_json
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.protocol\.homepage\.get\.cn
+      name: cainiao_json
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.adkeyword
+      name: cainiao_json
+      type: response-body
+      require-body: true
+      timeout: 10

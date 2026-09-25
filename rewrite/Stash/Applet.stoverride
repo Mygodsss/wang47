@@ -1,0 +1,53 @@
+# Generated from QuantumultX/Applet.conf
+name: Applet
+http:
+  mitm:
+    - "*.ddly666.top"
+    - "*.smkj33.top"
+    - "*.tslt.xyz"
+    - "3dd0be8a-54fe-43ff-a0e7-f670c4f20432.bspapp.com"
+    - "4thdimension.top"
+    - "a.jxjt888.top"
+    - "api.blibee.com"
+    - "api.bspapp.com"
+    - "awg.enmonster.com"
+    - "b.tslt.xyz"
+    - "c.jxjt888.top"
+    - "d.syshhc.top"
+    - "g.syshhc.top"
+    - "gjsx.vip"
+    - "gz.gongzijx.com"
+    - "hkj178.com"
+    - "iosoi.cn"
+    - "jabi.coding.net"
+    - "jt.jxjt888.top"
+    - "lysl2020.com"
+    - "m.xgjyouhui.com"
+    - "mp.weixin.qq.com"
+    - "qj.bpojie.com"
+    - "tan.ipnas.ltd"
+    - "tvapp.guilaile.cn"
+    - "ucmp.sf-express.com"
+    - "wp3.lobdol.cn"
+    - "www.bbkj.work"
+    - "www.benbenfx.xyz"
+    - "www.freeheikeji.cn"
+    - "www.i3zh.com"
+    - "www.laoguikeji.cn"
+    - "wx.mygolbs.com"
+    - "wx.wxqqurl.cn"
+    - "xcx.xianbaow.com"
+  url-rewrite:
+  - ^https?:\/\/api\.blibee\.com\/cvsnotify-api\/cvs\/notify\/app\/banner\/v\d+$ - reject
+  - ^https?:\/\/ucmp\.sf-express\.com\/proxy\/operation-platform\/info-flow-adver\/query$ - reject
+  script:
+    - match: ^https?:\/\/wx\.mygolbs\.com\/WxBusServer\/ApiData\.do
+      name: zhangshanggongjiao
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^(https?://)?([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*\.)+[a-zA-Z]{2,}(:\d+)?/wp-json/[a-zA-Z0-9_-]+/(mp\/)?v\d/posts
+      name: applet
+      type: response-body
+      require-body: true
+      timeout: 10

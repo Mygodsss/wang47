@@ -1,0 +1,12 @@
+# Generated from QuantumultX/UnblockURLinWeChat.conf
+name: UnblockURLinWeChat
+http:
+  mitm:
+    - "security.wechat.com"
+    - "weixin110.qq.com"
+  script:
+    - match: ^https\:\/\/(weixin110\.qq|security.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\?
+      name: weixin110
+      type: response-body
+      require-body: true
+      timeout: 10

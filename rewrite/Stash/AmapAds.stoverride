@@ -1,0 +1,69 @@
+# Generated from QuantumultX/AmapAds.conf
+name: AmapAds
+http:
+  mitm:
+    - "ai.amap.com"
+    - "amap-aos-info-nogw.amap.com"
+    - "center.amap.com"
+    - "m5-zb.amap.com"
+    - "m5.amap.com"
+  url-rewrite:
+  - ^https?:\/\/.*\.amap\.com\/ws\/aos\/alimama\/splash_screen - reject
+  - ^https?:\/\/.*\.amap\.com\/v\d\/ai_rec\/ - reject
+  - ^https?:\/\/.*\.amap\.com\/ws\/faas\/amap-navigation\/card-service-route-plan\? - reject
+  - ^https?:\/\/.*\.amap\.com\/ws\/boss\/order_web\/\w{8}_information - reject
+  - ^https?:\/\/.*\.amap\.com\/ws\/asa\/ads_attribution - reject
+  - ^https?:\/\/.*\.amap\.com\/ws\/shield\/scene\/recommend - reject
+  - ^https?:\/\/.*\.amap\.com\/uploadimg\/\w+\.gif - reject
+  - ^https?:\/\/.*\.amap\.com\/ws\/valueadded\/weather - reject
+  script:
+    - match: ^http:\/\/amdc\.m\.taobao\.com
+      name: amdc
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/.*\.amap\.com\/ws\/message\/notice\/list
+      name: amap
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/.*\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable
+      name: amap
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/.*\.amap\.com\/ws\/shield\/search\/nearbyrec_smart
+      name: amap
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/.*\.amap\.com\/ws\/promotion-web\/resource
+      name: amap
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/.*\.amap\.com\/ws\/faas\/amap-navigation\/main-page
+      name: amap
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/.*\.amap\.com\/ws\/valueadded\/alimama\/splash_screen
+      name: amap
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/.*\.amap\.com\/ws\/msgbox\/pull
+      name: amap
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/.*\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaas
+      name: amap
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/.*\.amap\.com\/ws\/shield\/search\/new_hotword
+      name: amap
+      type: response-body
+      require-body: true
+      timeout: 10

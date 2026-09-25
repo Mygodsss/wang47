@@ -160,7 +160,25 @@
 
 | 模块功能 | 适用格式 | Stash 原生覆写直链 |
 | :--- | :--- | :--- |
-| **通用重定向与搜索增强** | `.stoverride` | [general.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/general.stoverride) |
+| 通用重定向与搜索增强 | `.stoverride` | [general.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/general.stoverride) |
+| AmapAds | `.stoverride` | [AmapAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/AmapAds.stoverride) |
+| Applet | `.stoverride` | [Applet.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/Applet.stoverride) |
+| CaiYunAds | `.stoverride` | [CaiYunAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/CaiYunAds.stoverride) |
+| CainiaoAds | `.stoverride` | [CainiaoAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/CainiaoAds.stoverride) |
+| ForOwnUse | `.stoverride` | [ForOwnUse.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/ForOwnUse.stoverride) |
+| GoofishAds | `.stoverride` | [GoofishAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/GoofishAds.stoverride) |
+| GoogleCAPTCHA | `.stoverride` | [GoogleCAPTCHA.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/GoogleCAPTCHA.stoverride) |
+| Q-Search | `.stoverride` | [Q-Search.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/Q-Search.stoverride) |
+| QiShuiMusicAds | `.stoverride` | [QiShuiMusicAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/QiShuiMusicAds.stoverride) |
+| StartUpAds | `.stoverride` | [StartUpAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/StartUpAds.stoverride) |
+| SubStore | `.stoverride` | [SubStore.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/SubStore.stoverride) |
+| TieBaAds | `.stoverride` | [TieBaAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/TieBaAds.stoverride) |
+| UnblockURLinWeChat | `.stoverride` | [UnblockURLinWeChat.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/UnblockURLinWeChat.stoverride) |
+| WeiboAds | `.stoverride` | [WeiboAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/WeiboAds.stoverride) |
+| boxjs | `.stoverride` | [boxjs.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/boxjs.stoverride) |
+| soul | `.stoverride` | [soul.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/soul.stoverride) |
+| thly | `.stoverride` | [thly.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/thly.stoverride) |
+| wloc | `.stoverride` | [wloc.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/wloc.stoverride) |
 
 ---
 

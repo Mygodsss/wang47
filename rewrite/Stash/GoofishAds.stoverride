@@ -1,0 +1,15 @@
+# Generated from QuantumultX/GoofishAds.conf
+name: GoofishAds
+http:
+  mitm:
+    - "acs.m.goofish.com"
+    - "g-acs.m.goofish.com"
+  url-rewrite:
+  - ^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.*splash\.ads - reject
+  - ^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.idle.ad.expose - reject
+  script:
+    - match: ^http:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,4}(:\d+)?\/amdc\/mobileDispatch
+      name: amdc
+      type: response-body
+      require-body: true
+      timeout: 10

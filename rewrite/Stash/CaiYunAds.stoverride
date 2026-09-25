@@ -1,0 +1,66 @@
+# Generated from QuantumultX/CaiYunAds.conf
+name: CaiYunAds
+http:
+  mitm:
+    - "ad.cyapi.cn"
+    - "api.caiyunapp.com"
+    - "starplucker.cyapi.cn"
+    - "wrapper.cyapi.cn"
+  url-rewrite:
+  - ^https?:\/\/ad\.cyapi\.cn\/v\d - reject
+  script:
+    - match: ^https?:\/\/biz\.cyapi\.cn\/api\/v\d\/user_detail
+      name: caiyun_json
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/biz\.cyapi\.cn\/v\d\/user
+      name: caiyun_json
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/wrapper\.cyapi\.cn\/v\d\/activity
+      name: caiyun_json
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/api\.caiyunapp\.com\/v\d\/activity
+      name: caiyun_json
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/starplucker\.cyapi\.cn\/v\d/operation/homefeatures
+      name: caiyun_json
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/starplucker\.cyapi\.cn\/v\d/notification/message_center
+      name: caiyun_json
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/starplucker\.cyapi\.cn\/v\d/config/cypage
+      name: caiyun_json
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/starplucker\.cyapi\.cn\/v\d/operation/feeds
+      name: caiyun_json
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/starplucker\.cyapi\.cn\/v\d/operation/banners
+      name: caiyun_json
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/starplucker\.cyapi\.cn\/v\d/operation/features
+      name: caiyun_json
+      type: response-body
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/starplucker\.cyapi\.cn\/v\d/campaigns
+      name: caiyun_json
+      type: response-body
+      require-body: true
+      timeout: 10

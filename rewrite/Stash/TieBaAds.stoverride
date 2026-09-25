@@ -1,0 +1,14 @@
+# Generated from QuantumultX/TieBaAds.conf
+name: TieBaAds
+http:
+  mitm:
+    - "tieba.baidu.com"
+    - "tiebac.baidu.com"
+  url-rewrite:
+  - ^https?:\/\/tieba(c)?\.baidu\.com\/c\/f\/ad\/getFeedAd - reject
+  script:
+    - match: ^http(s:\/\/tiebac|:\/\/c\.tieba)\.baidu\.com\/c\/f\/(frs\/(page|threadlist|generalTabList)|pb\/page|excellent\/personalized)\?cmd
+      name: tieba-proto
+      type: response-body
+      require-body: true
+      timeout: 10

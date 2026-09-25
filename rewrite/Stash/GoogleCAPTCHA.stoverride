@@ -1,0 +1,11 @@
+# Generated from QuantumultX/GoogleCAPTCHA.snippet
+name: GoogleCAPTCHA
+http:
+  mitm:
+    - "www.google.com*"
+  script:
+    - match: ^https:\/\/www\.google\.com(?:\.[a-z]+|)\/(?:search\?(?:|.+?&)q=|$)
+      name: Google_CAPTCHA
+      type: response-body
+      require-body: true
+      timeout: 10

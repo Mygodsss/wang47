@@ -1,0 +1,14 @@
+# Generated from QuantumultX/boxjs.conf
+name: boxjs
+http:
+  mitm:
+    - "*.boxjs.com"
+    - "*.boxjs.net"
+    - "boxjs.com"
+    - "boxjs.net"
+  script:
+    - match: ^https?:\/\/(.+\.)?boxjs\.(com|net)
+      name: chavy.boxjs
+      type: analyze-echo-response
+      require-body: true
+      timeout: 10

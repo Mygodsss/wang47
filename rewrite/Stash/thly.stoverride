@@ -1,0 +1,11 @@
+# Generated from QuantumultX/thly.conf
+name: thly
+http:
+  mitm:
+    - "callrecorder.icamscanner.com"
+  script:
+    - match: ^http[s]?:\/\/callrecorder.icamscanner.com\/user\/info
+      name: THLY
+      type: response-body
+      require-body: true
+      timeout: 10

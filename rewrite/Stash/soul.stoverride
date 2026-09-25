@@ -1,0 +1,11 @@
+# Generated from QuantumultX/soul.conf
+name: soul
+http:
+  mitm:
+    - "(.*|api-chat.soulapp.cn)"
+  script:
+    - match: ^http[s]?:\/\/(api-chat.soulapp.cn|.*)\/(chat/limitInfo|vip/meet/userInfo|loveBell/queryMatchSpeedupConf)
+      name: Soul
+      type: response-body
+      require-body: true
+      timeout: 10
