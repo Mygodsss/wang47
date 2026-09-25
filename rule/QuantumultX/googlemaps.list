@@ -1,0 +1,11 @@
+# Google Maps 评论与图片专属规则
+HOST-SUFFIX,maps.google.com
+HOST-SUFFIX,maps.googleapis.com
+HOST-SUFFIX,lh3.googleusercontent.com
+HOST-SUFFIX,lh4.googleusercontent.com
+HOST-SUFFIX,lh5.googleusercontent.com
+HOST-SUFFIX,lh6.googleusercontent.com
+HOST-SUFFIX,ggpht.com
+HOST-SUFFIX,photos.l.google.com
+HOST-KEYWORD,mapcontent
+HOST-KEYWORD,maps.gstatic.com

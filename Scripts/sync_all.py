@@ -2,11 +2,11 @@ import os
 import urllib.request
 from datetime import datetime
 
-# 分类映射表：完善「Google 全家桶」
+# 分类映射表：移出香港金融板块，加密货币统称为 Crypto
 RULES_MAP = {
-    "Google 全家桶": ["Gemini", "GoogleVoice", "YouTube", "GooglePlay", "GoogleDrive", "Google"],
+    "Google 全家桶": ["Gemini", "GoogleVoice", "YouTube", "GooglePlay", "GoogleDrive", "GoogleMaps", "Google"],
     "AI 智能助手": ["OpenAI", "Claude"],
-    "Crypto 加密货币": ["OKX", "Binance", "Bybit", "Bitget", "Gate", "Coinbase", "Kraken", "Cryptocurrency"],
+    "Crypto 加密货币": ["OKX", "Binance", "Bybit", "Bitget", "Gate", "Coinbase", "Kraken", "Crypto"],
     "Finance 金融支付": ["Wise", "Stripe", "PayPal"],
     "Social 社交通讯": ["Telegram", "Twitter", "Discord", "Reddit"],
     "Media 流媒体服务": ["Spotify", "Netflix", "Disney"],
@@ -19,6 +19,7 @@ NAME_ALIAS = {
     "googlevoice": "GoogleVoice",
     "googleplay": "GooglePlay",
     "googledrive": "GoogleDrive",
+    "googlemaps": "GoogleEarth",
     "coinbase": "Cryptocurrency",
     "kraken": "Cryptocurrency",
     "gate": "GateIO"
@@ -40,12 +41,12 @@ def write_file(path, content):
     with open(path, "w", encoding="utf-8") as f:
         f.write(content)
 
-print("🚀 开始同步全平台规则（完善 Google 全家桶）...")
+print("🚀 开始同步全平台规则（Cryptocurrency 命名变更为 Crypto，移除香港金融板块）...")
 
-# 1. 抓取 ACL4SSR Cryptocurrency
+# 1. 抓取 ACL4SSR Cryptocurrency 并保存为 crypto.list / crypto.yaml
 acl4ssr_raw = fetch_data("https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Cryptocurrency.list")
 if acl4ssr_raw:
-    qx_lines = ["# ACL4SSR Cryptocurrency 规则库 (自动同步)"]
+    qx_lines = ["# ACL4SSR Crypto 规则库 (自动同步)"]
     stash_lines = ["payload:"]
     for raw_line in acl4ssr_raw.splitlines():
         line = raw_line.strip()
@@ -58,22 +59,39 @@ if acl4ssr_raw:
             stash_type = r_type.replace("HOST-SUFFIX", "DOMAIN-SUFFIX").replace("HOST-KEYWORD", "DOMAIN-KEYWORD").replace("HOST", "DOMAIN")
             qx_lines.append(f"{qx_type},{target}")
             stash_lines.append(f"  - {stash_type},{target}")
-    write_file("rule/QuantumultX/cryptocurrency.list", "\n".join(qx_lines) + "\n")
-    write_file("rule/Stash/cryptocurrency.yaml", "\n".join(stash_lines) + "\n")
+    write_file("rule/QuantumultX/crypto.list", "\n".join(qx_lines) + "\n")
+    write_file("rule/Stash/crypto.yaml", "\n".join(stash_lines) + "\n")
+    print("✅ [ACL4SSR] Crypto 规则编译完成！")
 
-# 2. 遍历拉取 blackmatrix7 规则
+# 2. 构造 Google Maps 评价与图片专属规则
+MAPS_RULES = [
+    "HOST-SUFFIX,maps.google.com",
+    "HOST-SUFFIX,maps.googleapis.com",
+    "HOST-SUFFIX,lh3.googleusercontent.com",
+    "HOST-SUFFIX,lh4.googleusercontent.com",
+    "HOST-SUFFIX,lh5.googleusercontent.com",
+    "HOST-SUFFIX,lh6.googleusercontent.com",
+    "HOST-SUFFIX,ggpht.com",
+    "HOST-SUFFIX,photos.l.google.com",
+    "HOST-KEYWORD,mapcontent",
+    "HOST-KEYWORD,maps.gstatic.com"
+]
+qx_maps = ["# Google Maps 评论与图片专属规则"] + MAPS_RULES
+stash_maps = ["payload:"] + [f"  - {r.replace('HOST-SUFFIX', 'DOMAIN-SUFFIX').replace('HOST-KEYWORD', 'DOMAIN-KEYWORD')}" for r in MAPS_RULES]
+write_file("rule/QuantumultX/googlemaps.list", "\n".join(qx_maps) + "\n")
+write_file("rule/Stash/googlemaps.yaml", "\n".join(stash_maps) + "\n")
+
+# 3. 遍历拉取其他规则
 for cat, items in RULES_MAP.items():
     for name in items:
         fname = name.lower()
-        if fname == "cryptocurrency" and acl4ssr_raw:
+        if fname in ["crypto", "googlemaps"]:
             continue
         up_name = NAME_ALIAS.get(fname, name)
 
-        # QX 规则
+        # QX
         qx_url = f"https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/QuantumultX/{up_name}/{up_name}.list"
         qx_content = fetch_data(qx_url)
-
-        # 本地补全备选
         if not qx_content:
             if fname == "googlevoice":
                 qx_content = "HOST,voice.google.com\nHOST,voice.telephony.goog\nHOST-SUFFIX,voice.google.com\nHOST-KEYWORD,voice.telephony"
@@ -85,14 +103,12 @@ for cat, items in RULES_MAP.items():
                 qx_content = "HOST-SUFFIX,bitget.com\nHOST-SUFFIX,bitget.site\nHOST-SUFFIX,bgstatic.com\nHOST-KEYWORD,bitget"
             elif fname == "gate":
                 qx_content = "HOST-SUFFIX,gate.io\nHOST-SUFFIX,gateimg.com\nHOST-SUFFIX,gateio.services\nHOST-KEYWORD,gateio"
-
         if qx_content:
             write_file(f"rule/QuantumultX/{fname}.list", qx_content)
 
-        # Stash 规则
+        # Stash
         stash_url = f"https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/{up_name}/{up_name}.yaml"
         stash_content = fetch_data(stash_url)
-
         if not stash_content:
             if fname == "googlevoice":
                 stash_content = "payload:\n  - DOMAIN,voice.google.com\n  - DOMAIN,voice.telephony.goog\n  - DOMAIN-SUFFIX,voice.google.com\n  - DOMAIN-KEYWORD,voice.telephony"
@@ -104,7 +120,6 @@ for cat, items in RULES_MAP.items():
                 stash_content = "payload:\n  - DOMAIN-SUFFIX,bitget.com\n  - DOMAIN-SUFFIX,bitget.site\n  - DOMAIN-SUFFIX,bgstatic.com\n  - DOMAIN-KEYWORD,bitget"
             elif fname == "gate":
                 stash_content = "payload:\n  - DOMAIN-SUFFIX,gate.io\n  - DOMAIN-SUFFIX,gateimg.com\n  - DOMAIN-SUFFIX,gateio.services\n  - DOMAIN-KEYWORD,gateio"
-
         if stash_content:
             write_file(f"rule/Stash/{fname}.yaml", stash_content)
 
@@ -163,8 +178,8 @@ md.extend([
     "",
     "本项目分流规则的数据源头与格式参考了以下开源社区及大佬项目的贡献，特此致敬与感谢：",
     "",
-    "- [blackmatrix7 / ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)：全平台分流规则集与自动化转换核心数据源（包括 Google 全家桶各独立服务）。",
-    "- [ACL4SSR / ACL4SSR](https://github.com/ACL4SSR/ACL4SSR)：经典国内分流规则架构、策略组模板与高频维护的加密货币 (Cryptocurrency) 核心数据源。",
+    "- [ACL4SSR / ACL4SSR](https://github.com/ACL4SSR/ACL4SSR)：经典国内分流规则架构、策略组模板与高频维护的加密货币 (Crypto) 核心数据源。",
+    "- [blackmatrix7 / ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)：全平台分流规则集与自动化转换核心数据源。",
     "- [dler-io / Rules](https://github.com/dler-io/Rules)：专业的高精度分流规则集与 Web3 基础设施参考。",
     "- [v2fly / domain-list-community](https://github.com/v2fly/domain-list-community)：社区级根域名与 Geolocation 数据库标准。",
     "- [Loyalsoldier / v2ray-rules-dat](https://github.com/Loyalsoldier/v2ray-rules-dat)：高频维护的高精度直连与白名单分流数据库。",
@@ -180,4 +195,4 @@ md.extend([
 with open("README.md", "w", encoding="utf-8") as f:
     f.write("\n".join(md))
 
-print("🎉 Google 全家桶全量扩展完成！")
+print("🎉 已完成重命名与自述文件刷新！")

@@ -1,0 +1,11 @@
+payload:
+  - DOMAIN-SUFFIX,maps.google.com
+  - DOMAIN-SUFFIX,maps.googleapis.com
+  - DOMAIN-SUFFIX,lh3.googleusercontent.com
+  - DOMAIN-SUFFIX,lh4.googleusercontent.com
+  - DOMAIN-SUFFIX,lh5.googleusercontent.com
+  - DOMAIN-SUFFIX,lh6.googleusercontent.com
+  - DOMAIN-SUFFIX,ggpht.com
+  - DOMAIN-SUFFIX,photos.l.google.com
+  - DOMAIN-KEYWORD,mapcontent
+  - DOMAIN-KEYWORD,maps.gstatic.com

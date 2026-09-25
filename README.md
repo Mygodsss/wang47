@@ -1,6 +1,6 @@
 # 私有代理分流规则镜像仓库
 
-> **自动更新时间**：`2026-09-25 17:09:31`  
+> **自动更新时间**：`2026-09-25 17:31:32`  
 > **网关直链服务**：`https://rule-proxy.mygods.workers.dev`
 
 ### 📱 客户端兼容性说明
@@ -21,6 +21,7 @@
 | **YouTube** | 196 / 184 | [youtube.list](https://rule-proxy.mygods.workers.dev/qx/youtube.list) | [youtube.yaml](https://rule-proxy.mygods.workers.dev/stash/youtube.yaml) |
 | **GooglePlay** | 0 / 0 | [googleplay.list](https://rule-proxy.mygods.workers.dev/qx/googleplay.list) | [googleplay.yaml](https://rule-proxy.mygods.workers.dev/stash/googleplay.yaml) |
 | **GoogleDrive** | 8 / 7 | [googledrive.list](https://rule-proxy.mygods.workers.dev/qx/googledrive.list) | [googledrive.yaml](https://rule-proxy.mygods.workers.dev/stash/googledrive.yaml) |
+| **GoogleMaps** | 10 / 11 | [googlemaps.list](https://rule-proxy.mygods.workers.dev/qx/googlemaps.list) | [googlemaps.yaml](https://rule-proxy.mygods.workers.dev/stash/googlemaps.yaml) |
 | **Google** | 711 / 702 | [google.list](https://rule-proxy.mygods.workers.dev/qx/google.list) | [google.yaml](https://rule-proxy.mygods.workers.dev/stash/google.yaml) |
 
 ### AI 智能助手
@@ -41,7 +42,7 @@
 | **Gate** | 4 / 5 | [gate.list](https://rule-proxy.mygods.workers.dev/qx/gate.list) | [gate.yaml](https://rule-proxy.mygods.workers.dev/stash/gate.yaml) |
 | **Coinbase** | 43 / 44 | [coinbase.list](https://rule-proxy.mygods.workers.dev/qx/coinbase.list) | [coinbase.yaml](https://rule-proxy.mygods.workers.dev/stash/coinbase.yaml) |
 | **Kraken** | 43 / 44 | [kraken.list](https://rule-proxy.mygods.workers.dev/qx/kraken.list) | [kraken.yaml](https://rule-proxy.mygods.workers.dev/stash/kraken.yaml) |
-| **Cryptocurrency** | 43 / 44 | [cryptocurrency.list](https://rule-proxy.mygods.workers.dev/qx/cryptocurrency.list) | [cryptocurrency.yaml](https://rule-proxy.mygods.workers.dev/stash/cryptocurrency.yaml) |
+| **Crypto** | 0 / 0 | [crypto.list](https://rule-proxy.mygods.workers.dev/qx/crypto.list) | [crypto.yaml](https://rule-proxy.mygods.workers.dev/stash/crypto.yaml) |
 
 ### Finance 金融支付
 
@@ -89,8 +90,8 @@
 
 本项目分流规则的数据源头与格式参考了以下开源社区及大佬项目的贡献，特此致敬与感谢：
 
-- [blackmatrix7 / ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)：全平台分流规则集与自动化转换核心数据源（包括 Google 全家桶各独立服务）。
-- [ACL4SSR / ACL4SSR](https://github.com/ACL4SSR/ACL4SSR)：经典国内分流规则架构、策略组模板与高频维护的加密货币 (Cryptocurrency) 核心数据源。
+- [ACL4SSR / ACL4SSR](https://github.com/ACL4SSR/ACL4SSR)：经典国内分流规则架构、策略组模板与高频维护的加密货币 (Crypto) 核心数据源。
+- [blackmatrix7 / ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)：全平台分流规则集与自动化转换核心数据源。
 - [dler-io / Rules](https://github.com/dler-io/Rules)：专业的高精度分流规则集与 Web3 基础设施参考。
 - [v2fly / domain-list-community](https://github.com/v2fly/domain-list-community)：社区级根域名与 Geolocation 数据库标准。
 - [Loyalsoldier / v2ray-rules-dat](https://github.com/Loyalsoldier/v2ray-rules-dat)：高频维护的高精度直连与白名单分流数据库。
