@@ -1,6 +1,6 @@
 # 私有代理分流规则镜像仓库
 
-> **自动更新时间**：`2026-09-25 16:36:18`  
+> **自动更新时间**：`2026-09-25 16:47:17`  
 > **网关直链服务**：`https://rule-proxy.mygods.workers.dev`
 
 ### 📱 客户端兼容性说明
@@ -18,9 +18,9 @@
 | :--- | :--- | :--- | :--- |
 | **OKX** | 3 / 4 | [okx.list](https://rule-proxy.mygods.workers.dev/qx/okx.list) | [okx.yaml](https://rule-proxy.mygods.workers.dev/stash/okx.yaml) |
 | **Binance** | 12 / 13 | [binance.list](https://rule-proxy.mygods.workers.dev/qx/binance.list) | [binance.yaml](https://rule-proxy.mygods.workers.dev/stash/binance.yaml) |
-| **Bybit** | 0 / 0 | [bybit.list](https://rule-proxy.mygods.workers.dev/qx/bybit.list) | [bybit.yaml](https://rule-proxy.mygods.workers.dev/stash/bybit.yaml) |
-| **Bitget** | 0 / 0 | [bitget.list](https://rule-proxy.mygods.workers.dev/qx/bitget.list) | [bitget.yaml](https://rule-proxy.mygods.workers.dev/stash/bitget.yaml) |
-| **Gate** | 0 / 0 | [gate.list](https://rule-proxy.mygods.workers.dev/qx/gate.list) | [gate.yaml](https://rule-proxy.mygods.workers.dev/stash/gate.yaml) |
+| **Bybit** | 4 / 5 | [bybit.list](https://rule-proxy.mygods.workers.dev/qx/bybit.list) | [bybit.yaml](https://rule-proxy.mygods.workers.dev/stash/bybit.yaml) |
+| **Bitget** | 4 / 5 | [bitget.list](https://rule-proxy.mygods.workers.dev/qx/bitget.list) | [bitget.yaml](https://rule-proxy.mygods.workers.dev/stash/bitget.yaml) |
+| **Gate** | 4 / 5 | [gate.list](https://rule-proxy.mygods.workers.dev/qx/gate.list) | [gate.yaml](https://rule-proxy.mygods.workers.dev/stash/gate.yaml) |
 | **Coinbase** | 43 / 44 | [coinbase.list](https://rule-proxy.mygods.workers.dev/qx/coinbase.list) | [coinbase.yaml](https://rule-proxy.mygods.workers.dev/stash/coinbase.yaml) |
 | **Kraken** | 43 / 44 | [kraken.list](https://rule-proxy.mygods.workers.dev/qx/kraken.list) | [kraken.yaml](https://rule-proxy.mygods.workers.dev/stash/kraken.yaml) |
 | **Cryptocurrency** | 43 / 44 | [cryptocurrency.list](https://rule-proxy.mygods.workers.dev/qx/cryptocurrency.list) | [cryptocurrency.yaml](https://rule-proxy.mygods.workers.dev/stash/cryptocurrency.yaml) |
@@ -80,11 +80,12 @@
 
 本项目分流规则的数据源头与格式参考了以下开源社区及大佬项目的贡献，特此致敬与感谢：
 
+- [ACL4SSR / ACL4SSR](https://github.com/ACL4SSR/ACL4SSR)：经典国内分流规则架构、策略组模板与高频维护的加密货币 (Cryptocurrency) 核心数据源。
 - [blackmatrix7 / ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)：全平台分流规则集与自动化转换核心数据源。
+- [dler-io / Rules](https://github.com/dler-io/Rules)：专业的高精度分流规则集与 Web3 基础设施参考。
 - [v2fly / domain-list-community](https://github.com/v2fly/domain-list-community)：社区级根域名与 Geolocation 数据库标准。
 - [Loyalsoldier / v2ray-rules-dat](https://github.com/Loyalsoldier/v2ray-rules-dat)：高频维护的高精度直连与白名单分流数据库。
 - [QuixoticHeart / rule-set](https://github.com/QuixoticHeart/rule-set)：优秀的多客户端全套规则集构建思路与格式参考。
-- [ACL4SSR](https://github.com/ACL4SSR/ACL4SSR)：经典国内分流规则架构与策略组模板。
 
 ---
 
