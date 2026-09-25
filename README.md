@@ -163,10 +163,10 @@
 
 > ⚠️ **使用懒人配置前请先做好自己的配置备份，导入配置后可能会覆盖之前的所有配置。**
 
-▍ **Wang47 官方全套懒人配置 (已脱敏·推荐)**：
+▍ **Wang47 全套懒人配置 **：
 https://raw.githubusercontent.com/Mygodsss/wang47/main/Profiles/QuantumultX.conf
 
-▍ **Stash 官方全套规则配置**：
+▍ **Stash 全套规则配置**：
 https://raw.githubusercontent.com/Mygodsss/wang47/main/Profiles/Stash.yaml
 
 ▍ **彭于晏配置**：
