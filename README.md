@@ -1,6 +1,6 @@
 # 私有代理分流规则镜像仓库
 
-> **自动更新时间**：`2026-09-25 19:45:11`  
+> **自动更新时间**：`2026-09-25 19:51:52`  
 > **直链托管服务**：`https://raw.githubusercontent.com/Mygodsss/wang47/main`
 
 ### ⚡ 懒人一键集成订阅（推荐：客户端无需任何手动维护）
@@ -92,10 +92,11 @@
 | **Apple** | 1881 / 1569 | [apple.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/apple.list) | [apple.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/apple.yaml) |
 | **Microsoft** | 712 / 671 | [microsoft.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/microsoft.list) | [microsoft.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/microsoft.yaml) |
 
-### Direct & Domestic 直连与白名单
+### Direct & Domestic 直连与修正
 
 | 平台 / 服务 | 条数 (QX / Stash) | Quantumult X 订阅直链 | Stash 订阅直链 |
 | :--- | :--- | :--- | :--- |
+| **Unbreak** | 32 / 7 | [unbreak.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/unbreak.list) | [unbreak.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/unbreak.yaml) |
 | **China** | 3753 / 3701 | [china.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/china.list) | [china.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/china.yaml) |
 
 ### Privacy 隐私过滤
