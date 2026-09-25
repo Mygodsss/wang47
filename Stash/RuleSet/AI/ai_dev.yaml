@@ -1,5 +1,4 @@
 payload:
-  - HOST-SUFFIX,agentclientprotocol.com
   - HOST-SUFFIX,codeium.com
   - HOST-SUFFIX,codeiumdata.com
   - HOST-SUFFIX,coderabbit.ai
@@ -7,11 +6,8 @@ payload:
   - HOST-SUFFIX,cursor-cdn.com
   - HOST-SUFFIX,cursor.com
   - HOST-SUFFIX,cursor.sh
+  - HOST-SUFFIX,cursorapi.com
   - HOST-SUFFIX,devin.ai
-  - HOST-SUFFIX,kiro.dev
-  - HOST-SUFFIX,marscode.com
-  - HOST-SUFFIX,openspec.dev
-  - HOST-SUFFIX,qoder.com
   - HOST-SUFFIX,trae.ai
   - HOST-SUFFIX,windsurf.build
   - HOST-SUFFIX,windsurf.com

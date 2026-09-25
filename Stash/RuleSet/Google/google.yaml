@@ -263,6 +263,7 @@ payload:
   - HOST-SUFFIX,google-access.net
   - HOST-SUFFIX,google-analytics-cn.com
   - HOST-SUFFIX,google-analytics.com
+  - HOST-SUFFIX,google-syndication.com
   - HOST-SUFFIX,google.ad
   - HOST-SUFFIX,google.ae
   - HOST-SUFFIX,google.al
