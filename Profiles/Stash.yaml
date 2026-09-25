@@ -1,7 +1,7 @@
-# Wang47 个人自用 Stash 配置文件 (Web3·AI·Media Optimized)
-port: 7890
-socks-port: 7891
-mixed-port: 7892
+# Wang47 个人自用 Stash 配置 (Web3 · AI · Media 对齐版)
+# 自动生成与 QX 策略组架构 100% 对齐
+
+mixed-port: 7890
 allow-lan: false
 mode: rule
 log-level: info
@@ -9,12 +9,16 @@ ipv6: false
 
 dns:
   enable: true
-  listen: 0.0.0.0:53
+  ipv6: false
+  listen: 0.0.0.0:1053
   enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
   nameserver:
-    - 119.29.29.29
     - 223.5.5.5
+    - 119.29.29.29
+  fallback:
     - 1.1.1.1
+    - 8.8.8.8
 
 proxy-groups:
   - name: 自动选择
@@ -22,104 +26,170 @@ proxy-groups:
     url: http://cp.cloudflare.com/generate_204
     interval: 300
     tolerance: 50
-    include-all: true
+    include-all-proxies: true
+    filter: "(?i)(🇭🇰|港|HK|🇹🇼|台|TW|🇸🇬|新|SG|🇯🇵|日|JP|🇺🇸|美|US)"
+
+  - name: AI-Auto
+    type: select
+    proxies:
+      - 美国节点
+      - 日本节点
+      - 台湾节点
+      - 自动选择
+      - DIRECT
+
+  - name: 兜底分流
+    type: select
+    proxies:
+      - DIRECT
+      - 自动选择
+      - 香港节点
+      - 台湾节点
+      - 日本节点
+      - 美国节点
+      - 狮城节点
+
+  - name: 苹果服务
+    type: select
+    proxies:
+      - DIRECT
+      - 美国节点
+      - 自动选择
+      - 台湾节点
+      - 日本节点
+
+  - name: TikTok
+    type: select
+    proxies:
+      - DIRECT
+      - 台湾节点
+      - 日本节点
+      - 狮城节点
+      - 自动选择
 
   - name: gemini
     type: select
     proxies:
-      - 自动选择
+      - AI-Auto
+      - 美国节点
+      - 日本节点
+      - 台湾节点
       - DIRECT
 
   - name: okx
     type: select
     proxies:
       - 自动选择
+      - 狮城节点
+      - 台湾节点
+      - 日本节点
       - DIRECT
 
   - name: binance
     type: select
     proxies:
+      - 台湾节点
+      - 狮城节点
       - 自动选择
       - DIRECT
 
   - name: bybit
     type: select
     proxies:
+      - 狮城节点
+      - 台湾节点
+      - 日本节点
       - 自动选择
       - DIRECT
 
   - name: bitget
     type: select
     proxies:
+      - 日本节点
+      - 狮城节点
+      - 台湾节点
       - 自动选择
       - DIRECT
 
   - name: gate
     type: select
     proxies:
+      - 狮城节点
+      - 台湾节点
+      - 日本节点
       - 自动选择
       - DIRECT
 
   - name: crypto
     type: select
     proxies:
+      - 狮城节点
+      - 台湾节点
+      - 日本节点
       - 自动选择
       - DIRECT
 
   - name: telegram
     type: select
     proxies:
+      - 狮城节点
+      - 香港节点
       - 自动选择
       - DIRECT
 
+  # 地区节点筛选
+  - name: 香港节点
+    type: url-test
+    url: http://cp.cloudflare.com/generate_204
+    interval: 600
+    tolerance: 30
+    include-all-proxies: true
+    filter: "(?i)(🇭🇰|港|HK|HongKong)"
+
+  - name: 台湾节点
+    type: url-test
+    url: http://cp.cloudflare.com/generate_204
+    interval: 600
+    tolerance: 30
+    include-all-proxies: true
+    filter: "(?i)(🇹🇼|台|TW|Taiwan)"
+
+  - name: 狮城节点
+    type: url-test
+    url: http://cp.cloudflare.com/generate_204
+    interval: 600
+    tolerance: 30
+    include-all-proxies: true
+    filter: "(?i)(🇸🇬|新|SG|Singapore)"
+
+  - name: 日本节点
+    type: url-test
+    url: http://cp.cloudflare.com/generate_204
+    interval: 600
+    tolerance: 30
+    include-all-proxies: true
+    filter: "(?i)(🇯🇵|日|JP|Japan)"
+
+  - name: 美国节点
+    type: url-test
+    url: http://cp.cloudflare.com/generate_204
+    interval: 600
+    tolerance: 40
+    include-all-proxies: true
+    filter: "(?i)(🇺🇸|美|US|States)"
+
 rule-providers:
+  advertising:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/advertising.yaml"
+    path: ./ruleset/advertising.yaml
+    interval: 86400
   apple:
     type: http
     behavior: classical
     url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/apple.yaml"
     path: ./ruleset/apple.yaml
-    interval: 86400
-  unbreak:
-    type: http
-    behavior: classical
-    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/unbreak.yaml"
-    path: ./ruleset/unbreak.yaml
-    interval: 86400
-  tiktok:
-    type: http
-    behavior: classical
-    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/tiktok.yaml"
-    path: ./ruleset/tiktok.yaml
-    interval: 86400
-  wechat:
-    type: http
-    behavior: classical
-    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/wechat.yaml"
-    path: ./ruleset/wechat.yaml
-    interval: 86400
-  china:
-    type: http
-    behavior: classical
-    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/china.yaml"
-    path: ./ruleset/china.yaml
-    interval: 86400
-  globalmedia:
-    type: http
-    behavior: classical
-    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/globalmedia.yaml"
-    path: ./ruleset/globalmedia.yaml
-    interval: 86400
-  gemini:
-    type: http
-    behavior: classical
-    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/gemini.yaml"
-    path: ./ruleset/gemini.yaml
-    interval: 86400
-  okx:
-    type: http
-    behavior: classical
-    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/okx.yaml"
-    path: ./ruleset/okx.yaml
     interval: 86400
   binance:
     type: http
@@ -127,23 +197,35 @@ rule-providers:
     url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/binance.yaml"
     path: ./ruleset/binance.yaml
     interval: 86400
-  bybit:
-    type: http
-    behavior: classical
-    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/bybit.yaml"
-    path: ./ruleset/bybit.yaml
-    interval: 86400
   bitget:
     type: http
     behavior: classical
     url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/bitget.yaml"
     path: ./ruleset/bitget.yaml
     interval: 86400
-  gate:
+  bybit:
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/gate.yaml"
-    path: ./ruleset/gate.yaml
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/bybit.yaml"
+    path: ./ruleset/bybit.yaml
+    interval: 86400
+  china:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/china.yaml"
+    path: ./ruleset/china.yaml
+    interval: 86400
+  claude:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/claude.yaml"
+    path: ./ruleset/claude.yaml
+    interval: 86400
+  coinbase:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/coinbase.yaml"
+    path: ./ruleset/coinbase.yaml
     interval: 86400
   crypto:
     type: http
@@ -151,21 +233,178 @@ rule-providers:
     url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/crypto.yaml"
     path: ./ruleset/crypto.yaml
     interval: 86400
+  discord:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/discord.yaml"
+    path: ./ruleset/discord.yaml
+    interval: 86400
+  disney:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/disney.yaml"
+    path: ./ruleset/disney.yaml
+    interval: 86400
+  docker:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/docker.yaml"
+    path: ./ruleset/docker.yaml
+    interval: 86400
+  gate:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/gate.yaml"
+    path: ./ruleset/gate.yaml
+    interval: 86400
+  gemini:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/gemini.yaml"
+    path: ./ruleset/gemini.yaml
+    interval: 86400
+  github:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/github.yaml"
+    path: ./ruleset/github.yaml
+    interval: 86400
+  globalmedia:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/globalmedia.yaml"
+    path: ./ruleset/globalmedia.yaml
+    interval: 86400
+  google:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/google.yaml"
+    path: ./ruleset/google.yaml
+    interval: 86400
+  googledrive:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/googledrive.yaml"
+    path: ./ruleset/googledrive.yaml
+    interval: 86400
+  googlemaps:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/googlemaps.yaml"
+    path: ./ruleset/googlemaps.yaml
+    interval: 86400
+  googlevoice:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/googlevoice.yaml"
+    path: ./ruleset/googlevoice.yaml
+    interval: 86400
+  kraken:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/kraken.yaml"
+    path: ./ruleset/kraken.yaml
+    interval: 86400
+  microsoft:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/microsoft.yaml"
+    path: ./ruleset/microsoft.yaml
+    interval: 86400
+  netflix:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/netflix.yaml"
+    path: ./ruleset/netflix.yaml
+    interval: 86400
+  okx:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/okx.yaml"
+    path: ./ruleset/okx.yaml
+    interval: 86400
+  openai:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/openai.yaml"
+    path: ./ruleset/openai.yaml
+    interval: 86400
+  paypal:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/paypal.yaml"
+    path: ./ruleset/paypal.yaml
+    interval: 86400
+  reddit:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/reddit.yaml"
+    path: ./ruleset/reddit.yaml
+    interval: 86400
+  spotify:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/spotify.yaml"
+    path: ./ruleset/spotify.yaml
+    interval: 86400
+  stripe:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/stripe.yaml"
+    path: ./ruleset/stripe.yaml
+    interval: 86400
   telegram:
     type: http
     behavior: classical
     url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/telegram.yaml"
     path: ./ruleset/telegram.yaml
     interval: 86400
+  tiktok:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/tiktok.yaml"
+    path: ./ruleset/tiktok.yaml
+    interval: 86400
+  twitter:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/twitter.yaml"
+    path: ./ruleset/twitter.yaml
+    interval: 86400
+  unbreak:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/unbreak.yaml"
+    path: ./ruleset/unbreak.yaml
+    interval: 86400
+  wechat:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/wechat.yaml"
+    path: ./ruleset/wechat.yaml
+    interval: 86400
+  wise:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/wise.yaml"
+    path: ./ruleset/wise.yaml
+    interval: 86400
+  youtube:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/youtube.yaml"
+    path: ./ruleset/youtube.yaml
+    interval: 86400
 
 rules:
+  # 1. 修正白名单与广告拦截（最高优先级）
   - RULE-SET,unbreak,DIRECT
-  - RULE-SET,apple,自动选择
-  - RULE-SET,tiktok,自动选择
-  - RULE-SET,wechat,DIRECT
-  - RULE-SET,china,DIRECT
-  - RULE-SET,globalmedia,自动选择
+  - RULE-SET,advertising,REJECT
+
+  # 2. 独立业务平台分流
   - RULE-SET,gemini,gemini
+  - RULE-SET,openai,AI-Auto
+  - RULE-SET,claude,AI-Auto
   - RULE-SET,okx,okx
   - RULE-SET,binance,binance
   - RULE-SET,bybit,bybit
@@ -173,4 +412,34 @@ rules:
   - RULE-SET,gate,gate
   - RULE-SET,crypto,crypto
   - RULE-SET,telegram,telegram
-  - MATCH,自动选择
+  - RULE-SET,tiktok,TikTok
+  - RULE-SET,wechat,DIRECT
+  - RULE-SET,apple,苹果服务
+
+  # 3. 常见海外服务分流
+  - RULE-SET,google,自动选择
+  - RULE-SET,googlevoice,自动选择
+  - RULE-SET,youtube,自动选择
+  - RULE-SET,googledrive,自动选择
+  - RULE-SET,googlemaps,自动选择
+  - RULE-SET,coinbase,自动选择
+  - RULE-SET,kraken,自动选择
+  - RULE-SET,wise,自动选择
+  - RULE-SET,stripe,自动选择
+  - RULE-SET,paypal,自动选择
+  - RULE-SET,twitter,自动选择
+  - RULE-SET,discord,自动选择
+  - RULE-SET,reddit,自动选择
+  - RULE-SET,spotify,自动选择
+  - RULE-SET,netflix,自动选择
+  - RULE-SET,disney,自动选择
+  - RULE-SET,github,自动选择
+  - RULE-SET,docker,自动选择
+  - RULE-SET,microsoft,自动选择
+
+  # 4. 兜底聚合规则
+  - RULE-SET,globalmedia,自动选择
+  - RULE-SET,china,DIRECT
+
+  # 5. 漏网兜底
+  - MATCH,兜底分流
