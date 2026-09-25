@@ -240,3 +240,79 @@ if os.path.exists(qx_rw_dir):
             f.write("\n".join(lines) + "\n")
         count_st += 1
     print(f"✅ Stash 覆写文件同步完成，共更新 {count_st} 个 .stoverride 文件！")
+
+# ==============================================================================
+# 全自动化目录联动总控 (Profiles/QuantumultX.conf & README.md 动态维护)
+# ==============================================================================
+import re
+
+# 1. 动态生成并更新 Profiles/QuantumultX.conf
+qx_conf_path = "Profiles/QuantumultX.conf"
+if os.path.exists(qx_conf_path):
+    with open(qx_conf_path, "r", encoding="utf-8") as f:
+        conf_text = f.read()
+
+    # 动态装配 [filter_remote]
+    filter_remotes = []
+    qx_rule_dir = "rule/QuantumultX"
+    if os.path.exists(qx_rule_dir):
+        priority = ["unbreak", "advertising", "crypto"]
+        all_rules = sorted([f[:-5] for f in os.listdir(qx_rule_dir) if f.endswith(".list") and f != "all.list"])
+        sorted_rules = [r for r in priority if r in all_rules] + [r for r in all_rules if r not in priority]
+
+        for r in sorted_rules:
+            policy = POLICY_MAPPING.get(r, "🚀 节点选择") if "POLICY_MAPPING" in globals() else "🚀 节点选择"
+            if r == "unbreak":
+                policy = "direct"
+            elif r == "advertising":
+                policy = "reject"
+            line = f"https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/{r}.list, tag={r}, force-policy={policy}, update-interval=172800, opt-parser=true, enabled=true"
+            filter_remotes.append(line)
+
+    # 动态装配 [rewrite_remote]
+    rewrite_remotes = []
+    qx_rw_dir = "rewrite/QuantumultX"
+    if os.path.exists(qx_rw_dir):
+        for f in sorted(os.listdir(qx_rw_dir)):
+            if f.endswith(".conf") or f.endswith(".snippet"):
+                name = os.path.splitext(f)[0]
+                line = f"https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/{f}, tag={name}, update-interval=86400, opt-parser=true, enabled=true"
+                rewrite_remotes.append(line)
+
+    # 替换 [filter_remote]
+    if filter_remotes and "[filter_remote]" in conf_text:
+        pattern = r"(\[filter_remote\]\n)(.*?)(?=\n\[|\Z)"
+        replacement = r"\1" + "\n".join(filter_remotes) + "\n"
+        conf_text = re.sub(pattern, replacement, conf_text, flags=re.DOTALL)
+
+    # 替换 [rewrite_remote]
+    if rewrite_remotes and "[rewrite_remote]" in conf_text:
+        pattern = r"(\[rewrite_remote\]\n)(.*?)(?=\n\[|\Z)"
+        replacement = r"\1" + "\n".join(rewrite_remotes) + "\n"
+        conf_text = re.sub(pattern, replacement, conf_text, flags=re.DOTALL)
+
+    with open(qx_conf_path, "w", encoding="utf-8") as f:
+        f.write(conf_text)
+    print("✅ Profiles/QuantumultX.conf 已自动同步最新分流与重写远程直链！")
+
+# 2. 动态维护 README.md 中的 Stash 覆写与分流规则表格
+readme_path = "README.md"
+if os.path.exists(readme_path) and os.path.exists("rewrite/Stash"):
+    with open(readme_path, "r", encoding="utf-8") as f:
+        readme_text = f.read()
+
+    stash_files = sorted([f for f in os.listdir("rewrite/Stash") if f.endswith(".stoverride")])
+    if stash_files and "### Stash 覆写配置" in readme_text:
+        table_rows = ["| 模块名称 | 描述 | Stash 覆写直链 |", "| :--- | :--- | :--- |"]
+        for sf in stash_files:
+            bname = sf.replace(".stoverride", "")
+            raw_url = f"https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/{sf}"
+            table_rows.append(f"| {bname} | 全自动转换同步模块 | `{raw_url}` |")
+        
+        pattern = r"(### Stash 覆写配置\n\n)(.*?)(?=\n##|\Z)"
+        replacement = r"\1" + "\n".join(table_rows) + "\n"
+        readme_text = re.sub(pattern, replacement, readme_text, flags=re.DOTALL)
+        
+        with open(readme_path, "w", encoding="utf-8") as f:
+            f.write(readme_text)
+        print(f"✅ README.md 已自动对齐全部 {len(stash_files)} 个 Stash 覆写直链！")
