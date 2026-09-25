@@ -1,0 +1,46 @@
+name: Auto Sync Rules and README
+
+on:
+  schedule:
+    # 每天北京时间凌晨 04:00 (UTC 20:00) 静默自动运行
+    - cron: '0 20 * * *'
+  push:
+    branches:
+      - main
+    paths:
+      - 'Scripts/**'
+  workflow_dispatch:
+
+# 赋予 GitHub Actions 免密提交并推送到私有库的完全写权限
+permissions:
+  contents: write
+
+jobs:
+  auto-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Auto Sync & Update README
+        run: |
+          python Scripts/sync_all.py
+
+      - name: Auto Commit & Push (Silent)
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add rule/ README.md
+          if git diff --staged --quiet; then
+            echo "无变更，跳过更新。"
+          else
+            git commit -m "chore(auto): daily sync rules and README [skip ci]"
+            git push
+          fi
