@@ -1,2 +1,182 @@
-payload:
+# > 通用 Crypto / Web3 规则集（已完全排除 OKX/Binance/Bybit/Bitget/Gate/Coinbase/Kraken）
+# > 仓库路径: stash/crypto.yaml
 
+payload:
+  # --- 其它主流与区域中心化交易所 (CEX) ---
+  - DOMAIN-SUFFIX,kucoin.com
+  - DOMAIN-SUFFIX,kucoin.net
+  - DOMAIN-SUFFIX,mexc.com
+  - DOMAIN-SUFFIX,mexc.link
+  - DOMAIN-SUFFIX,htx.com
+  - DOMAIN-SUFFIX,huobi.com
+  - DOMAIN-SUFFIX,hbg.com
+  - DOMAIN-SUFFIX,bitfinex.com
+  - DOMAIN-SUFFIX,gemini.com
+  - DOMAIN-SUFFIX,cryptocom.com
+  - DOMAIN-SUFFIX,crypto.com
+  - DOMAIN-SUFFIX,bitstamp.net
+  - DOMAIN-SUFFIX,bitflyer.com
+  - DOMAIN-SUFFIX,bithumb.com
+  - DOMAIN-SUFFIX,upbit.com
+  - DOMAIN-SUFFIX,coinex.com
+  - DOMAIN-SUFFIX,phemex.com
+  - DOMAIN-SUFFIX,bingx.com
+  - DOMAIN-SUFFIX,woo.org
+  - DOMAIN-SUFFIX,hashkey.com
+  - DOMAIN-SUFFIX,osl.com
+  - DOMAIN-SUFFIX,deribit.com
+  - DOMAIN-SUFFIX,backpack.exchange
+  - DOMAIN-SUFFIX,lbank.com
+  - DOMAIN-SUFFIX,poloniex.com
+  - DOMAIN-SUFFIX,bitoex.com
+  - DOMAIN-SUFFIX,bitopro.com
+  - DOMAIN-SUFFIX,maicoin.com
+  - DOMAIN-SUFFIX,max.maicoin.com
+  - DOMAIN-SUFFIX,korbit.co.kr
+  - DOMAIN-SUFFIX,coinone.co.kr
+  - DOMAIN-SUFFIX,zaif.jp
+
+  # --- 去中心化交易所与衍生品协议 (DEX & Perps) ---
+  - DOMAIN-SUFFIX,uniswap.org
+  - DOMAIN-SUFFIX,curve.fi
+  - DOMAIN-SUFFIX,1inch.io
+  - DOMAIN-SUFFIX,pancakeswap.finance
+  - DOMAIN-SUFFIX,sushi.com
+  - DOMAIN-SUFFIX,dydx.exchange
+  - DOMAIN-SUFFIX,hyperliquid.xyz
+  - DOMAIN-SUFFIX,gmx.io
+  - DOMAIN-SUFFIX,aave.com
+  - DOMAIN-SUFFIX,compound.finance
+  - DOMAIN-SUFFIX,makerdao.com
+  - DOMAIN-SUFFIX,lido.fi
+  - DOMAIN-SUFFIX,aerodrome.finance
+  - DOMAIN-SUFFIX,raydium.io
+  - DOMAIN-SUFFIX,orca.so
+  - DOMAIN-SUFFIX,jupiter.ag
+  - DOMAIN-SUFFIX,jup.ag
+  - DOMAIN-SUFFIX,synthetix.io
+  - DOMAIN-SUFFIX,osmosis.zone
+  - DOMAIN-SUFFIX,balancer.fi
+  - DOMAIN-SUFFIX,camelot.exchange
+  - DOMAIN-SUFFIX,vertexprotocol.com
+  - DOMAIN-SUFFIX,drift.trade
+  - DOMAIN-SUFFIX,pendle.finance
+  - DOMAIN-SUFFIX,ether.fi
+  - DOMAIN-SUFFIX,eigenlayer.xyz
+  - DOMAIN-SUFFIX,ethena.fi
+
+  # --- 跨链桥与互操作协议 (Cross-Chain Bridges) ---
+  - DOMAIN-SUFFIX,stargate.finance
+  - DOMAIN-SUFFIX,layerzero.network
+  - DOMAIN-SUFFIX,across.to
+  - DOMAIN-SUFFIX,orbiter.finance
+  - DOMAIN-SUFFIX,debridge.finance
+  - DOMAIN-SUFFIX,wormhole.com
+  - DOMAIN-SUFFIX,hop.exchange
+  - DOMAIN-SUFFIX,synapseprotocol.com
+  - DOMAIN-SUFFIX,bungee.exchange
+  - DOMAIN-SUFFIX,jumper.exchange
+  - DOMAIN-SUFFIX,relay.link
+  - DOMAIN-SUFFIX,li.fi
+
+  # --- Web3 钱包与签名验证 (Wallets & Connect) ---
+  - DOMAIN-SUFFIX,metamask.io
+  - DOMAIN-SUFFIX,phantom.app
+  - DOMAIN-SUFFIX,rabby.io
+  - DOMAIN-SUFFIX,trustwallet.com
+  - DOMAIN-SUFFIX,walletconnect.com
+  - DOMAIN-SUFFIX,walletconnect.org
+  - DOMAIN-SUFFIX,safe.global
+  - DOMAIN-SUFFIX,rainbow.me
+  - DOMAIN-SUFFIX,zerion.io
+  - DOMAIN-SUFFIX,solflare.com
+  - DOMAIN-SUFFIX,keplr.app
+  - DOMAIN-SUFFIX,argent.xyz
+  - DOMAIN-SUFFIX,imtoken.com
+  - DOMAIN-SUFFIX,tokenpocket.pro
+  - DOMAIN-SUFFIX,ledger.com
+  - DOMAIN-SUFFIX,trezor.io
+  - DOMAIN-SUFFIX,onekey.so
+  - DOMAIN-SUFFIX,bitkeep.com
+  - DOMAIN-SUFFIX,web3auth.io
+  - DOMAIN-SUFFIX,privy.io
+  - DOMAIN-SUFFIX,dynamic.xyz
+
+  # --- 区块链浏览器与数据索引 (Explorers & Indexers) ---
+  - DOMAIN-SUFFIX,etherscan.io
+  - DOMAIN-SUFFIX,bscscan.com
+  - DOMAIN-SUFFIX,polygonscan.com
+  - DOMAIN-SUFFIX,arbiscan.io
+  - DOMAIN-SUFFIX,optimistic.etherscan.io
+  - DOMAIN-SUFFIX,basescan.org
+  - DOMAIN-SUFFIX,snowtrace.io
+  - DOMAIN-SUFFIX,solscan.io
+  - DOMAIN-SUFFIX,solana.fm
+  - DOMAIN-SUFFIX,tronscan.org
+  - DOMAIN-SUFFIX,blockchain.com
+  - DOMAIN-SUFFIX,blockchair.com
+  - DOMAIN-SUFFIX,mempool.space
+  - DOMAIN-SUFFIX,oklink.com
+  - DOMAIN-SUFFIX,thegraph.com
+  - DOMAIN-SUFFIX,subquery.network
+
+  # --- 行情看板、链上分析与监控 (Analytics & Market Data) ---
+  - DOMAIN-SUFFIX,coinmarketcap.com
+  - DOMAIN-SUFFIX,coingecko.com
+  - DOMAIN-SUFFIX,tradingview.com
+  - DOMAIN-SUFFIX,dexscreener.com
+  - DOMAIN-SUFFIX,dextools.io
+  - DOMAIN-SUFFIX,defillama.com
+  - DOMAIN-SUFFIX,dune.com
+  - DOMAIN-SUFFIX,nansen.ai
+  - DOMAIN-SUFFIX,tokenterminal.com
+  - DOMAIN-SUFFIX,coinglass.com
+  - DOMAIN-SUFFIX,coinank.com
+  - DOMAIN-SUFFIX,gmgn.ai
+  - DOMAIN-SUFFIX,pump.fun
+  - DOMAIN-SUFFIX,rootdata.com
+  - DOMAIN-SUFFIX,crypto-rank.io
+  - DOMAIN-SUFFIX,cryptorank.io
+  - DOMAIN-SUFFIX,messari.io
+  - DOMAIN-SUFFIX,arkhamintelligence.com
+  - DOMAIN-SUFFIX,bubblemaps.io
+  - DOMAIN-SUFFIX,geckoterminal.com
+  - DOMAIN-SUFFIX,debank.com
+  - DOMAIN-SUFFIX,dropsstab.com
+
+  # --- RPC 节点基础设施与开发套件 (RPC Infrastructure) ---
+  - DOMAIN-SUFFIX,alchemy.com
+  - DOMAIN-SUFFIX,infura.io
+  - DOMAIN-SUFFIX,quicknode.com
+  - DOMAIN-SUFFIX,ankr.com
+  - DOMAIN-SUFFIX,drpc.org
+  - DOMAIN-SUFFIX,chainlist.org
+  - DOMAIN-SUFFIX,helius.dev
+  - DOMAIN-SUFFIX,lava.network
+  - DOMAIN-SUFFIX,pokt.network
+  - DOMAIN-SUFFIX,blockpi.io
+
+  # --- 稳定币、预言机与原生公链官网 (Stablecoins, Oracles & L1/L2) ---
+  - DOMAIN-SUFFIX,tether.to
+  - DOMAIN-SUFFIX,circle.com
+  - DOMAIN-SUFFIX,chain.link
+  - DOMAIN-SUFFIX,pyth.network
+  - DOMAIN-SUFFIX,ethereum.org
+  - DOMAIN-SUFFIX,solana.com
+  - DOMAIN-SUFFIX,arbitrum.io
+  - DOMAIN-SUFFIX,optimism.io
+  - DOMAIN-SUFFIX,polygon.technology
+  - DOMAIN-SUFFIX,avax.network
+  - DOMAIN-SUFFIX,near.org
+  - DOMAIN-SUFFIX,aptoslabs.com
+  - DOMAIN-SUFFIX,mystenlabs.com
+  - DOMAIN-SUFFIX,sui.io
+  - DOMAIN-SUFFIX,ton.org
+
+  # --- NFT 市场与交易聚合器 (NFT Marketplaces) ---
+  - DOMAIN-SUFFIX,opensea.io
+  - DOMAIN-SUFFIX,blur.io
+  - DOMAIN-SUFFIX,magiceden.io
+  - DOMAIN-SUFFIX,tensor.trade
+  - DOMAIN-SUFFIX,looksrare.org
+  - DOMAIN-SUFFIX,x2y2.io
