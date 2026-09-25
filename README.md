@@ -1,6 +1,6 @@
 # 私有代理分流规则镜像仓库
 
-> **自动更新时间**：`2026-09-25 18:13:56`  
+> **自动更新时间**：`2026-09-25 18:17:06`  
 > **网关直链服务**：`https://rule-proxy.mygods.workers.dev`
 
 ### ⚡ 懒人一键集成订阅（推荐：客户端无需任何手动维护）
@@ -101,6 +101,9 @@
 <details>
 <summary><b>👉 点击展开：Quantumult X 官方自用配置模板 (Template.conf)</b></summary>
 
+> **🌐 远程配置直链**：`https://rule-proxy.mygods.workers.dev/conf/qx.conf`  
+> *(在 Quantumult X 底部轻点小风车 -> 配置文件 -> 下载 -> 粘贴此链接即可一键覆盖应用)*
+
 ```ini
 [general]
 server_check_url = [http://cp.cloudflare.com/generate_204](http://cp.cloudflare.com/generate_204)
@@ -152,6 +155,9 @@ final, 🐟 兜底分流
 
 <details>
 <summary><b>👉 点击展开：Stash / Clash 官方规则集配置模板 (rules.yaml)</b></summary>
+
+> **🌐 远程配置直链**：`https://rule-proxy.mygods.workers.dev/conf/stash.yaml`  
+> *(在 Stash 中通过此链接创建或同步远程 Config Profile)*
 
 ```yaml
 rule-providers:
