@@ -1,14 +1,22 @@
 # 私有代理分流规则镜像仓库
 
-> **自动更新时间**：`2026-09-25 17:38:50`  
+> **自动更新时间**：`2026-09-25 17:51:35`  
 > **网关直链服务**：`https://rule-proxy.mygods.workers.dev`
+
+### ⚡ 懒人一键集成订阅（推荐：客户端无需任何手动维护）
+
+- **Quantumult X 一键全量托管直链**：
+  `https://rule-proxy.mygods.workers.dev/qx/all.list`
+  *(包含所有分类、已按精准优先级由细到粗自动排序，并内置绑定好策略组)*
+
+---
 
 ### 📱 客户端兼容性说明
 
 | 规则类型 | 文件扩展名 | 适用客户端 / 平台 |
 | :--- | :--- | :--- |
-| **标准分流规则** | `.list` | **Quantumult X**、**Surge**、**Loon**、**Shadowrocket (小火箭)**、**Egern** |
-| **Rule-Set 规则集** | `.yaml` | **Stash**、**Clash Verge / Nyanpasu**、**Mihomo (Clash.Meta)**、**Sing-box** |
+| **标准分流规则** | `.list` | **Quantumult X**、**Surge**、**Loon**、**Shadowrocket**、**Egern** |
+| **Rule-Set 规则集** | `.yaml` | **Stash**、**Clash Verge / Nyanpasu**、**Mihomo**、**Sing-box** |
 
 ---
 
@@ -86,19 +94,10 @@
 
 ---
 
-### 👏 鸣谢与致敬 (Credits & Acknowledgements)
-
-本项目分流规则的数据源头与格式参考了以下开源社区及大佬项目的贡献，特此致敬与感谢：
-
-- [ACL4SSR / ACL4SSR](https://github.com/ACL4SSR/ACL4SSR)：经典国内分流规则架构、策略组模板与高频维护的加密货币 (Crypto) 核心数据源。
+### 👏 鸣谢与致敬
+- [ACL4SSR / ACL4SSR](https://github.com/ACL4SSR/ACL4SSR)：经典国内分流规则架构与加密货币 (Crypto) 数据源。
 - [blackmatrix7 / ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)：全平台分流规则集与自动化转换核心数据源。
 - [dler-io / Rules](https://github.com/dler-io/Rules)：专业的高精度分流规则集与 Web3 基础设施参考。
-- [v2fly / domain-list-community](https://github.com/v2fly/domain-list-community)：社区级根域名与 Geolocation 数据库标准。
-- [Loyalsoldier / v2ray-rules-dat](https://github.com/Loyalsoldier/v2ray-rules-dat)：高频维护的高精度直连与白名单分流数据库。
-- [QuixoticHeart / rule-set](https://github.com/QuixoticHeart/rule-set)：优秀的多客户端全套规则集构建思路与格式参考。
-
----
 
 ### ⚖️ 免责声明
-
-本项目提供的规则仅供个人网络优化与科研学习使用，规则版权归原项目所有。请遵守当地法律法规。
+本项目提供的规则仅供个人网络优化与科研学习使用，规则版权归原项目所有。
