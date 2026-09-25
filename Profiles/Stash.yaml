@@ -1,4 +1,7 @@
-mixed-port: 7890
+# Wang47 个人自用 Stash 配置文件 (Web3·AI·Media Optimized)
+port: 7890
+socks-port: 7891
+mixed-port: 7892
 allow-lan: false
 mode: rule
 log-level: info
@@ -6,64 +9,126 @@ ipv6: false
 
 dns:
   enable: true
-  listen: 0.0.0.0:1053
-  ipv6: false
-  default-nameserver:
-    - 223.5.5.5
-    - 119.29.29.29
+  listen: 0.0.0.0:53
   enhanced-mode: fake-ip
   nameserver:
-    - https://dns.google/dns-query
-    - https://1.1.1.1/dns-query
+    - 119.29.29.29
+    - 223.5.5.5
+    - 1.1.1.1
 
 proxy-groups:
-  - name: 🚀 节点选择
+  - name: 自动选择
+    type: url-test
+    url: http://cp.cloudflare.com/generate_204
+    interval: 300
+    tolerance: 50
+    include-all: true
+
+  - name: gemini
     type: select
     proxies:
+      - 自动选择
       - DIRECT
 
-  - name: 🤖 人工智能
+  - name: okx
     type: select
     proxies:
-      - 🚀 节点选择
+      - 自动选择
       - DIRECT
 
-  - name: 🪙 加密货币
+  - name: binance
     type: select
     proxies:
-      - 🚀 节点选择
+      - 自动选择
       - DIRECT
 
-  - name: 🌐 谷歌服务
+  - name: bybit
     type: select
     proxies:
-      - 🚀 节点选择
+      - 自动选择
       - DIRECT
 
-  - name: 🐟 兜底分流
+  - name: bitget
     type: select
     proxies:
-      - 🚀 节点选择
+      - 自动选择
+      - DIRECT
+
+  - name: gate
+    type: select
+    proxies:
+      - 自动选择
+      - DIRECT
+
+  - name: crypto
+    type: select
+    proxies:
+      - 自动选择
+      - DIRECT
+
+  - name: telegram
+    type: select
+    proxies:
+      - 自动选择
       - DIRECT
 
 rule-providers:
+  gemini:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/gemini.yaml"
+    path: ./ruleset/gemini.yaml
+    interval: 86400
+  okx:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/okx.yaml"
+    path: ./ruleset/okx.yaml
+    interval: 86400
+  binance:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/binance.yaml"
+    path: ./ruleset/binance.yaml
+    interval: 86400
+  bybit:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/bybit.yaml"
+    path: ./ruleset/bybit.yaml
+    interval: 86400
+  bitget:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/bitget.yaml"
+    path: ./ruleset/bitget.yaml
+    interval: 86400
+  gate:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/gate.yaml"
+    path: ./ruleset/gate.yaml
+    interval: 86400
   crypto:
     type: http
     behavior: classical
-    url: "https://rule-proxy.mygods.workers.dev/stash/crypto.yaml"
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/crypto.yaml"
     path: ./ruleset/crypto.yaml
     interval: 86400
-
-  google:
+  telegram:
     type: http
     behavior: classical
-    url: "https://rule-proxy.mygods.workers.dev/stash/google.yaml"
-    path: ./ruleset/google.yaml
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/telegram.yaml"
+    path: ./ruleset/telegram.yaml
     interval: 86400
 
 rules:
-  - GEOIP,LAN,DIRECT,no-resolve
-  - RULE-SET,crypto,🪙 加密货币
-  - RULE-SET,google,🌐 谷歌服务
-  - GEOIP,CN,DIRECT
-  - MATCH,🐟 兜底分流
+  - RULE-SET,gemini,gemini
+  - RULE-SET,okx,okx
+  - RULE-SET,binance,binance
+  - RULE-SET,bybit,bybit
+  - RULE-SET,bitget,bitget
+  - RULE-SET,gate,gate
+  - RULE-SET,crypto,crypto
+  - RULE-SET,telegram,telegram
+  - MATCH,自动选择
