@@ -1,6 +1,6 @@
 # 私有代理分流规则镜像仓库
 
-> **自动更新时间**：`2026-09-25 16:20:52`  
+> **自动更新时间**：`2026-09-25 16:31:58`  
 > **网关直链服务**：`https://rule-proxy.mygods.workers.dev`
 
 ### 📱 客户端兼容性说明
@@ -16,63 +16,63 @@
 
 | 平台 / 服务 | 条数 (List / YAML) | List 直链 (QX / Surge / Loon / 小火箭) | YAML 直链 (Stash / Clash / Mihomo) |
 | :--- | :--- | :--- | :--- |
-| **OKX** | 3 / 4 | [okx.list](https://rule-proxy.mygods.workers.dev/qx/Crypto/okx.list) | [okx.yaml](https://rule-proxy.mygods.workers.dev/stash/Crypto/okx.yaml) |
-| **Binance** | 12 / 13 | [binance.list](https://rule-proxy.mygods.workers.dev/qx/Crypto/binance.list) | [binance.yaml](https://rule-proxy.mygods.workers.dev/stash/Crypto/binance.yaml) |
-| **Bybit** | 0 / 0 | [bybit.list](https://rule-proxy.mygods.workers.dev/qx/Crypto/bybit.list) | [bybit.yaml](https://rule-proxy.mygods.workers.dev/stash/Crypto/bybit.yaml) |
-| **Bitget** | 0 / 0 | [bitget.list](https://rule-proxy.mygods.workers.dev/qx/Crypto/bitget.list) | [bitget.yaml](https://rule-proxy.mygods.workers.dev/stash/Crypto/bitget.yaml) |
-| **Gate** | 0 / 0 | [gate.list](https://rule-proxy.mygods.workers.dev/qx/Crypto/gate.list) | [gate.yaml](https://rule-proxy.mygods.workers.dev/stash/Crypto/gate.yaml) |
-| **Coinbase** | 43 / 44 | [coinbase.list](https://rule-proxy.mygods.workers.dev/qx/Crypto/coinbase.list) | [coinbase.yaml](https://rule-proxy.mygods.workers.dev/stash/Crypto/coinbase.yaml) |
-| **Kraken** | 43 / 44 | [kraken.list](https://rule-proxy.mygods.workers.dev/qx/Crypto/kraken.list) | [kraken.yaml](https://rule-proxy.mygods.workers.dev/stash/Crypto/kraken.yaml) |
-| **Cryptocurrency** | 43 / 0 | [cryptocurrency.list](https://rule-proxy.mygods.workers.dev/qx/Crypto/cryptocurrency.list) | [cryptocurrency.yaml](https://rule-proxy.mygods.workers.dev/stash/Crypto/cryptocurrency.yaml) |
+| **OKX** | 3 / 4 | [okx.list](https://rule-proxy.mygods.workers.dev/qx/okx.list) | [okx.yaml](https://rule-proxy.mygods.workers.dev/stash/okx.yaml) |
+| **Binance** | 12 / 13 | [binance.list](https://rule-proxy.mygods.workers.dev/qx/binance.list) | [binance.yaml](https://rule-proxy.mygods.workers.dev/stash/binance.yaml) |
+| **Bybit** | 0 / 0 | [bybit.list](https://rule-proxy.mygods.workers.dev/qx/bybit.list) | [bybit.yaml](https://rule-proxy.mygods.workers.dev/stash/bybit.yaml) |
+| **Bitget** | 0 / 0 | [bitget.list](https://rule-proxy.mygods.workers.dev/qx/bitget.list) | [bitget.yaml](https://rule-proxy.mygods.workers.dev/stash/bitget.yaml) |
+| **Gate** | 0 / 0 | [gate.list](https://rule-proxy.mygods.workers.dev/qx/gate.list) | [gate.yaml](https://rule-proxy.mygods.workers.dev/stash/gate.yaml) |
+| **Coinbase** | 43 / 44 | [coinbase.list](https://rule-proxy.mygods.workers.dev/qx/coinbase.list) | [coinbase.yaml](https://rule-proxy.mygods.workers.dev/stash/coinbase.yaml) |
+| **Kraken** | 43 / 44 | [kraken.list](https://rule-proxy.mygods.workers.dev/qx/kraken.list) | [kraken.yaml](https://rule-proxy.mygods.workers.dev/stash/kraken.yaml) |
+| **Cryptocurrency** | 43 / 44 | [cryptocurrency.list](https://rule-proxy.mygods.workers.dev/qx/cryptocurrency.list) | [cryptocurrency.yaml](https://rule-proxy.mygods.workers.dev/stash/cryptocurrency.yaml) |
 
 ### AI
 
 | 平台 / 服务 | 条数 (List / YAML) | List 直链 (QX / Surge / Loon / 小火箭) | YAML 直链 (Stash / Clash / Mihomo) |
 | :--- | :--- | :--- | :--- |
-| **OpenAI** | 35 / 36 | [openai.list](https://rule-proxy.mygods.workers.dev/qx/AI/openai.list) | [openai.yaml](https://rule-proxy.mygods.workers.dev/stash/AI/openai.yaml) |
-| **Claude** | 3 / 4 | [claude.list](https://rule-proxy.mygods.workers.dev/qx/AI/claude.list) | [claude.yaml](https://rule-proxy.mygods.workers.dev/stash/AI/claude.yaml) |
-| **Gemini** | 13 / 14 | [gemini.list](https://rule-proxy.mygods.workers.dev/qx/AI/gemini.list) | [gemini.yaml](https://rule-proxy.mygods.workers.dev/stash/AI/gemini.yaml) |
+| **OpenAI** | 35 / 36 | [openai.list](https://rule-proxy.mygods.workers.dev/qx/openai.list) | [openai.yaml](https://rule-proxy.mygods.workers.dev/stash/openai.yaml) |
+| **Claude** | 3 / 4 | [claude.list](https://rule-proxy.mygods.workers.dev/qx/claude.list) | [claude.yaml](https://rule-proxy.mygods.workers.dev/stash/claude.yaml) |
+| **Gemini** | 13 / 14 | [gemini.list](https://rule-proxy.mygods.workers.dev/qx/gemini.list) | [gemini.yaml](https://rule-proxy.mygods.workers.dev/stash/gemini.yaml) |
 
 ### Finance
 
 | 平台 / 服务 | 条数 (List / YAML) | List 直链 (QX / Surge / Loon / 小火箭) | YAML 直链 (Stash / Clash / Mihomo) |
 | :--- | :--- | :--- | :--- |
-| **Wise** | 4 / 5 | [wise.list](https://rule-proxy.mygods.workers.dev/qx/Finance/wise.list) | [wise.yaml](https://rule-proxy.mygods.workers.dev/stash/Finance/wise.yaml) |
-| **Stripe** | 1 / 2 | [stripe.list](https://rule-proxy.mygods.workers.dev/qx/Finance/stripe.list) | [stripe.yaml](https://rule-proxy.mygods.workers.dev/stash/Finance/stripe.yaml) |
-| **PayPal** | 248 / 248 | [paypal.list](https://rule-proxy.mygods.workers.dev/qx/Finance/paypal.list) | [paypal.yaml](https://rule-proxy.mygods.workers.dev/stash/Finance/paypal.yaml) |
+| **Wise** | 4 / 5 | [wise.list](https://rule-proxy.mygods.workers.dev/qx/wise.list) | [wise.yaml](https://rule-proxy.mygods.workers.dev/stash/wise.yaml) |
+| **Stripe** | 1 / 2 | [stripe.list](https://rule-proxy.mygods.workers.dev/qx/stripe.list) | [stripe.yaml](https://rule-proxy.mygods.workers.dev/stash/stripe.yaml) |
+| **PayPal** | 248 / 248 | [paypal.list](https://rule-proxy.mygods.workers.dev/qx/paypal.list) | [paypal.yaml](https://rule-proxy.mygods.workers.dev/stash/paypal.yaml) |
 
 ### Social
 
 | 平台 / 服务 | 条数 (List / YAML) | List 直链 (QX / Surge / Loon / 小火箭) | YAML 直链 (Stash / Clash / Mihomo) |
 | :--- | :--- | :--- | :--- |
-| **Telegram** | 40 / 47 | [telegram.list](https://rule-proxy.mygods.workers.dev/qx/Social/telegram.list) | [telegram.yaml](https://rule-proxy.mygods.workers.dev/stash/Social/telegram.yaml) |
-| **Twitter** | 33 / 34 | [twitter.list](https://rule-proxy.mygods.workers.dev/qx/Social/twitter.list) | [twitter.yaml](https://rule-proxy.mygods.workers.dev/stash/Social/twitter.yaml) |
-| **Discord** | 29 / 30 | [discord.list](https://rule-proxy.mygods.workers.dev/qx/Social/discord.list) | [discord.yaml](https://rule-proxy.mygods.workers.dev/stash/Social/discord.yaml) |
-| **Reddit** | 8 / 9 | [reddit.list](https://rule-proxy.mygods.workers.dev/qx/Social/reddit.list) | [reddit.yaml](https://rule-proxy.mygods.workers.dev/stash/Social/reddit.yaml) |
+| **Telegram** | 40 / 47 | [telegram.list](https://rule-proxy.mygods.workers.dev/qx/telegram.list) | [telegram.yaml](https://rule-proxy.mygods.workers.dev/stash/telegram.yaml) |
+| **Twitter** | 33 / 0 | [twitter.list](https://rule-proxy.mygods.workers.dev/qx/twitter.list) | [twitter.yaml](https://rule-proxy.mygods.workers.dev/stash/twitter.yaml) |
+| **Discord** | 29 / 30 | [discord.list](https://rule-proxy.mygods.workers.dev/qx/discord.list) | [discord.yaml](https://rule-proxy.mygods.workers.dev/stash/discord.yaml) |
+| **Reddit** | 8 / 9 | [reddit.list](https://rule-proxy.mygods.workers.dev/qx/reddit.list) | [reddit.yaml](https://rule-proxy.mygods.workers.dev/stash/reddit.yaml) |
 
 ### Media
 
 | 平台 / 服务 | 条数 (List / YAML) | List 直链 (QX / Surge / Loon / 小火箭) | YAML 直链 (Stash / Clash / Mihomo) |
 | :--- | :--- | :--- | :--- |
-| **YouTube** | 196 / 184 | [youtube.list](https://rule-proxy.mygods.workers.dev/qx/Media/youtube.list) | [youtube.yaml](https://rule-proxy.mygods.workers.dev/stash/Media/youtube.yaml) |
-| **Spotify** | 30 / 31 | [spotify.list](https://rule-proxy.mygods.workers.dev/qx/Media/spotify.list) | [spotify.yaml](https://rule-proxy.mygods.workers.dev/stash/Media/spotify.yaml) |
-| **Netflix** | 1158 / 39 | [netflix.list](https://rule-proxy.mygods.workers.dev/qx/Media/netflix.list) | [netflix.yaml](https://rule-proxy.mygods.workers.dev/stash/Media/netflix.yaml) |
-| **Disney** | 174 / 175 | [disney.list](https://rule-proxy.mygods.workers.dev/qx/Media/disney.list) | [disney.yaml](https://rule-proxy.mygods.workers.dev/stash/Media/disney.yaml) |
+| **YouTube** | 196 / 184 | [youtube.list](https://rule-proxy.mygods.workers.dev/qx/youtube.list) | [youtube.yaml](https://rule-proxy.mygods.workers.dev/stash/youtube.yaml) |
+| **Spotify** | 30 / 31 | [spotify.list](https://rule-proxy.mygods.workers.dev/qx/spotify.list) | [spotify.yaml](https://rule-proxy.mygods.workers.dev/stash/spotify.yaml) |
+| **Netflix** | 1158 / 39 | [netflix.list](https://rule-proxy.mygods.workers.dev/qx/netflix.list) | [netflix.yaml](https://rule-proxy.mygods.workers.dev/stash/netflix.yaml) |
+| **Disney** | 174 / 175 | [disney.list](https://rule-proxy.mygods.workers.dev/qx/disney.list) | [disney.yaml](https://rule-proxy.mygods.workers.dev/stash/disney.yaml) |
 
 ### Developer
 
 | 平台 / 服务 | 条数 (List / YAML) | List 直链 (QX / Surge / Loon / 小火箭) | YAML 直链 (Stash / Clash / Mihomo) |
 | :--- | :--- | :--- | :--- |
-| **GitHub** | 31 / 32 | [github.list](https://rule-proxy.mygods.workers.dev/qx/Developer/github.list) | [github.yaml](https://rule-proxy.mygods.workers.dev/stash/Developer/github.yaml) |
-| **Docker** | 7 / 8 | [docker.list](https://rule-proxy.mygods.workers.dev/qx/Developer/docker.list) | [docker.yaml](https://rule-proxy.mygods.workers.dev/stash/Developer/docker.yaml) |
-| **Apple** | 1881 / 34 | [apple.list](https://rule-proxy.mygods.workers.dev/qx/Developer/apple.list) | [apple.yaml](https://rule-proxy.mygods.workers.dev/stash/Developer/apple.yaml) |
-| **Microsoft** | 712 / 671 | [microsoft.list](https://rule-proxy.mygods.workers.dev/qx/Developer/microsoft.list) | [microsoft.yaml](https://rule-proxy.mygods.workers.dev/stash/Developer/microsoft.yaml) |
+| **GitHub** | 31 / 32 | [github.list](https://rule-proxy.mygods.workers.dev/qx/github.list) | [github.yaml](https://rule-proxy.mygods.workers.dev/stash/github.yaml) |
+| **Docker** | 7 / 8 | [docker.list](https://rule-proxy.mygods.workers.dev/qx/docker.list) | [docker.yaml](https://rule-proxy.mygods.workers.dev/stash/docker.yaml) |
+| **Apple** | 1881 / 34 | [apple.list](https://rule-proxy.mygods.workers.dev/qx/apple.list) | [apple.yaml](https://rule-proxy.mygods.workers.dev/stash/apple.yaml) |
+| **Microsoft** | 712 / 671 | [microsoft.list](https://rule-proxy.mygods.workers.dev/qx/microsoft.list) | [microsoft.yaml](https://rule-proxy.mygods.workers.dev/stash/microsoft.yaml) |
 
 ### Privacy
 
 | 平台 / 服务 | 条数 (List / YAML) | List 直链 (QX / Surge / Loon / 小火箭) | YAML 直链 (Stash / Clash / Mihomo) |
 | :--- | :--- | :--- | :--- |
-| **Advertising** | 285592 / 768 | [advertising.list](https://rule-proxy.mygods.workers.dev/qx/Privacy/advertising.list) | [advertising.yaml](https://rule-proxy.mygods.workers.dev/stash/Privacy/advertising.yaml) |
+| **Advertising** | 285592 / 768 | [advertising.list](https://rule-proxy.mygods.workers.dev/qx/advertising.list) | [advertising.yaml](https://rule-proxy.mygods.workers.dev/stash/advertising.yaml) |
 
 ---
 
