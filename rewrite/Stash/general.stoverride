@@ -1,0 +1,12 @@
+# Stash 专用重写覆写模块 (通用重定向与去广告)
+# 适用客户端: Stash iOS / macOS
+
+name: General Rewrite
+desc: 通用搜索增强与基础跳转
+
+http:
+  url-rewrite:
+    - >-
+      ^https?://(www.)?google.cn https://www.google.com 302
+    - >-
+      ^https?://(www.)?g.cn https://www.google.com 302
