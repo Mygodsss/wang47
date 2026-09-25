@@ -2,7 +2,6 @@ name: Sync Upstream Rules
 
 on:
   schedule:
-    # 每天 UTC 20:00 (北京时间凌晨 04:00) 自动执行
     - cron: '0 20 * * *'
   workflow_dispatch:
 
@@ -18,102 +17,10 @@ jobs:
       - name: Set up Python
         uses: setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.11'
 
-      - name: Sync and Process All Rules
-        run: |
-          import urllib.request
-          import os
-
-          headers = {"User-Agent": "Mozilla/5.0"}
-
-          def fetch_lines(url):
-              req = urllib.request.Request(url, headers=headers)
-              with urllib.request.urlopen(req, timeout=20) as resp:
-                  return resp.read().decode("utf-8").splitlines()
-
-          def clean_rule_line(line):
-              line = line.strip()
-              if not line or line.startswith("#"):
-                  return None
-              parts = [p.strip() for p in line.split(",")]
-              if len(parts) >= 2:
-                  return f"{parts[0]},{parts[1]}"
-              return None
-
-          def save_rules(qx_path, stash_path, rule_list):
-              os.makedirs(os.path.dirname(qx_path), exist_ok=True)
-              os.makedirs(os.path.dirname(stash_path), exist_ok=True)
-              with open(qx_path, "w", encoding="utf-8") as f:
-                  f.write("\n".join(rule_list) + "\n")
-              yaml_lines = ["payload:"] + [f"  - {r}" for r in rule_list]
-              with open(stash_path, "w", encoding="utf-8") as f:
-                  f.write("\n".join(yaml_lines) + "\n")
-
-          # ---------------- 1. 同步 Crypto 规则 ----------------
-          crypto_base = "https://raw.githubusercontent.com/QuixoticHeart/rule-set/master/Rule/QuantumultX/"
-          crypto_sources = {
-              "binance": crypto_base + "Binance.list",
-              "okx": crypto_base + "OKX.list",
-              "bybit": crypto_base + "Bybit.list",
-              "bitget": crypto_base + "Bitget.list",
-              "gate": crypto_base + "Gate.list",
-              "crypto": crypto_base + "Cryptocurrency.list"
-          }
-          for name, url in crypto_sources.items():
-              try:
-                  lines = fetch_lines(url)
-                  rules = [clean_rule_line(l) for l in lines if clean_rule_line(l)]
-                  save_rules(f"QuantumultX/Filter/Crypto/{name}.list", f"Stash/RuleSet/Crypto/{name}.yaml", rules)
-                  print(f"✅ Crypto 成功同步: {name} ({len(rules)} 条)")
-              except Exception as e:
-                  print(f"❌ Crypto 同步失败 {name}: {e}")
-
-          # ---------------- 2. 同步并切分 AI 规则 ----------------
-          ai_url = "https://raw.githubusercontent.com/QuixoticHeart/rule-set/refs/heads/ruleset/quantumultx/ai.list"
-          ai_categories = {
-              "openai": ["openai", "chatgpt", "sora", "oaistatic", "oaiusercontent", "oaistatsig", "ai.com", "chat.com"],
-              "claude": ["claude", "anthropic", "clau.de", "claudemcp"],
-              "gemini": ["gemini", "bard.google", "aistudio.google", "makersuite", "notebooklm", "deepmind", "alkalicore", "alkalimakersuite", "generativeai", "generativelanguage", "antigravity", "jules.google", "flow.google", "opal.google", "stitch.withgoogle"],
-              "copilot": ["copilot", "sydney.bing", "www.bing.com", "ai.azure.com"],
-              "ai_dev": ["cursor", "windsurf", "trae", "zed.dev", "codeium", "coderabbit", "devin.ai", "qoder", "marscode", "kiro.dev", "agentclientprotocol", "openspec.dev"],
-              "ai_cn": ["kimi.ai", "moonshot.ai", "minimax.io", "tripo3d.ai", "dify.ai", "youmind"]
-          }
-          try:
-              ai_lines = fetch_lines(ai_url)
-              categorized = {k: [] for k in ai_categories}
-              categorized["ai_others"] = []
-
-              for line in ai_lines:
-                  rule = clean_rule_line(line)
-                  if not rule:
-                      continue
-                  target = rule.split(",")[1].lower()
-                  matched = False
-                  for cat, kw_list in ai_categories.items():
-                      if any(kw in target for kw in kw_list):
-                          categorized[cat].append(rule)
-                          matched = True
-                          break
-                  if not matched:
-                      categorized["ai_others"].append(rule)
-
-              for cat, rules in categorized.items():
-                  save_rules(f"QuantumultX/Filter/AI/{cat}.list", f"Stash/RuleSet/AI/{cat}.yaml", rules)
-                  print(f"✅ AI 成功切分生成: {cat} ({len(rules)} 条)")
-          except Exception as e:
-              print(f"❌ AI 同步失败: {e}")
-
-          # ---------------- 3. 同步 PayPal 规则 ----------------
-          paypal_url = "https://raw.githubusercontent.com/QuixoticHeart/rule-set/refs/heads/ruleset/quantumultx/paypal.list"
-          try:
-              paypal_lines = fetch_lines(paypal_url)
-              paypal_rules = [clean_rule_line(l) for l in paypal_lines if clean_rule_line(l)]
-              save_rules("QuantumultX/Filter/Payment/paypal.list", "Stash/RuleSet/Payment/paypal.yaml", paypal_rules)
-              print(f"✅ PayPal 成功同步 ({len(paypal_rules)} 条)")
-          except Exception as e:
-              print(f"❌ PayPal 同步失败: {e}")
-        shell: python
+      - name: Run Sync Script
+        run: python scripts/sync.py
 
       - name: Commit and Push Changes
         run: |
