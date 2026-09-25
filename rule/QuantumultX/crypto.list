@@ -1,0 +1,22 @@
+# Crypto & Web3 Aggregated Rules
+HOST-KEYWORD,binance,🪙 加密货币
+HOST-KEYWORD,okx,🪙 加密货币
+HOST-KEYWORD,bybit,🪙 加密货币
+HOST-KEYWORD,bitget,🪙 加密货币
+HOST-KEYWORD,gateio,🪙 加密货币
+HOST-KEYWORD,gate,🪙 加密货币
+HOST-KEYWORD,coinbase,🪙 加密货币
+HOST-KEYWORD,kraken,🪙 加密货币
+HOST-SUFFIX,binance.com,🪙 加密货币
+HOST-SUFFIX,okx.com,🪙 加密货币
+HOST-SUFFIX,bybit.com,🪙 加密货币
+HOST-SUFFIX,bitget.com,🪙 加密货币
+HOST-SUFFIX,gate.io,🪙 加密货币
+HOST-SUFFIX,coinbase.com,🪙 加密货币
+HOST-SUFFIX,kraken.com,🪙 加密货币
+HOST-SUFFIX,coingecko.com,🪙 加密货币
+HOST-SUFFIX,coinmarketcap.com,🪙 加密货币
+HOST-SUFFIX,etherscan.io,🪙 加密货币
+HOST-SUFFIX,bscscan.com,🪙 加密货币
+HOST-KEYWORD,metamask,🪙 加密货币
+HOST-KEYWORD,uniswap,🪙 加密货币
