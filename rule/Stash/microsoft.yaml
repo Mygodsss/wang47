@@ -703,7 +703,7 @@ payload:
   - DOMAIN-SUFFIX,sharepoint.com
   - DOMAIN-SUFFIX,sharepointonline.com
   - DOMAIN-SUFFIX,spoprod-a.akamaihd.net
-  - DOMAIN,onedrive.*
+  - DOMAIN-WILDCARD,onedrive.*
   - DOMAIN-KEYWORD,microsoft
   - DOMAIN-KEYWORD,1drv
   - DOMAIN-KEYWORD,onedrive

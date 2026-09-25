@@ -1822,21 +1822,21 @@ payload:
   - DOMAIN-SUFFIX,myicloud.net
   - DOMAIN-SUFFIX,mylcloud.net
   - DOMAIN-SUFFIX,wwwicloud.com
-  - DOMAIN,*-content.icloud.com.cn
-  - DOMAIN,apple.*
-  - DOMAIN,apple.com.*
-  - DOMAIN,appleworldwidedeveloper.*.net
-  - DOMAIN,imac.*
-  - DOMAIN,init*.push-apple.com.akadns.net
-  - DOMAIN,init*.push.apple.com
-  - DOMAIN,ipad.*
-  - DOMAIN,ipadair.*
-  - DOMAIN,ipadmini.*
-  - DOMAIN,iphone.*
-  - DOMAIN,ipod.*
-  - DOMAIN,macbook.*
-  - DOMAIN,macbookair.*
-  - DOMAIN,macbookpro.*
+  - DOMAIN-WILDCARD,*-content.icloud.com.cn
+  - DOMAIN-WILDCARD,apple.*
+  - DOMAIN-WILDCARD,apple.com.*
+  - DOMAIN-WILDCARD,appleworldwidedeveloper.*.net
+  - DOMAIN-WILDCARD,imac.*
+  - DOMAIN-WILDCARD,init*.push-apple.com.akadns.net
+  - DOMAIN-WILDCARD,init*.push.apple.com
+  - DOMAIN-WILDCARD,ipad.*
+  - DOMAIN-WILDCARD,ipadair.*
+  - DOMAIN-WILDCARD,ipadmini.*
+  - DOMAIN-WILDCARD,iphone.*
+  - DOMAIN-WILDCARD,ipod.*
+  - DOMAIN-WILDCARD,macbook.*
+  - DOMAIN-WILDCARD,macbookair.*
+  - DOMAIN-WILDCARD,macbookpro.*
   - DOMAIN-KEYWORD,apple-support.akadns.net
   - DOMAIN-KEYWORD,apple.com.akadns.net
   - DOMAIN-KEYWORD,apple.com.edgekey.net
@@ -1877,3 +1877,6 @@ payload:
   - IP-CIDR,205.180.175.0/24
   - IP-CIDR,63.92.224.0/19
   - IP-CIDR,65.199.22.0/23
+  - IP-CIDR6,2403:300::/32
+  - IP-CIDR6,2620:149::/32
+  - IP-CIDR6,2a01:b740::/32

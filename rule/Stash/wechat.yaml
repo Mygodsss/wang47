@@ -41,3 +41,4 @@ payload:
   - DOMAIN-SUFFIX,yun-hl.3g.qq.com
   - USER-AGENT,MicroMessenger*
   - USER-AGENT,WeChat*
+  - IP-ASN,132203

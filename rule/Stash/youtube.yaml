@@ -181,9 +181,9 @@ payload:
   - DOMAIN-SUFFIX,youtubemobilesupport.com
   - DOMAIN-SUFFIX,yt.be
   - DOMAIN-SUFFIX,ytimg.com
-  - DOMAIN,youtube.*
-  - DOMAIN,youtube.*.*
-  - DOMAIN,youtube.com.*
+  - DOMAIN-WILDCARD,youtube.*
+  - DOMAIN-WILDCARD,youtube.*.*
+  - DOMAIN-WILDCARD,youtube.com.*
   - DOMAIN-KEYWORD,youtube
   - USER-AGENT,*YouTubeMusic*
   - USER-AGENT,*com.google.ios.youtubemusic*
@@ -194,3 +194,4 @@ payload:
   - USER-AGENT,com.google.ios.youtubemusic*
   - IP-CIDR,172.110.32.0/21
   - IP-CIDR,216.73.80.0/20
+  - IP-CIDR6,2620:120:e000::/40

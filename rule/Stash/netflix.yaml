@@ -32,7 +32,7 @@ payload:
   - DOMAIN-SUFFIX,nflxvideo.net
   - DOMAIN-SUFFIX,onetrust.com
   - DOMAIN-SUFFIX,us-west-2.amazonaws.com
-  - DOMAIN,netflixdnstest*.com
+  - DOMAIN-WILDCARD,netflixdnstest*.com
   - DOMAIN-KEYWORD,apiproxy-device-prod-nlb-
   - DOMAIN-KEYWORD,dualstack.apiproxy-
   - DOMAIN-KEYWORD,dualstack.ichnaea-web-
@@ -1153,3 +1153,7 @@ payload:
   - IP-CIDR,99.80.34.48/28
   - IP-CIDR,99.80.34.64/26
   - IP-CIDR,99.80.88.0/25
+  - IP-CIDR6,2607:fb10::/32
+  - IP-CIDR6,2620:10c:7000::/44
+  - IP-CIDR6,2a00:86c0::/32
+  - IP-CIDR6,2a03:5640::/32

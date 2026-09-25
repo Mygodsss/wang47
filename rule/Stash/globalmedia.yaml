@@ -1311,16 +1311,16 @@ payload:
   - DOMAIN-SUFFIX,youtubemobilesupport.com
   - DOMAIN-SUFFIX,yt.be
   - DOMAIN-SUFFIX,ytimg.com
-  - DOMAIN,dc?livedazn.akamaized.net
-  - DOMAIN,dc?voddazn.akamaized.net
-  - DOMAIN,netflixdnstest*.com
-  - DOMAIN,youtube.co.*
-  - DOMAIN,youtubego.*
-  - DOMAIN,youtubego.co.*
-  - DOMAIN,youtubego.com.*
-  - DOMAIN,youtube.*
-  - DOMAIN,youtube.*.*
-  - DOMAIN,youtube.com.*
+  - DOMAIN-WILDCARD,dc?livedazn.akamaized.net
+  - DOMAIN-WILDCARD,dc?voddazn.akamaized.net
+  - DOMAIN-WILDCARD,netflixdnstest*.com
+  - DOMAIN-WILDCARD,youtube.co.*
+  - DOMAIN-WILDCARD,youtubego.*
+  - DOMAIN-WILDCARD,youtubego.co.*
+  - DOMAIN-WILDCARD,youtubego.com.*
+  - DOMAIN-WILDCARD,youtube.*
+  - DOMAIN-WILDCARD,youtube.*.*
+  - DOMAIN-WILDCARD,youtube.com.*
   - DOMAIN-KEYWORD,abematv.akamaized.net
   - DOMAIN-KEYWORD,anthropic
   - DOMAIN-KEYWORD,apiproxy-device-prod-nlb-
@@ -2334,3 +2334,9 @@ payload:
   - IP-CIDR,96.23.20.78/32
   - IP-CIDR,96.4.63.99/32
   - IP-CIDR,99.81.97.56/32
+  - IP-CIDR6,2607:fb10::/32
+  - IP-CIDR6,2620:100:3000::/40
+  - IP-CIDR6,2620:10c:7000::/44
+  - IP-CIDR6,2620:120:e000::/40
+  - IP-CIDR6,2a00:86c0::/32
+  - IP-CIDR6,2a03:5640::/32
