@@ -11,11 +11,12 @@
   
 > ⚠️ **使用懒人配置前请先做好自己的配置备份，导入配置后可能会覆盖之前的所有配置。**
 
-▍ **Wang47 全套懒人配置 **：
+Wang47 全套懒人配置：
 https://raw.githubusercontent.com/Mygodsss/wang47/main/Profiles/QuantumultX.conf
-▍ **Stash 全套规则配置**：
+Stash 全套规则配置：
 https://raw.githubusercontent.com/Mygodsss/wang47/main/Profiles/Stash.yaml
 ---
+
 
 ### 📱 客户端兼容性说明
 
