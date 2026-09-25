@@ -13,7 +13,6 @@
 
 ▍ **Wang47 全套懒人配置 **：
 https://raw.githubusercontent.com/Mygodsss/wang47/main/Profiles/QuantumultX.conf
-
 ▍ **Stash 全套规则配置**：
 https://raw.githubusercontent.com/Mygodsss/wang47/main/Profiles/Stash.yaml
 ---
