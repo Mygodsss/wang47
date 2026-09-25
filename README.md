@@ -1,6 +1,6 @@
 # 私有代理分流规则镜像仓库
 
-> **自动更新时间**：`2026-09-25 18:45:59`  
+> **自动更新时间**：`2026-09-25 19:33:59`  
 > **直链托管服务**：`https://raw.githubusercontent.com/Mygodsss/wang47/main`
 
 ### ⚡ 懒人一键集成订阅（推荐：客户端无需任何手动维护）
@@ -17,8 +17,12 @@
 | :--- | :--- | :--- |
 | **标准分流规则** | `.list` | **Quantumult X**、**Surge**、**Loon**、**Shadowrocket (小火箭)**、**Egern** |
 | **Rule-Set 规则集** | `.yaml` | **Stash**、**Clash Verge / Nyanpasu**、**Mihomo (Clash.Meta)**、**Sing-box** |
+| **重写与脚本模块** | `.conf` / `.js` / `.snippet` | **Quantumult X** 专用 |
+| **覆写插件模块** | `.stoverride` | **Stash** 专用 |
 
 ---
+
+## 🌐 分流路由规则 (Routing Rules)
 
 ### Google 全家桶
 
@@ -49,7 +53,7 @@
 | **Gate** | 4 / 5 | [gate.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/gate.list) | [gate.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/gate.yaml) |
 | **Coinbase** | 43 / 44 | [coinbase.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/coinbase.list) | [coinbase.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/coinbase.yaml) |
 | **Kraken** | 43 / 44 | [kraken.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/kraken.list) | [kraken.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/kraken.yaml) |
-| **Crypto** | 0 / 0 | [crypto.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/crypto.list) | [crypto.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/crypto.yaml) |
+| **Crypto** | 0 / 1 | [crypto.list](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/crypto.list) | [crypto.yaml](https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/crypto.yaml) |
 
 ### Finance 金融支付
 
@@ -93,6 +97,58 @@
 
 ---
 
+## 🛠️ 重写与脚本模块 (Rewrite & Scripting)
+
+### Quantumult X 专属重写模块 (`[rewrite_remote]`)
+
+#### ❖ 会员与功能解锁
+
+| 模块功能 | 文件类型 | 原生直链订阅地址 |
+| :--- | :--- | :--- |
+| **Soul 净化与功能** | `CONF` | [soul.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/soul.conf) |
+| **通话录音增强** | `CONF` | [thly.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/thly.conf) |
+| **WLOC 虚拟定位** | `CONF` | [wloc.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/wloc.conf) |
+| **万年历 VIP 解锁** | `JS` | [wannianli.vip.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/wannianli.vip.js) |
+| **极简汇率 VIP 解锁** | `JS` | [jijianhuilv.vip.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/jijianhuilv.vip.js) |
+| **墨鱼专属 VIP** | `CONF` | [ForOwnUse.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/ForOwnUse.conf) |
+
+#### ❖ 广告净化与拦截
+
+| 模块功能 | 文件类型 | 原生直链订阅地址 |
+| :--- | :--- | :--- |
+| **全网开屏广告净化** | `CONF` | [StartUpAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/StartUpAds.conf) |
+| **微信解封屏蔽 URL** | `CONF` | [UnblockURLinWeChat.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/UnblockURLinWeChat.conf) |
+| **中国移动去广告** | `JS` | [ChinaMobileNoAds.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/ChinaMobileNoAds.js) |
+| **百度贴吧去广告** | `CONF` | [TieBaAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/TieBaAds.conf) |
+| **菜鸟裹裹去广告** | `CONF` | [CainiaoAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/CainiaoAds.conf) |
+| **微信小程序去广告** | `CONF` | [Applet.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/Applet.conf) |
+| **汽水音乐去广告** | `CONF` | [QiShuiMusicAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/QiShuiMusicAds.conf) |
+| **百度地图去广告** | `JS` | [bdmap.ads.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/bdmap.ads.js) |
+| **百度网盘净化** | `JS` | [bdpan.ads.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/bdpan.ads.js) |
+| **彩云天气净化** | `CONF` | [CaiYunAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/CaiYunAds.conf) |
+| **知乎净化助手** | `JS` | [zhihu.ads.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/zhihu.ads.js) |
+| **微博去广告** | `CONF` | [WeiboAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/WeiboAds.conf) |
+| **高德地图净化** | `CONF` | [AmapAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/AmapAds.conf) |
+| **闲鱼净化** | `CONF` | [GoofishAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/GoofishAds.conf) |
+
+#### ❖ 网页优化与功能增强
+
+| 模块功能 | 文件类型 | 原生直链订阅地址 |
+| :--- | :--- | :--- |
+| **Safari 超级搜索** | `CONF` | [Q-Search.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/Q-Search.conf) |
+| **Sub-Store 订阅管理** | `SNIPPET` | [SubStore.snippet](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/SubStore.snippet) |
+| **京东历史比价** | `JS` | [jd_price.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/jd_price.js) |
+| **BoxJs 脚本管理** | `CONF` | [boxjs.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/boxjs.conf) |
+| **Google 人机验证增强** | `SNIPPET` | [GoogleCAPTCHA.snippet](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/GoogleCAPTCHA.snippet) |
+
+### Stash 专属覆写模块 (`Overrides`)
+
+| 模块功能 | 适用格式 | Stash 原生覆写直链 |
+| :--- | :--- | :--- |
+| **通用重定向与搜索增强** | `.stoverride` | [general.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/general.stoverride) |
+
+---
+
 ### 🛠️ 懒人全套配置远程导入
 
 > ⚠️ **使用懒人配置前请先做好自己的配置备份，导入配置后可能会覆盖之前的所有配置。**
@@ -126,6 +182,7 @@ https://raw.githubusercontent.com/Tartarus2014/QuantumultX-Script/main/QuanX.con
 
 - [ACL4SSR / ACL4SSR](https://github.com/ACL4SSR/ACL4SSR)：经典国内分流规则架构、策略组模板与高频维护的加密货币 (Crypto) 核心数据源。
 - [blackmatrix7 / ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)：全平台分流规则集与自动化转换核心数据源。
+- [ddgksf2013 / Rewrite](https://github.com/ddgksf2013/Rewrite)：精选应用去广告与页面净化重写模块核心参考。
 - [dler-io / Rules](https://github.com/dler-io/Rules)：专业的高精度分流规则集与 Web3 基础设施参考。
 - [v2fly / domain-list-community](https://github.com/v2fly/domain-list-community)：社区级根域名与 Geolocation 数据库标准。
 - [Loyalsoldier / v2ray-rules-dat](https://github.com/Loyalsoldier/v2ray-rules-dat)：高频维护的高精度直连与白名单分流数据库。
