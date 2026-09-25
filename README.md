@@ -158,27 +158,27 @@
 
 ### Stash 专属覆写模块 (`Overrides`)
 
-| 模块功能 | 适用格式 | Stash 原生覆写直链 |
+| 模块功能 | 适用格式 | Stash 原生覆写订阅直链 |
 | :--- | :--- | :--- |
-| 通用重定向与搜索增强 | `.stoverride` | [general.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/general.stoverride) |
-| AmapAds | `.stoverride` | [AmapAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/AmapAds.stoverride) |
-| Applet | `.stoverride` | [Applet.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/Applet.stoverride) |
-| CaiYunAds | `.stoverride` | [CaiYunAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/CaiYunAds.stoverride) |
-| CainiaoAds | `.stoverride` | [CainiaoAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/CainiaoAds.stoverride) |
-| ForOwnUse | `.stoverride` | [ForOwnUse.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/ForOwnUse.stoverride) |
-| GoofishAds | `.stoverride` | [GoofishAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/GoofishAds.stoverride) |
-| GoogleCAPTCHA | `.stoverride` | [GoogleCAPTCHA.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/GoogleCAPTCHA.stoverride) |
-| Q-Search | `.stoverride` | [Q-Search.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/Q-Search.stoverride) |
-| QiShuiMusicAds | `.stoverride` | [QiShuiMusicAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/QiShuiMusicAds.stoverride) |
-| StartUpAds | `.stoverride` | [StartUpAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/StartUpAds.stoverride) |
-| SubStore | `.stoverride` | [SubStore.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/SubStore.stoverride) |
-| TieBaAds | `.stoverride` | [TieBaAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/TieBaAds.stoverride) |
-| UnblockURLinWeChat | `.stoverride` | [UnblockURLinWeChat.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/UnblockURLinWeChat.stoverride) |
-| WeiboAds | `.stoverride` | [WeiboAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/WeiboAds.stoverride) |
-| boxjs | `.stoverride` | [boxjs.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/boxjs.stoverride) |
-| soul | `.stoverride` | [soul.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/soul.stoverride) |
-| thly | `.stoverride` | [thly.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/thly.stoverride) |
-| wloc | `.stoverride` | [wloc.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/wloc.stoverride) |
+| **高德地图去广告** | `.stoverride` | [AmapAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/AmapAds.stoverride) |
+| **小程序规则增强** | `.stoverride` | [Applet.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/Applet.stoverride) |
+| **彩云天气去广告** | `.stoverride` | [CaiYunAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/CaiYunAds.stoverride) |
+| **菜鸟裹裹去广告** | `.stoverride` | [CainiaoAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/CainiaoAds.stoverride) |
+| **个人自用覆写整合** | `.stoverride` | [ForOwnUse.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/ForOwnUse.stoverride) |
+| **闲鱼去广告** | `.stoverride` | [GoofishAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/GoofishAds.stoverride) |
+| **谷歌人机验证优化** | `.stoverride` | [GoogleCAPTCHA.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/GoogleCAPTCHA.stoverride) |
+| **快捷搜索增强 (Safari)** | `.stoverride` | [Q-Search.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/Q-Search.stoverride) |
+| **汽水音乐去广告** | `.stoverride` | [QiShuiMusicAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/QiShuiMusicAds.stoverride) |
+| **全平台通用开屏去广告** | `.stoverride` | [StartUpAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/StartUpAds.stoverride) |
+| **Sub-Store 订阅管理工具** | `.stoverride` | [SubStore.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/SubStore.stoverride) |
+| **百度贴吧去广告与净化** | `.stoverride` | [TieBaAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/TieBaAds.stoverride) |
+| **微信内直接打开外部链接** | `.stoverride` | [UnblockURLinWeChat.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/UnblockURLinWeChat.stoverride) |
+| **新浪微博去广告与净化** | `.stoverride` | [WeiboAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/WeiboAds.stoverride) |
+| **BoxJs 数据存储与管理** | `.stoverride` | [boxjs.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/boxjs.stoverride) |
+| **通用重定向与搜索增强** | `.stoverride` | [general.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/general.stoverride) |
+| **Soul 去广告与净化** | `.stoverride` | [soul.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/soul.stoverride) |
+| **通话录音增强模块** | `.stoverride` | [thly.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/thly.stoverride) |
+| **位置定位辅助增强** | `.stoverride` | [wloc.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/wloc.stoverride) |
 
 ---
 
