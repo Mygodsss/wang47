@@ -104,14 +104,14 @@ def process_sync(name_key, url, seed_key=None, min_threshold=10, transform_func=
         print(f"🛡️ 熔断触发 [{name_key}]: {e} -> 保留现有本地规则，未做修改。")
 
 # 1. 同步 Crypto
-crypto_base = "https://raw.githubusercontent.com/QuixoticHeart/rule-set/master/Rule/QuantumultX/"
+crypto_base = "https://raw.githubusercontent.com/QuixoticHeart/rule-set/refs/heads/ruleset/quantumultx/"
 crypto_sources = {
-    "binance": crypto_base + "Binance.list",
-    "okx": crypto_base + "OKX.list",
-    "bybit": crypto_base + "Bybit.list",
-    "bitget": crypto_base + "Bitget.list",
-    "gate": crypto_base + "Gate.list",
-    "crypto": crypto_base + "Cryptocurrency.list"
+    "binance": crypto_base + "binance.list",
+    "okx": crypto_base + "okx.list",
+    "bybit": crypto_base + "bybit.list",
+    "bitget": crypto_base + "bitget.list",
+    "gate": crypto_base + "gate.list",
+    "crypto": crypto_base + "cryptocurrency.list"
 }
 for name, url in crypto_sources.items():
     process_sync(f"Crypto/{name}", url, seed_key=f"crypto_{name}", min_threshold=MIN_THRESHOLDS.get(name, 10))
@@ -171,7 +171,7 @@ except Exception as e:
     print(f"🛡️ AI 总规则拉取异常: {e}，保留全量 AI 旧规则。")
 
 # 5. 渲染动态自述文件 README.md
-now_str = (datetime.datetime.utcnow() + datetime.timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")
+now_str = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).strftime("%Y-%m-%d %H:%M:%S")
 
 readme = []
 readme.append("# Network Rules & Scripts Hub\n")
@@ -214,6 +214,11 @@ readme.extend(make_table("3. 人工智能 (AI)", [
 readme.append("---\n")
 readme.append("## 🛠️ 分流匹配建议优先级\n")
 readme.append("```text\nAI 专用策略 ➔ Crypto 交易所策略 ➔ Payment 支付策略 ➔ Google 核心策略 ➔ Final / Proxy\n```")
+
+readme.append("---\n")
+readme.append("## 🙏 致谢与上游项目 (Credits)\n")
+readme.append("本项目的部分规则数据源拉取并清洗自以下优秀的开源项目，特此鸣谢：\n")
+readme.append("* [QuixoticHeart/rule-set](https://github.com/QuixoticHeart/rule-set) - 提供基础分流规则上游数据源")
 
 with open("README.md", "w", encoding="utf-8") as f:
     f.write("\n".join(readme) + "\n")
