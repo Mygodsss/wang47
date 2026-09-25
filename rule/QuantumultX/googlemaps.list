@@ -1,4 +1,4 @@
-# Google Maps 评论与图片专属规则
+# Google Maps 专用规则
 HOST-SUFFIX,maps.google.com
 HOST-SUFFIX,maps.googleapis.com
 HOST-SUFFIX,lh3.googleusercontent.com

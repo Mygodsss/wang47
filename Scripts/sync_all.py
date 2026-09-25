@@ -2,7 +2,6 @@ import os
 import urllib.request
 from datetime import datetime
 
-# 分类映射表：移出香港金融板块，加密货币统称为 Crypto
 RULES_MAP = {
     "Google 全家桶": ["Gemini", "GoogleVoice", "YouTube", "GooglePlay", "GoogleDrive", "GoogleMaps", "Google"],
     "AI 智能助手": ["OpenAI", "Claude"],
@@ -25,6 +24,41 @@ NAME_ALIAS = {
     "gate": "GateIO"
 }
 
+POLICY_MAPPING = {
+    "gemini": "🤖 人工智能",
+    "openai": "🤖 人工智能",
+    "claude": "🤖 人工智能",
+    "googlevoice": "📞 谷歌语音",
+    "youtube": "🎬 优兔视频",
+    "googlemaps": "🌐 谷歌服务",
+    "googleplay": "🌐 谷歌服务",
+    "googledrive": "🌐 谷歌服务",
+    "google": "🌐 谷歌服务",
+    "okx": "🪙 加密货币",
+    "binance": "🪙 加密货币",
+    "bybit": "🪙 加密货币",
+    "bitget": "🪙 加密货币",
+    "gate": "🪙 加密货币",
+    "coinbase": "🪙 加密货币",
+    "kraken": "🪙 加密货币",
+    "crypto": "🪙 加密货币",
+    "wise": "💳 金融支付",
+    "stripe": "💳 金融支付",
+    "paypal": "💳 金融支付",
+    "telegram": "🚀 节点选择",
+    "twitter": "🚀 节点选择",
+    "discord": "🚀 节点选择",
+    "reddit": "🚀 节点选择",
+    "spotify": "🎬 优兔视频",
+    "netflix": "🎬 优兔视频",
+    "disney": "🎬 优兔视频",
+    "github": "🚀 节点选择",
+    "docker": "🚀 节点选择",
+    "apple": "DIRECT",
+    "microsoft": "DIRECT",
+    "advertising": "REJECT"
+}
+
 WORKER_HOST = "https://rule-proxy.mygods.workers.dev"
 headers = {"User-Agent": "Mozilla/5.0"}
 
@@ -41,12 +75,11 @@ def write_file(path, content):
     with open(path, "w", encoding="utf-8") as f:
         f.write(content)
 
-print("🚀 开始同步全平台规则（Cryptocurrency 命名变更为 Crypto，移除香港金融板块）...")
+print("🚀 正在抓取并自动编译规则...")
 
-# 1. 抓取 ACL4SSR Cryptocurrency 并保存为 crypto.list / crypto.yaml
 acl4ssr_raw = fetch_data("https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Cryptocurrency.list")
 if acl4ssr_raw:
-    qx_lines = ["# ACL4SSR Crypto 规则库 (自动同步)"]
+    qx_lines = ["# ACL4SSR Crypto 规则库"]
     stash_lines = ["payload:"]
     for raw_line in acl4ssr_raw.splitlines():
         line = raw_line.strip()
@@ -61,27 +94,17 @@ if acl4ssr_raw:
             stash_lines.append(f"  - {stash_type},{target}")
     write_file("rule/QuantumultX/crypto.list", "\n".join(qx_lines) + "\n")
     write_file("rule/Stash/crypto.yaml", "\n".join(stash_lines) + "\n")
-    print("✅ [ACL4SSR] Crypto 规则编译完成！")
 
-# 2. 构造 Google Maps 评价与图片专属规则
 MAPS_RULES = [
-    "HOST-SUFFIX,maps.google.com",
-    "HOST-SUFFIX,maps.googleapis.com",
-    "HOST-SUFFIX,lh3.googleusercontent.com",
-    "HOST-SUFFIX,lh4.googleusercontent.com",
-    "HOST-SUFFIX,lh5.googleusercontent.com",
-    "HOST-SUFFIX,lh6.googleusercontent.com",
-    "HOST-SUFFIX,ggpht.com",
-    "HOST-SUFFIX,photos.l.google.com",
-    "HOST-KEYWORD,mapcontent",
-    "HOST-KEYWORD,maps.gstatic.com"
+    "HOST-SUFFIX,maps.google.com", "HOST-SUFFIX,maps.googleapis.com",
+    "HOST-SUFFIX,lh3.googleusercontent.com", "HOST-SUFFIX,lh4.googleusercontent.com",
+    "HOST-SUFFIX,lh5.googleusercontent.com", "HOST-SUFFIX,lh6.googleusercontent.com",
+    "HOST-SUFFIX,ggpht.com", "HOST-SUFFIX,photos.l.google.com",
+    "HOST-KEYWORD,mapcontent", "HOST-KEYWORD,maps.gstatic.com"
 ]
-qx_maps = ["# Google Maps 评论与图片专属规则"] + MAPS_RULES
-stash_maps = ["payload:"] + [f"  - {r.replace('HOST-SUFFIX', 'DOMAIN-SUFFIX').replace('HOST-KEYWORD', 'DOMAIN-KEYWORD')}" for r in MAPS_RULES]
-write_file("rule/QuantumultX/googlemaps.list", "\n".join(qx_maps) + "\n")
-write_file("rule/Stash/googlemaps.yaml", "\n".join(stash_maps) + "\n")
+write_file("rule/QuantumultX/googlemaps.list", "\n".join(["# Google Maps 专用规则"] + MAPS_RULES) + "\n")
+write_file("rule/Stash/googlemaps.yaml", "\n".join(["payload:"] + [f"  - {r.replace('HOST-SUFFIX', 'DOMAIN-SUFFIX').replace('HOST-KEYWORD', 'DOMAIN-KEYWORD')}" for r in MAPS_RULES]) + "\n")
 
-# 3. 遍历拉取其他规则
 for cat, items in RULES_MAP.items():
     for name in items:
         fname = name.lower()
@@ -89,7 +112,6 @@ for cat, items in RULES_MAP.items():
             continue
         up_name = NAME_ALIAS.get(fname, name)
 
-        # QX
         qx_url = f"https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/QuantumultX/{up_name}/{up_name}.list"
         qx_content = fetch_data(qx_url)
         if not qx_content:
@@ -106,7 +128,6 @@ for cat, items in RULES_MAP.items():
         if qx_content:
             write_file(f"rule/QuantumultX/{fname}.list", qx_content)
 
-        # Stash
         stash_url = f"https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/{up_name}/{up_name}.yaml"
         stash_content = fetch_data(stash_url)
         if not stash_content:
@@ -123,76 +144,30 @@ for cat, items in RULES_MAP.items():
         if stash_content:
             write_file(f"rule/Stash/{fname}.yaml", stash_content)
 
-        print(f"✅ 生成完毕: {fname}")
-
-def count_lines(path):
-    if os.path.exists(path):
-        with open(path, "r", encoding="utf-8", errors="ignore") as f:
-            return sum(1 for line in f if line.strip() and not line.strip().startswith("#"))
-    return 0
-
-now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-md = [
-    "# 私有代理分流规则镜像仓库",
-    "",
-    f"> **自动更新时间**：`{now_str}`  ",
-    f"> **网关直链服务**：`{WORKER_HOST}`",
-    "",
-    "### 📱 客户端兼容性说明",
-    "",
-    "| 规则类型 | 文件扩展名 | 适用客户端 / 平台 |",
-    "| :--- | :--- | :--- |",
-    "| **标准分流规则** | `.list` | **Quantumult X**、**Surge**、**Loon**、**Shadowrocket (小火箭)**、**Egern** |",
-    "| **Rule-Set 规则集** | `.yaml` | **Stash**、**Clash Verge / Nyanpasu**、**Mihomo (Clash.Meta)**、**Sing-box** |",
-    "",
-    "---",
-    ""
+EXECUTION_ORDER = [
+    "gemini", "openai", "claude",
+    "googlevoice",
+    "youtube", "spotify", "netflix", "disney",
+    "googlemaps", "googleplay", "googledrive",
+    "google",
+    "okx", "binance", "bybit", "bitget", "gate", "coinbase", "kraken", "crypto",
+    "wise", "stripe", "paypal",
+    "telegram", "twitter", "discord", "reddit",
+    "github", "docker", "apple", "microsoft",
+    "advertising"
 ]
 
-for cat, items in RULES_MAP.items():
-    md.append(f"### {cat}")
-    md.append("")
-    md.append("| 平台 / 服务 | 条数 (QX / Stash) | Quantumult X 订阅直链 | Stash 订阅直链 |")
-    md.append("| :--- | :--- | :--- | :--- |")
+qx_master = ["# Quantumult X 全量自动化集成规则表 (由 GitHub Actions 每日编译维护)\n"]
+for item in EXECUTION_ORDER:
+    qx_path = f"rule/QuantumultX/{item}.list"
+    policy = POLICY_MAPPING.get(item, "🚀 节点选择")
+    if os.path.exists(qx_path):
+        with open(qx_path, "r", encoding="utf-8", errors="ignore") as f:
+            for line in f:
+                l = line.strip()
+                if not l or l.startswith("#"):
+                    continue
+                qx_master.append(f"{l}, {policy}")
 
-    for name in items:
-        fname = name.lower()
-        qx_path = f"rule/QuantumultX/{fname}.list"
-        stash_path = f"rule/Stash/{fname}.yaml"
-
-        c_qx = count_lines(qx_path)
-        c_stash = count_lines(stash_path)
-
-        qx_url = f"{WORKER_HOST}/qx/{fname}.list"
-        stash_url = f"{WORKER_HOST}/stash/{fname}.yaml"
-
-        md.append(f"| **{name}** | {c_qx} / {c_stash} | [{fname}.list]({qx_url}) | [{fname}.yaml]({stash_url}) |")
-
-    md.append("")
-
-md.extend([
-    "---",
-    "",
-    "### 👏 鸣谢与致敬 (Credits & Acknowledgements)",
-    "",
-    "本项目分流规则的数据源头与格式参考了以下开源社区及大佬项目的贡献，特此致敬与感谢：",
-    "",
-    "- [ACL4SSR / ACL4SSR](https://github.com/ACL4SSR/ACL4SSR)：经典国内分流规则架构、策略组模板与高频维护的加密货币 (Crypto) 核心数据源。",
-    "- [blackmatrix7 / ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)：全平台分流规则集与自动化转换核心数据源。",
-    "- [dler-io / Rules](https://github.com/dler-io/Rules)：专业的高精度分流规则集与 Web3 基础设施参考。",
-    "- [v2fly / domain-list-community](https://github.com/v2fly/domain-list-community)：社区级根域名与 Geolocation 数据库标准。",
-    "- [Loyalsoldier / v2ray-rules-dat](https://github.com/Loyalsoldier/v2ray-rules-dat)：高频维护的高精度直连与白名单分流数据库。",
-    "- [QuixoticHeart / rule-set](https://github.com/QuixoticHeart/rule-set)：优秀的多客户端全套规则集构建思路与格式参考。",
-    "",
-    "---",
-    "",
-    "### ⚖️ 免责声明",
-    "",
-    "本项目提供的规则仅供个人网络优化与科研学习使用，规则版权归原项目所有。请遵守当地法律法规。"
-])
-
-with open("README.md", "w", encoding="utf-8") as f:
-    f.write("\n".join(md))
-
-print("🎉 已完成重命名与自述文件刷新！")
+write_file("rule/QuantumultX/all.list", "\n".join(qx_master) + "\n")
+print("✅ 聚合规则 all.list 已生成！")
