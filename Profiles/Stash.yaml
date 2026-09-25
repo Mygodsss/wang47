@@ -73,6 +73,30 @@ proxy-groups:
       - DIRECT
 
 rule-providers:
+  tiktok:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/tiktok.yaml"
+    path: ./ruleset/tiktok.yaml
+    interval: 86400
+  wechat:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/wechat.yaml"
+    path: ./ruleset/wechat.yaml
+    interval: 86400
+  china:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/china.yaml"
+    path: ./ruleset/china.yaml
+    interval: 86400
+  globalmedia:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/globalmedia.yaml"
+    path: ./ruleset/globalmedia.yaml
+    interval: 86400
   gemini:
     type: http
     behavior: classical
@@ -123,6 +147,10 @@ rule-providers:
     interval: 86400
 
 rules:
+  - RULE-SET,tiktok,自动选择
+  - RULE-SET,wechat,DIRECT
+  - RULE-SET,china,DIRECT
+  - RULE-SET,globalmedia,自动选择
   - RULE-SET,gemini,gemini
   - RULE-SET,okx,okx
   - RULE-SET,binance,binance
