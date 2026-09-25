@@ -1,4 +1,4 @@
-name: Auto Sync Rules and README
+name: Auto Sync Rules and Overrides
 
 on:
   schedule:
@@ -11,7 +11,6 @@ on:
       - 'Scripts/**'
   workflow_dispatch:
 
-# 赋予 GitHub Actions 免密提交并推送到私有库的完全写权限
 permissions:
   contents: write
 
@@ -29,7 +28,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Run Auto Sync & Update README
+      - name: Run Auto Sync
         run: |
           python Scripts/sync_all.py
 
@@ -37,10 +36,10 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add rule/ README.md
+          git add rule/ rewrite/ README.md
           if git diff --staged --quiet; then
             echo "无变更，跳过更新。"
           else
-            git commit -m "chore(auto): daily sync rules and README [skip ci]"
+            git commit -m "chore(auto): daily sync rules and overrides [skip ci]"
             git push
           fi

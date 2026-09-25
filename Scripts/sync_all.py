@@ -171,3 +171,72 @@ for item in EXECUTION_ORDER:
 
 write_file("rule/QuantumultX/all.list", "\n".join(qx_master) + "\n")
 print("✅ 聚合规则 all.list 已生成！")
+
+# ==========================================
+# 自动同步 Quantumult X 重写到 Stash 覆写 (.stoverride)
+# ==========================================
+import re
+
+qx_rw_dir = "rewrite/QuantumultX"
+stash_rw_dir = "rewrite/Stash"
+if os.path.exists(qx_rw_dir):
+    os.makedirs(stash_rw_dir, exist_ok=True)
+    count_st = 0
+    for fname in os.listdir(qx_rw_dir):
+        if not (fname.endswith(".conf") or fname.endswith(".snippet")):
+            continue
+        base_name = os.path.splitext(fname)[0]
+        out_file = f"{base_name}.stoverride"
+        out_path = os.path.join(stash_rw_dir, out_file)
+        
+        url_rewrites = []
+        mitm_hosts = set()
+        scripts = []
+        
+        with open(os.path.join(qx_rw_dir, fname), "r", encoding="utf-8", errors="ignore") as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith(("#", ";")):
+                    continue
+                if line.startswith("hostname") and "=" in line:
+                    hosts = line.split("=", 1)[1].strip()
+                    for h in hosts.split(","):
+                        h = h.strip()
+                        if h:
+                            mitm_hosts.add(h)
+                    continue
+                m = re.match(r"^(\S+)\s+url\s+(302|307|reject-200|reject-img|reject-dict|reject)\s*(\S*)", line)
+                if m:
+                    pat, act, tgt = m.groups()
+                    if "reject" in act:
+                        url_rewrites.append(f"  - {pat} - reject")
+                    else:
+                        url_rewrites.append(f"  - {pat} {tgt} {act}")
+                    continue
+                m_s = re.match(r"^(\S+)\s+url\s+script-([a-z\-]+)\s+(\S+)", line)
+                if m_s:
+                    pat, s_type, s_path = m_s.groups()
+                    s_name = os.path.splitext(os.path.basename(s_path))[0]
+                    scripts.append((s_name, s_type, pat, s_path))
+                    
+        lines = [f"# Generated from QuantumultX/{fname}", f"name: {base_name}", "http:"]
+        if mitm_hosts:
+            lines.append("  mitm:")
+            for h in sorted(mitm_hosts):
+                lines.append(f'    - "{h}"')
+        if url_rewrites:
+            lines.append("  url-rewrite:")
+            lines.extend(url_rewrites)
+        if scripts:
+            lines.append("  script:")
+            for s_name, s_type, pat, s_path in scripts:
+                lines.append(f"    - match: {pat}")
+                lines.append(f"      name: {s_name}")
+                lines.append(f"      type: {s_type}")
+                lines.append(f"      require-body: true")
+                lines.append(f"      timeout: 10")
+                
+        with open(out_path, "w", encoding="utf-8") as f:
+            f.write("\n".join(lines) + "\n")
+        count_st += 1
+    print(f"✅ Stash 覆写文件同步完成，共更新 {count_st} 个 .stoverride 文件！")
