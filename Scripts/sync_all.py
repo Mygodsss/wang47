@@ -472,21 +472,30 @@ if os.path.exists(qx_conf_path):
 
     # 重写元数据配置: (中文标签, 默认是否开启 enabled)
     REWRITE_META = {
-        # 核心工具
+        # 核心工具与管理面板
         "boxjs": ("📦 BoxJS 脚本与数据管理面板", True),
-        "SubStore": ("🧰 Sub-Store 节点订阅转换核心", True),
-        # 日常体验增强
-        "Q-Search": ("🔍 Q-Search 浏览器快捷搜索增强", True),
-        "GoogleCAPTCHA": ("🛡️ 谷歌人机验证自动放行", True),
-        "UnblockURLinWeChat": ("🔓 微信外链自动解除拦截直开", True),
-        # 头部 App 广告拦截
-        "WeiboAds": ("👁️ 新浪微博去广告与信息流净化", True),
-        "TieBaAds": ("💬 百度贴吧去广告与帖内净化", True),
+        "substore": ("🧰 Sub-Store 节点订阅转换核心", True),
+        "forownuse": ("⚙️ 个人自用定制扩展模块", True),
+
+        # 浏览与系统日常增强
+        "q-search": ("🔍 Q-Search 浏览器快捷搜索增强", True),
+        "googlecaptcha": ("🛡️ 谷歌人机验证自动放行", True),
+        "unblockurlinwechat": ("🔓 微信外链自动解除拦截直开", True),
+        "applet": ("📱 微信小程序去广告与纯净体验", True),
+
+        # 社交、电商与出行净化
+        "weiboads": ("👁️ 新浪微博去广告与信息流净化", True),
+        "tiebaads": ("💬 百度贴吧去广告与帖内净化", True),
+        "goofishads": ("🐟 闲鱼去广告与推荐流净化", True),
+        "cainiaoads": ("📦 菜鸟裹裹开屏与包裹广告拦截", True),
+        "amapads": ("🗺️ 高德地图去广告与首页精简", True),
+        "caiyunads": ("🌤️ 彩云天气去广告与免打扰", True),
+        "qishuimusicads": ("🎵 汽水音乐去广告与收听净化", True),
         "soul": ("👻 Soul 社交开屏与动态广告拦截", True),
-        "QiShuiMusicAds": ("🎵 汽水音乐去广告与收听净化", True),
-        # 其他垂直模块
-        "StartUpAds": ("🚫 全局 App 开屏广告通用拦截", False),
-        "thly": ("🎬 影视聚合平台去广告净化", True),
+
+        # 扩展与辅助模块
+        "thly": ("🎙️ 通话录音功能扩展模块", True),
+        "startupads": ("🚫 全局 App 开屏广告通用拦截", False),
         "wloc": ("📍 虚拟定位与位置信息修正模块", False),
     }
 
@@ -500,15 +509,17 @@ if os.path.exists(qx_conf_path):
                 # 优先级: 头部自声明 > 内置字典 > 默认推导
                 if "tag" in header_meta:
                     chinese_tag = header_meta["tag"]
-                elif name in REWRITE_META:
-                    chinese_tag = REWRITE_META[name][0]
+                elif name.lower() in REWRITE_META:
+                    chinese_tag = REWRITE_META[name.lower()][0]
                 else:
                     chinese_tag = f"🧩 {name}"
 
                 if "enabled" in header_meta:
                     is_enabled = "true" if header_meta["enabled"] else "false"
-                elif name in REWRITE_META:
-                    is_enabled = "true" if REWRITE_META[name][1] else "false"
+                elif name.lower() in REWRITE_META:
+                    chinese_tag = REWRITE_META[name.lower()][0]
+                elif name.lower() in REWRITE_META:
+                    is_enabled = "true" if REWRITE_META[name.lower()][1] else "false"
                 else:
                     is_enabled = "true"
 
