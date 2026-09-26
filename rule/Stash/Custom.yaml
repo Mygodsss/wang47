@@ -1,4 +1,5 @@
-# Stash Rule Provider: Custom
-# Generated from Custom.list by controller.py
+# Custom Stash Rule Provider
+# Automatically compiled by Scripts/controller.py
 
 payload:
+  - DOMAIN-SUFFIX,v2ex.com

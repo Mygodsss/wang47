@@ -24,7 +24,7 @@
 | **Netflix** | 1158 / 1152 | [netflix.list](rule/QuantumultX/netflix.list) | [netflix.yaml](rule/Stash/netflix.yaml) |
 | **Openai** | 35 / 34 | [openai.list](rule/QuantumultX/openai.list) | [openai.yaml](rule/Stash/openai.yaml) |
 | **Globalmedia** | 2341 / 2256 | [globalmedia.list](rule/QuantumultX/globalmedia.list) | [globalmedia.yaml](rule/Stash/globalmedia.yaml) |
-| **Custom** | 0 / 0 | [custom.list](rule/QuantumultX/Custom.list) | [custom.yaml](rule/Stash/Custom.yaml) |
+| **Custom** | 1 / 1 | [custom.list](rule/QuantumultX/Custom.list) | [custom.yaml](rule/Stash/Custom.yaml) |
 
 ## 🧩 覆写与扩展模块
 
