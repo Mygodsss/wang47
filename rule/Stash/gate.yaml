@@ -1,6 +1,3 @@
-# Stash Rule Provider: gate
-# Generated from gate.list by controller.py
-
 payload:
   - DOMAIN-SUFFIX,gate.io
   - DOMAIN-SUFFIX,gateimg.com

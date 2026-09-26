@@ -1,6 +1,3 @@
-# Stash Rule Provider: okx
-# Generated from okx.list by controller.py
-
 payload:
   - DOMAIN-SUFFIX,okex.com
   - DOMAIN-SUFFIX,oklink.com

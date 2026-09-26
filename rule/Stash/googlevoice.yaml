@@ -1,5 +1,2 @@
-# Stash Rule Provider: googlevoice
-# Generated from googlevoice.list by controller.py
-
 payload:
   - DOMAIN,lens.l.google.com
