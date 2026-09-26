@@ -25,38 +25,18 @@ NAME_ALIAS = {
 }
 
 POLICY_MAPPING = {
-    "gemini": "🤖 人工智能",
-    "openai": "🤖 人工智能",
-    "claude": "🤖 人工智能",
-    "googlevoice": "📞 谷歌语音",
-    "youtube": "🎬 优兔视频",
-    "googlemaps": "🌐 谷歌服务",
-    "googleplay": "🌐 谷歌服务",
-    "googledrive": "🌐 谷歌服务",
-    "google": "🌐 谷歌服务",
-    "okx": "🪙 加密货币",
-    "binance": "🪙 加密货币",
-    "bybit": "🪙 加密货币",
-    "bitget": "🪙 加密货币",
-    "gate": "🪙 加密货币",
-    "coinbase": "🪙 加密货币",
-    "kraken": "🪙 加密货币",
-    "crypto": "🪙 加密货币",
-    "wise": "💳 金融支付",
-    "stripe": "💳 金融支付",
-    "paypal": "💳 金融支付",
-    "telegram": "🚀 节点选择",
-    "twitter": "🚀 节点选择",
-    "discord": "🚀 节点选择",
-    "reddit": "🚀 节点选择",
-    "spotify": "🎬 优兔视频",
-    "netflix": "🎬 优兔视频",
-    "disney": "🎬 优兔视频",
-    "github": "🚀 节点选择",
-    "docker": "🚀 节点选择",
-    "apple": "DIRECT",
-    "microsoft": "DIRECT",
-    "advertising": "REJECT"
+    "unbreak": "direct",
+    "advertising": "reject",
+    "google": "google",
+    "crypto": "crypto",
+    "binance": "binance",
+    "okx": "okx",
+    "telegram": "telegram",
+    "media": "海外视频",
+    "youtube": "海外视频",
+    "netflix": "海外视频",
+    "tiktok": "TikTok",
+    "apple": "苹果服务",
 }
 
 WORKER_HOST = "https://rule-proxy.mygods.workers.dev"
@@ -160,7 +140,7 @@ EXECUTION_ORDER = [
 qx_master = ["# Quantumult X 全量自动化集成规则表 (由 GitHub Actions 每日编译维护)\n"]
 for item in EXECUTION_ORDER:
     qx_path = f"rule/QuantumultX/{item}.list"
-    policy = POLICY_MAPPING.get(item, "🚀 节点选择")
+    policy = POLICY_MAPPING.get(item, "全球代理")
     if os.path.exists(qx_path):
         with open(qx_path, "r", encoding="utf-8", errors="ignore") as f:
             for line in f:
@@ -261,7 +241,7 @@ if os.path.exists(qx_conf_path):
         sorted_rules = [r for r in priority if r in all_rules] + [r for r in all_rules if r not in priority]
 
         for r in sorted_rules:
-            policy = POLICY_MAPPING.get(r, "🚀 节点选择") if "POLICY_MAPPING" in globals() else "🚀 节点选择"
+            policy = POLICY_MAPPING.get(r, "全球代理") if "POLICY_MAPPING" in globals() else "全球代理"
             if r == "unbreak":
                 policy = "direct"
             elif r == "advertising":
