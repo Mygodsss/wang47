@@ -1,0 +1,21 @@
+# Generated from QuantumultX/YoutubeAds.conf
+name: YoutubeAds
+http:
+  mitm:
+    - "*.googlevideo.com"
+    - "-redirector*.googlevideo.com"
+    - "s.youtube.com"
+    - "www.youtube.com"
+    - "youtubei.googleapis.com"
+  url-rewrite:
+  - (^https?:\/\/[\w-]+\.googlevideo\.com\/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+) $1$2$3 302
+  - ^https?:\/\/[\w-]+\.googlevideo\.com\/(?!(dclk_video_ads|videoplayback\?)).+&oad - reject
+  - ^https?:\/\/(www|s)\.youtube\.com\/api\/stats\/ads - reject
+  - ^https?:\/\/(www|s)\.youtube\.com\/(pagead|ptracking) - reject
+  - ^https?:\/\/s\.youtube\.com\/api\/stats\/qoe\?adcontext - reject
+  script:
+    - match: ^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch)
+      name: youtube.response
+      type: response-body
+      require-body: true
+      timeout: 10
