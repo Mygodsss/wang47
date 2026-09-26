@@ -115,13 +115,18 @@ jobs:
 
       # 4. Telegram 结果报告 (已修复 if 作用域与 Secrets 判定)
       - name: Send Telegram Notification
-        if: always() && secrets.TG_BOT_TOKEN != '' && secrets.TG_CHAT_ID != ''
+        if: always()
         env:
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
           JOB_STATUS: ${{ job.status }}
           HAS_CHANGES: ${{ steps.commit_step.outputs.has_changes }}
         run: |
+          if [ -z "$TG_BOT_TOKEN" ] || [ -z "$TG_CHAT_ID" ]; then
+            echo "ℹ️ 未配置 TG_BOT_TOKEN 或 TG_CHAT_ID，跳过通知发送。"
+            exit 0
+          fi
+
           if [ "$JOB_STATUS" = "success" ]; then
             if [ "$HAS_CHANGES" = "true" ]; then
               MSG="🚀 *QX & Stash 自动化闭环完成*%0A%0A*状态:* 规则编译完成、公开仓库已提交、私密 Gist 已更新%0A*时间:* $(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M:%S') (UTC+8)%0A*仓库:* [wang47](https://github.com/${{ github.repository }})"
