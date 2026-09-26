@@ -18,14 +18,44 @@
 
 ### 📱 客户端兼容性说明
 
-| 规则类型 | 文件扩展名 | 适用客户端 / 平台 |
-| :--- | :--- | :--- |
-| **标准分流规则** | `.list` | **Quantumult X**、**Surge**、**Loon**、**Shadowrocket (小火箭)**、**Egern** |
-| **Rule-Set 规则集** | `.yaml` | **Stash**、**Clash Verge / Nyanpasu**、**Mihomo (Clash.Meta)**、**Sing-box** |
-| **重写与脚本模块** | `.conf` / `.js` / `.snippet` | **Quantumult X** 专用 |
-| **覆写插件模块** | `.stoverride` | **Stash** 专用 |
-
----
+| 分流业务标签 | 规则行数 | 默认绑定策略 | 规则直链 |
+| :--- | :---: | :--- | :--- |
+| 🛡️ 节点防断流与系统修正 | `32` 条 | `direct` | [查看规则](rule/QuantumultX/unbreak.list) |
+| 🚫 广告与行为追踪拦截 | `286237` 条 | `reject` | [查看规则](rule/QuantumultX/advertising.list) |
+| 🧠 OpenAI (ChatGPT) | `35` 条 | `AI-Auto` | [查看规则](rule/QuantumultX/openai.list) |
+| 🎭 Claude (Anthropic) | `3` 条 | `AI-Auto` | [查看规则](rule/QuantumultX/claude.list) |
+| ✨ Google Gemini AI | `13` 条 | `AI-Auto` | [查看规则](rule/QuantumultX/gemini.list) |
+| 🪙 欧易 OKX 交易所 | `3` 条 | `okx` | [查看规则](rule/QuantumultX/okx.list) |
+| 🪙 币安 Binance 交易所 | `12` 条 | `binance` | [查看规则](rule/QuantumultX/binance.list) |
+| 🪙 Bybit 交易所 | `4` 条 | `bybit` | [查看规则](rule/QuantumultX/bybit.list) |
+| 🪙 Bitget 交易所 | `4` 条 | `bitget` | [查看规则](rule/QuantumultX/bitget.list) |
+| 🪙 Gate.io 芝麻开门 | `4` 条 | `gate` | [查看规则](rule/QuantumultX/gate.list) |
+| 🪙 Coinbase 交易所 | `43` 条 | `crypto` | [查看规则](rule/QuantumultX/coinbase.list) |
+| 🪙 Kraken 海妖交易所 | `43` 条 | `crypto` | [查看规则](rule/QuantumultX/kraken.list) |
+| ⛓️ Web3 钱包与基础设施 | `161` 条 | `crypto` | [查看规则](rule/QuantumultX/crypto.list) |
+| 🎬 油管 YouTube (含推流CDN) | `196` 条 | `海外视频` | [查看规则](rule/QuantumultX/youtube.list) |
+| 🍿 奈飞 Netflix 影音 | `1158` 条 | `海外视频` | [查看规则](rule/QuantumultX/netflix.list) |
+| 🏰 迪士尼 Disney+ 影音 | `174` 条 | `海外视频` | [查看规则](rule/QuantumultX/disney.list) |
+| 🎵 声网 Spotify 音乐 | `30` 条 | `海外视频` | [查看规则](rule/QuantumultX/spotify.list) |
+| 🎵 TikTok 国际版短视频 | `32` 条 | `TikTok` | [查看规则](rule/QuantumultX/tiktok.list) |
+| 📺 海外主流流媒体合集 | `2341` 条 | `自动选择` | [查看规则](rule/QuantumultX/globalmedia.list) |
+| ✈️ 电报 Telegram 通讯 | `40` 条 | `telegram` | [查看规则](rule/QuantumultX/telegram.list) |
+| 🐦 推特 Twitter / X | `33` 条 | `美国节点` | [查看规则](rule/QuantumultX/twitter.list) |
+| 💬 Discord 语音社区 | `29` 条 | `自动选择` | [查看规则](rule/QuantumultX/discord.list) |
+| 🤖 红迪 Reddit 社区 | `8` 条 | `自动选择` | [查看规则](rule/QuantumultX/reddit.list) |
+| 🗺️ 谷歌地图与瓦片切片 | `10` 条 | `自动选择` | [查看规则](rule/QuantumultX/googlemaps.list) |
+| 📞 Google Voice 虚拟号码 | `1` 条 | `bitsflow` | [查看规则](rule/QuantumultX/googlevoice.list) |
+| 💾 Google 云端硬盘 Drive | `8` 条 | `自动选择` | [查看规则](rule/QuantumultX/googledrive.list) |
+| 🐙 GitHub 开发者代码仓 | `31` 条 | `自动选择` | [查看规则](rule/QuantumultX/github.list) |
+| 🐳 Docker 容器与镜像源 | `7` 条 | `自动选择` | [查看规则](rule/QuantumultX/docker.list) |
+| 💻 微软服务与 Office | `712` 条 | `自动选择` | [查看规则](rule/QuantumultX/microsoft.list) |
+| 💱 Wise 跨国跨境汇款 | `4` 条 | `自动选择` | [查看规则](rule/QuantumultX/wise.list) |
+| 💳 贝宝 PayPal 国际支付 | `248` 条 | `自动选择` | [查看规则](rule/QuantumultX/paypal.list) |
+| 💳 Stripe 跨境支付网关 | `1` 条 | `自动选择` | [查看规则](rule/QuantumultX/stripe.list) |
+| 🔍 Google 搜索与基础生态 | `711` 条 | `google` | [查看规则](rule/QuantumultX/google.list) |
+| 🍎 苹果官方生态服务 | `1881` 条 | `苹果服务` | [查看规则](rule/QuantumultX/apple.list) |
+| 💬 微信与腾讯直连通信 | `43` 条 | `direct` | [查看规则](rule/QuantumultX/wechat.list) |
+| 🇨🇳 大陆直连域名大合集 | `3753` 条 | `direct` | [查看规则](rule/QuantumultX/china.list) |
 
 ## 🌐 分流路由规则 (Routing Rules)
 

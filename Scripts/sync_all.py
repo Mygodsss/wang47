@@ -68,48 +68,40 @@ def sync_stash_rules_and_profile(qx_rule_dir="rule/QuantumultX", stash_rule_dir=
         print("🎉 Profiles/Stash.yaml 的 rule-providers 与 rules 规则链已全自动对齐！")
 
 
-def update_readme_markdown(qx_rule_dir, rule_meta, readme_path="README.md"):
-    """全自动根据规则文件和元数据重新渲染 README.md 的分流与重写表格"""
-    if not os.path.exists(readme_path) or not os.path.exists(qx_rule_dir):
+def update_readme_markdown(qx_rule_dir='rule/QuantumultX', rule_meta=None, readme_path='README.md'):
+    '''全自动更新 README.md 的最新时间戳与规则表格'''
+    if not os.path.exists(readme_path):
         return
-
-    # 统计每个规则文件的真实行数
-    rule_rows = []
-    all_rules = [f[:-5] for f in os.listdir(qx_rule_dir) if f.endswith(".list") and f != "all.list"]
-    sorted_rules = sorted(all_rules, key=lambda x: rule_meta.get(x, (x, "自动选择", 999))[2])
-
-    for r in sorted_rules:
-        file_path = os.path.join(qx_rule_dir, f"{r}.list")
-        line_count = 0
-        with open(file_path, "r", encoding="utf-8", errors="ignore") as rf:
-            line_count = sum(1 for line in rf if line.strip() and not line.strip().startswith(("#", ";")))
-        
-        tag, policy, _ = rule_meta.get(r, (f"🌐 {r}", "自动选择", 999))
-        rule_rows.append(f"| {tag} | `{line_count}` 条 | `{policy}` | [查看规则](rule/QuantumultX/{r}.list) |")
-
-    table_content = "\n".join([
-        "| 分流业务标签 | 规则行数 | 默认绑定策略 | 规则直链 |",
-        "| :--- | :---: | :--- | :--- |"
-    ] + rule_rows)
-
-    with open(readme_path, "r", encoding="utf-8") as f:
-        readme_text = f.read()
-
-    # 将动态表格注入到 <!-- RULE_TABLE_START --> 和 <!-- RULE_TABLE_END --> 之间
-    if "<!-- RULE_TABLE_START -->" in readme_text and "<!-- RULE_TABLE_END -->" in readme_text:
-        pattern = r"<!-- RULE_TABLE_START -->[\s\S]*?<!-- RULE_TABLE_END -->"
-        replacement = f"<!-- RULE_TABLE_START -->\n{table_content}\n<!-- RULE_TABLE_END -->"
-        readme_text = re.sub(pattern, replacement, readme_text)
-    else:
-        # 若未标记锚点，则智能替换原有的 Markdown 规则表格
-        table_pattern = r"\|\s*分流.*?\|[\s\S]*?\n(?=\n[#\[]|\Z)"
-        if re.search(table_pattern, readme_text):
-            readme_text = re.sub(table_pattern, table_content, readme_text)
-
-    with open(readme_path, "w", encoding="utf-8") as f:
-        f.write(readme_text)
-    print("🎉 README.md 规则特性与行数全量表格已实现自动化完全对齐！")
-
+    from datetime import datetime, timezone, timedelta
+    tz = timezone(timedelta(hours=8))
+    now_str = datetime.now(tz).strftime('%Y-%m-%d %H:%M:%S')
+    with open(readme_path, 'r', encoding='utf-8') as f:
+        text = f.read()
+    # 动态更新时间戳
+    text = re.sub(r'(自动更新时间\s*[:：]\s*`?)\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}(`?)', lambda m: f'{m.group(1)}{now_str}{m.group(2)}', text)
+    # 动态重构表格
+    if os.path.exists(qx_rule_dir):
+        meta_dict = rule_meta if rule_meta else (RULE_META if 'RULE_META' in globals() else {})
+        all_rules = [f[:-5] for f in os.listdir(qx_rule_dir) if f.endswith('.list') and f != 'all.list']
+        sorted_rules = sorted(all_rules, key=lambda x: meta_dict.get(x, (x, '自动选择', 999))[2])
+        rows = []
+        for r in sorted_rules:
+            fp = os.path.join(qx_rule_dir, f'{r}.list')
+            cnt = 0
+            with open(fp, 'r', encoding='utf-8', errors='ignore') as rf:
+                cnt = sum(1 for l in rf if l.strip() and not l.strip().startswith(('#', ';')))
+            tag, policy, _ = meta_dict.get(r, (f'🌐 {r}', '自动选择', 999))
+            rows.append(f'| {tag} | `{cnt}` 条 | `{policy}` | [查看规则](rule/QuantumultX/{r}.list) |')
+        table_str = '\n'.join(['| 分流业务标签 | 规则行数 | 默认绑定策略 | 规则直链 |', '| :--- | :---: | :--- | :--- |'] + rows)
+        if '<!-- RULE_TABLE_START -->' in text and '<!-- RULE_TABLE_END -->' in text:
+            text = re.sub(r'<!-- RULE_TABLE_START -->[\s\S]*?<!-- RULE_TABLE_END -->', f'<!-- RULE_TABLE_START -->\n{table_str}\n<!-- RULE_TABLE_END -->', text)
+        else:
+            table_pat = r'\|\s*(?:分流|规则).*?\|[\s\S]*?\n(?=\n[#\[]|\Z)'
+            if re.search(table_pat, text):
+                text = re.sub(table_pat, lambda m: table_str + '\n', text)
+    with open(readme_path, 'w', encoding='utf-8') as f:
+        f.write(text)
+    print(f'🎉 README.md 已自动对齐最新时间戳 [{now_str}] 与全量规则表格！')
 
 def extract_header_meta(file_path):
     """从规则文件前 10 行提取注释中的元数据 (# tag: xxx, # policy: xxx, # enabled: false)"""
