@@ -1,3 +1,6 @@
+# Stash Rule Provider: docker
+# Generated from docker.list by controller.py
+
 payload:
   - DOMAIN,d1q6f0aelx0por.cloudfront.net
   - DOMAIN,d2wy8f7a9ursnm.cloudfront.net

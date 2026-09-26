@@ -1,3 +1,6 @@
+# Stash Rule Provider: openai
+# Generated from openai.list by controller.py
+
 payload:
   - DOMAIN,browser-intake-datadoghq.com
   - DOMAIN,chat.openai.com.cdn.cloudflare.net

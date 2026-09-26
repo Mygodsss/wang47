@@ -1,3 +1,6 @@
+# Stash Rule Provider: kraken
+# Generated from kraken.list by controller.py
+
 payload:
   - DOMAIN-SUFFIX,aex.com
   - DOMAIN-SUFFIX,aicoin.com

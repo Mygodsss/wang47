@@ -1,3 +1,6 @@
+# Stash Rule Provider: binance
+# Generated from binance.list by controller.py
+
 payload:
   - DOMAIN-SUFFIX,appsflayer.com
   - DOMAIN-SUFFIX,binance.cloud

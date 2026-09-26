@@ -1,3 +1,6 @@
+# Stash Rule Provider: tiktok
+# Generated from tiktok.list by controller.py
+
 payload:
   - DOMAIN,lf16-effectcdn.byteeffecttos-g.com
   - DOMAIN,lf16-pkgcdn.pitaya-clientai.com
@@ -30,4 +33,3 @@ payload:
   - DOMAIN-SUFFIX,ttwebview.com
   - DOMAIN-KEYWORD,musical.ly
   - DOMAIN-KEYWORD,tiktok
-  - USER-AGENT,TikTok*

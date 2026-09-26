@@ -1,3 +1,6 @@
+# Stash Rule Provider: wise
+# Generated from wise.list by controller.py
+
 payload:
   - DOMAIN-SUFFIX,wise.com
   - DOMAIN-SUFFIX,transferwise.com
