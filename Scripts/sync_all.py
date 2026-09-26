@@ -472,6 +472,7 @@ if os.path.exists(qx_conf_path):
 
     # 重写元数据配置: (中文标签, 默认是否开启 enabled)
     REWRITE_META = {
+        "youtubeads": ("🎬 YouTube 去广告与视频流优化 (Maasea)", True),
         # 核心工具与管理面板
         "boxjs": ("📦 BoxJS 脚本与数据管理面板", True),
         "substore": ("🧰 Sub-Store 节点订阅转换核心", True),
@@ -535,6 +536,41 @@ if os.path.exists(qx_conf_path):
     with open(qx_conf_path, "w", encoding="utf-8") as f:
         f.write(conf_text)
     print("✅ Profiles/QuantumultX.conf 已自动同步最新分流与重写远程直链！")
+
+    # --- 自动补齐: MitM 注入与根目录镜像 ---
+    all_qx_mitm_hosts = set()
+    if os.path.exists(qx_rw_dir):
+        for f in os.listdir(qx_rw_dir):
+            if f.endswith(('.conf', '.snippet')):
+                with open(os.path.join(qx_rw_dir, f), "r", encoding="utf-8", errors="ignore") as rf:
+                    for line in rf:
+                        if line.strip().startswith("hostname") and "=" in line:
+                            hosts = line.split("=", 1)[1].strip()
+                            for h in hosts.split(","):
+                                h = h.strip().replace("%append%", "").strip()
+                                if h:
+                                    all_qx_mitm_hosts.add(h)
+
+    if all_qx_mitm_hosts:
+        sorted_mitm = ", ".join(sorted(all_qx_mitm_hosts))
+        if "[mitm]" in conf_text:
+            if re.search(r"hostname\s*=", conf_text):
+                conf_text = re.sub(r"(hostname\s*=\s*)([^
+]+)", f"\\1{sorted_mitm}", conf_text)
+            else:
+                conf_text = conf_text.replace("[mitm]", f"[mitm]\nhostname = {sorted_mitm}")
+        else:
+            conf_text += f"\n\n[mitm]\nhostname = {sorted_mitm}\n"
+
+        with open(qx_conf_path, "w", encoding="utf-8") as f:
+            f.write(conf_text)
+
+    import shutil
+    shutil.copy(qx_conf_path, "QuantumultX.conf")
+    if os.path.exists("Profiles/Stash.yaml"):
+        shutil.copy("Profiles/Stash.yaml", "Stash.yaml")
+    print("✅ 已自动完成 MitM 注入与根目录主配置镜像同步！")
+
 
 # 2. 动态维护 README.md 中的 Stash 覆写与分流规则表格
 readme_path = "README.md"
