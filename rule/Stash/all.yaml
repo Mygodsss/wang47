@@ -1,6 +1,4 @@
-# Stash Rule Provider: all
-# Generated from all.list by controller.py
-
+# Stash: all
 payload:
   - DOMAIN,ai.google.dev
   - DOMAIN,alkalimakersuite-pa.clients6.google.com
