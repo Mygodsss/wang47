@@ -1,4 +1,73 @@
 
+def sync_stash_rules_and_profile(qx_rule_dir="rule/QuantumultX", stash_rule_dir="rule/Stash", stash_conf_path="Profiles/Stash.yaml"):
+    """全自动将 QX 规则转换为 Stash YAML 规则集并动态装配 Stash 配置"""
+    if not os.path.exists(stash_rule_dir):
+        os.makedirs(stash_rule_dir, exist_ok=True)
+
+    if not os.path.exists(qx_rule_dir):
+        return
+
+    all_rules = [f[:-5] for f in os.listdir(qx_rule_dir) if f.endswith(".list") and f != "all.list"]
+    for r in all_rules:
+        qx_file = os.path.join(qx_rule_dir, f"{r}.list")
+        stash_file = os.path.join(stash_rule_dir, f"{r}.yaml")
+        payload = []
+        with open(qx_file, "r", encoding="utf-8", errors="ignore") as rf:
+            for l in rf:
+                l = l.strip()
+                if not l or l.startswith(("#", ";", "//")):
+                    continue
+                parts = [p.strip() for p in l.split(",")]
+                if len(parts) >= 2:
+                    t, target = parts[0].upper(), parts[1]
+                    if t in ["HOST-SUFFIX", "HOST_SUFFIX"]:
+                        payload.append(f"  - DOMAIN-SUFFIX,{target}")
+                    elif t in ["HOST", "HOST-KEYWORD", "HOST_KEYWORD"]:
+                        payload.append(f"  - {'DOMAIN' if t == 'HOST' else 'DOMAIN-KEYWORD'},{target}")
+                    elif t in ["IP-CIDR", "IP-CIDR6"]:
+                        extra = ",no-resolve" if "no-resolve" in [p.lower() for p in parts] else ""
+                        payload.append(f"  - {t},{target}{extra}")
+                    elif t == "USER-AGENT":
+                        payload.append(f"  - USER-AGENT,{target}")
+
+        with open(stash_file, "w", encoding="utf-8") as wf:
+            wf.write("payload:\n" + "\n".join(payload) + "\n")
+
+    print(f"✅ 已全自动将 {len(all_rules)} 份 QX 分流规则编译为 Stash YAML 规则集！")
+
+    # 装配 Profiles/Stash.yaml
+    if os.path.exists(stash_conf_path) and "RULE_META" in globals():
+        with open(stash_conf_path, "r", encoding="utf-8") as sf:
+            s_text = sf.read()
+
+        sorted_rules = sorted(all_rules, key=lambda x: RULE_META.get(x, (x, "自动选择", 999))[2])
+        providers = ["rule-providers:"]
+        rules = ["rules:"]
+
+        for r in sorted_rules:
+            _, policy, _ = RULE_META.get(r, (r, "自动选择", 999))
+            providers.append(f"  {r}:")
+            providers.append(f"    type: http")
+            providers.append(f"    behavior: classical")
+            providers.append(f'    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/{r}.yaml"')
+            providers.append(f"    path: ./ruleset/{r}.yaml")
+            providers.append(f"    interval: 86400")
+            rules.append(f"  - RULE-SET,{r},{policy}")
+
+        rules.append("  - GEOIP,CN,DIRECT")
+        rules.append("  - MATCH,兜底分流")
+
+        prov_block = "\n".join(providers) + "\n"
+        rule_block = "\n".join(rules) + "\n"
+
+        s_text = re.sub(r"rule-providers:[\s\S]*?(?=\nrules:|\nproxy-groups:|\n\[|\Z)", lambda m: prov_block, s_text)
+        s_text = re.sub(r"rules:[\s\S]*?(?=\nproxy-groups:|\nrule-providers:|\n\[|\Z)", lambda m: rule_block, s_text)
+
+        with open(stash_conf_path, "w", encoding="utf-8") as sf:
+            sf.write(s_text)
+        print("🎉 Profiles/Stash.yaml 的 rule-providers 与 rules 规则链已全自动对齐！")
+
+
 def update_readme_markdown(qx_rule_dir, rule_meta, readme_path="README.md"):
     """全自动根据规则文件和元数据重新渲染 README.md 的分流与重写表格"""
     if not os.path.exists(readme_path) or not os.path.exists(qx_rule_dir):
@@ -514,3 +583,6 @@ if os.path.exists("README.md") and os.path.exists("rule/QuantumultX"):
     with open("README.md", "w", encoding="utf-8") as f:
         f.write(rm_text)
     update_readme_markdown(qx_rule_dir, RULE_META)
+
+    # 全自动同步 Stash 规则集与配置
+    sync_stash_rules_and_profile()

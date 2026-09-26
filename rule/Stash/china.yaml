@@ -3690,7 +3690,6 @@ payload:
   - DOMAIN-SUFFIX,zybang.com
   - DOMAIN-SUFFIX,zyh365.com
   - DOMAIN-SUFFIX,zzdtec.com
-  - DOMAIN-WILDCARD,windows-*.net
   - DOMAIN-KEYWORD,.tmall.com
   - DOMAIN-KEYWORD,alicdn
   - DOMAIN-KEYWORD,alipay
@@ -3748,7 +3747,3 @@ payload:
   - IP-CIDR,185.188.35.0/24
   - IP-CIDR,203.205.238.0/23
   - IP-CIDR,203.205.254.0/23
-  - IP-CIDR6,2a0b:b580::/48
-  - IP-CIDR6,2a0b:b581::/48
-  - IP-CIDR6,2a0b:b582::/48
-  - IP-CIDR6,2a0b:b583::/48

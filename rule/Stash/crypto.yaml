@@ -1,8 +1,4 @@
-# > 通用 Crypto / Web3 规则集（已完全排除 OKX/Binance/Bybit/Bitget/Gate/Coinbase/Kraken）
-# > 仓库路径: stash/crypto.yaml
-
 payload:
-  # --- 其它主流与区域中心化交易所 (CEX) ---
   - DOMAIN-SUFFIX,kucoin.com
   - DOMAIN-SUFFIX,kucoin.net
   - DOMAIN-SUFFIX,mexc.com
@@ -35,8 +31,6 @@ payload:
   - DOMAIN-SUFFIX,korbit.co.kr
   - DOMAIN-SUFFIX,coinone.co.kr
   - DOMAIN-SUFFIX,zaif.jp
-
-  # --- 去中心化交易所与衍生品协议 (DEX & Perps) ---
   - DOMAIN-SUFFIX,uniswap.org
   - DOMAIN-SUFFIX,curve.fi
   - DOMAIN-SUFFIX,1inch.io
@@ -64,8 +58,6 @@ payload:
   - DOMAIN-SUFFIX,ether.fi
   - DOMAIN-SUFFIX,eigenlayer.xyz
   - DOMAIN-SUFFIX,ethena.fi
-
-  # --- 跨链桥与互操作协议 (Cross-Chain Bridges) ---
   - DOMAIN-SUFFIX,stargate.finance
   - DOMAIN-SUFFIX,layerzero.network
   - DOMAIN-SUFFIX,across.to
@@ -78,8 +70,6 @@ payload:
   - DOMAIN-SUFFIX,jumper.exchange
   - DOMAIN-SUFFIX,relay.link
   - DOMAIN-SUFFIX,li.fi
-
-  # --- Web3 钱包与签名验证 (Wallets & Connect) ---
   - DOMAIN-SUFFIX,metamask.io
   - DOMAIN-SUFFIX,phantom.app
   - DOMAIN-SUFFIX,rabby.io
@@ -101,8 +91,6 @@ payload:
   - DOMAIN-SUFFIX,web3auth.io
   - DOMAIN-SUFFIX,privy.io
   - DOMAIN-SUFFIX,dynamic.xyz
-
-  # --- 区块链浏览器与数据索引 (Explorers & Indexers) ---
   - DOMAIN-SUFFIX,etherscan.io
   - DOMAIN-SUFFIX,bscscan.com
   - DOMAIN-SUFFIX,polygonscan.com
@@ -119,8 +107,6 @@ payload:
   - DOMAIN-SUFFIX,oklink.com
   - DOMAIN-SUFFIX,thegraph.com
   - DOMAIN-SUFFIX,subquery.network
-
-  # --- 行情看板、链上分析与监控 (Analytics & Market Data) ---
   - DOMAIN-SUFFIX,coinmarketcap.com
   - DOMAIN-SUFFIX,coingecko.com
   - DOMAIN-SUFFIX,tradingview.com
@@ -143,8 +129,6 @@ payload:
   - DOMAIN-SUFFIX,geckoterminal.com
   - DOMAIN-SUFFIX,debank.com
   - DOMAIN-SUFFIX,dropsstab.com
-
-  # --- RPC 节点基础设施与开发套件 (RPC Infrastructure) ---
   - DOMAIN-SUFFIX,alchemy.com
   - DOMAIN-SUFFIX,infura.io
   - DOMAIN-SUFFIX,quicknode.com
@@ -155,8 +139,6 @@ payload:
   - DOMAIN-SUFFIX,lava.network
   - DOMAIN-SUFFIX,pokt.network
   - DOMAIN-SUFFIX,blockpi.io
-
-  # --- 稳定币、预言机与原生公链官网 (Stablecoins, Oracles & L1/L2) ---
   - DOMAIN-SUFFIX,tether.to
   - DOMAIN-SUFFIX,circle.com
   - DOMAIN-SUFFIX,chain.link
@@ -172,8 +154,6 @@ payload:
   - DOMAIN-SUFFIX,mystenlabs.com
   - DOMAIN-SUFFIX,sui.io
   - DOMAIN-SUFFIX,ton.org
-
-  # --- NFT 市场与交易聚合器 (NFT Marketplaces) ---
   - DOMAIN-SUFFIX,opensea.io
   - DOMAIN-SUFFIX,blur.io
   - DOMAIN-SUFFIX,magiceden.io
