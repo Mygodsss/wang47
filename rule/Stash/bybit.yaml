@@ -1,6 +1,3 @@
-# Stash Rule Provider: bybit
-# Generated from bybit.list by controller.py
-
 payload:
   - DOMAIN-SUFFIX,bybit.com
   - DOMAIN-SUFFIX,bybit-global.com

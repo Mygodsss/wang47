@@ -1,6 +1,3 @@
-# Stash Rule Provider: spotify
-# Generated from spotify.list by controller.py
-
 payload:
   - DOMAIN,audio4-ak-spotify-com.akamaized.net
   - DOMAIN,cdn-spotify-experiments.conductrics.com
@@ -29,5 +26,6 @@ payload:
   - DOMAIN-SUFFIX,spotilocal.com
   - DOMAIN-SUFFIX,tospotify.com
   - DOMAIN-KEYWORD,spotify
+  - USER-AGENT,Spotify*
   - IP-CIDR,104.154.127.126/32
   - IP-CIDR,35.186.224.47/32

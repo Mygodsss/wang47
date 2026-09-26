@@ -1,5 +1,2 @@
-# Stash Rule Provider: stripe
-# Generated from stripe.list by controller.py
-
 payload:
   - DOMAIN-KEYWORD,stripe

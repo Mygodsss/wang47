@@ -1,6 +1,3 @@
-# Stash Rule Provider: googlemaps
-# Generated from googlemaps.list by controller.py
-
 payload:
   - DOMAIN-SUFFIX,maps.google.com
   - DOMAIN-SUFFIX,maps.googleapis.com

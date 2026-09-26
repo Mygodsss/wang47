@@ -1,6 +1,3 @@
-# Stash Rule Provider: claude
-# Generated from claude.list by controller.py
-
 payload:
   - DOMAIN,cdn.usefathom.com
   - DOMAIN-SUFFIX,anthropic.com

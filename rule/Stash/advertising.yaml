@@ -1,6 +1,3 @@
-# Stash Rule Provider: advertising
-# Generated from advertising.list by controller.py
-
 payload:
   - DOMAIN,0.code.cotsta.ru
   - DOMAIN,03.lzzncm.com

@@ -1,6 +1,3 @@
-# Stash Rule Provider: twitter
-# Generated from twitter.list by controller.py
-
 payload:
   - DOMAIN-SUFFIX,ads-twitter.com
   - DOMAIN-SUFFIX,cms-twdigitalassets.com
