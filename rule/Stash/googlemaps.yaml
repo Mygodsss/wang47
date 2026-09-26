@@ -1,3 +1,4 @@
+# Stash: googlemaps
 payload:
   - DOMAIN-SUFFIX,maps.google.com
   - DOMAIN-SUFFIX,maps.googleapis.com
