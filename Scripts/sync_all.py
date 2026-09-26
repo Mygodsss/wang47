@@ -326,7 +326,8 @@ if os.path.exists(qx_rw_dir):
                 if m:
                     pat, act, tgt = m.groups()
                     if "reject" in act:
-                        url_rewrites.append(f"  - {pat} - reject")
+                        stash_act = act if act in ["reject", "reject-200", "reject-img", "reject-dict"] else "reject"
+                        url_rewrites.append(f"  - {pat} - {stash_act}")
                     else:
                         url_rewrites.append(f"  - {pat} {tgt} {act}")
                     continue
@@ -350,7 +351,8 @@ if os.path.exists(qx_rw_dir):
                 lines.append(f"    - match: {pat}")
                 lines.append(f"      name: {s_name}")
                 lines.append(f"      type: {s_type}")
-                lines.append(f"      require-body: true")
+                req_body = "true" if "body" in s_type else "false"
+                lines.append(f"      require-body: {req_body}")
                 lines.append(f"      timeout: 10")
                 
         with open(out_path, "w", encoding="utf-8") as f:
@@ -501,8 +503,10 @@ if os.path.exists(qx_conf_path):
                             hosts = line.split("=", 1)[1].strip()
                             for h in hosts.split(","):
                                 h = h.strip().replace("%append%", "").strip()
-                                if h:
-                                    all_qx_mitm_hosts.add(h)
+                                if h and not re.search(r"[\(\)\|]", h) and h not in ["ls.apple.com"]:
+                                    h = h.rstrip("*")
+                                    if h:
+                                        all_qx_mitm_hosts.add(h)
 
     if all_qx_mitm_hosts:
         sorted_mitm = ", ".join(sorted(all_qx_mitm_hosts))
