@@ -25,17 +25,19 @@ NAME_ALIAS = {
 }
 
 POLICY_MAPPING = {
-    "unbreak": "direct",
-    "advertising": "reject",
-    "google": "google",
+    "gemini": "AI-Auto",
+    "ai": "AI-Auto",
     "crypto": "crypto",
-    "binance": "binance",
     "okx": "okx",
+    "binance": "binance",
+    "bybit": "bybit",
+    "bitget": "bitget",
+    "gate": "gate",
+    "google": "google",
     "telegram": "telegram",
-    "media": "海外视频",
-    "youtube": "海外视频",
-    "netflix": "海外视频",
     "tiktok": "TikTok",
+    "youtube": "海外视频",
+    "media": "海外视频",
     "apple": "苹果服务",
 }
 
