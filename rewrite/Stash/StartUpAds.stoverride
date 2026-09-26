@@ -1,3 +1,6 @@
 # Generated from QuantumultX/StartUpAds.conf
 name: StartUpAds
 http:
+  url-rewrite:
+  - ^https?:\/\/.+?\-(ad|splash)\..+ - reject
+  - ^https?:\/\/.+?\.push\..+ - reject
