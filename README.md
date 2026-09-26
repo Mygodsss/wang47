@@ -147,69 +147,62 @@
 
 ### Quantumult X 专属重写模块 (`[rewrite_remote]`)
 
-#### ❖ 会员与功能解锁
-
 | 模块功能 | 文件类型 | 原生直链订阅地址 |
-| :--- | :--- | :--- |
-| **Soul 净化与功能** | `CONF` | [soul.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/soul.conf) |
-| **通话录音增强** | `CONF` | [thly.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/thly.conf) |
-| **WLOC 虚拟定位** | `CONF` | [wloc.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/wloc.conf) |
-| **万年历 VIP 解锁** | `JS` | [wannianli.vip.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/wannianli.vip.js) |
-| **极简汇率 VIP 解锁** | `JS` | [jijianhuilv.vip.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/jijianhuilv.vip.js) |
-| **墨鱼专属 VIP** | `CONF` | [ForOwnUse.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/ForOwnUse.conf) |
+| :--- | :---: | :--- |
+| **🗺️ 高德地图去广告与首页精简** | `CONF` | [AmapAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/AmapAds.conf) |
+| **📱 微信小程序去广告与纯净体验** | `CONF` | [Applet.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/Applet.conf) |
+| **🌤️ 彩云天气去广告与免打扰** | `CONF` | [CaiYunAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/CaiYunAds.conf) |
+| **📦 菜鸟裹裹开屏与包裹广告拦截** | `CONF` | [CainiaoAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/CainiaoAds.conf) |
+| **🧩 ChinaMobileNoAds** | `JS` | [ChinaMobileNoAds.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/ChinaMobileNoAds.js) |
+| **⚙️ 个人自用定制扩展模块** | `CONF` | [ForOwnUse.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/ForOwnUse.conf) |
+| **🐟 闲鱼去广告与推荐流净化** | `CONF` | [GoofishAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/GoofishAds.conf) |
+| **🛡️ 谷歌人机验证自动放行** | `SNIPPET` | [GoogleCAPTCHA.snippet](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/GoogleCAPTCHA.snippet) |
+| **🔍 Q-Search 浏览器快捷搜索增强** | `CONF` | [Q-Search.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/Q-Search.conf) |
+| **🎵 汽水音乐去广告与收听净化** | `CONF` | [QiShuiMusicAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/QiShuiMusicAds.conf) |
+| **🚫 全局 App 开屏广告通用拦截** | `CONF` | [StartUpAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/StartUpAds.conf) |
+| **🧰 Sub-Store 节点订阅转换核心** | `SNIPPET` | [SubStore.snippet](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/SubStore.snippet) |
+| **💬 百度贴吧去广告与帖内净化** | `CONF` | [TieBaAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/TieBaAds.conf) |
+| **🔓 微信外链自动解除拦截直开** | `CONF` | [UnblockURLinWeChat.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/UnblockURLinWeChat.conf) |
+| **👁️ 新浪微博去广告与信息流净化** | `CONF` | [WeiboAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/WeiboAds.conf) |
+| **🎬 YouTube 去广告与视频流优化 (Maasea)** | `CONF` | [YoutubeAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/YoutubeAds.conf) |
+| **🧩 bdmap.ads** | `JS` | [bdmap.ads.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/bdmap.ads.js) |
+| **🧩 bdpan.ads** | `JS` | [bdpan.ads.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/bdpan.ads.js) |
+| **📦 BoxJS 脚本与数据管理面板** | `CONF` | [boxjs.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/boxjs.conf) |
+| **🧩 jd_price** | `JS` | [jd_price.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/jd_price.js) |
+| **🧩 jijianhuilv.vip** | `JS` | [jijianhuilv.vip.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/jijianhuilv.vip.js) |
+| **👻 Soul 社交开屏与动态广告拦截** | `CONF` | [soul.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/soul.conf) |
+| **🎙️ 通话录音功能扩展模块** | `CONF` | [thly.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/thly.conf) |
+| **🧩 wannianli.vip** | `JS` | [wannianli.vip.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/wannianli.vip.js) |
+| **📍 虚拟定位与位置信息修正模块** | `CONF` | [wloc.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/wloc.conf) |
+| **📍 虚拟定位与位置信息修正模块** | `JS` | [wloc.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/wloc.js) |
+| **🧩 zhihu.ads** | `JS` | [zhihu.ads.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/zhihu.ads.js) |
 
-#### ❖ 广告净化与拦截
-
-| 模块功能 | 文件类型 | 原生直链订阅地址 |
-| :--- | :--- | :--- |
-| **全网开屏广告净化** | `CONF` | [StartUpAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/StartUpAds.conf) |
-| **微信解封屏蔽 URL** | `CONF` | [UnblockURLinWeChat.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/UnblockURLinWeChat.conf) |
-| **中国移动去广告** | `JS` | [ChinaMobileNoAds.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/ChinaMobileNoAds.js) |
-| **百度贴吧去广告** | `CONF` | [TieBaAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/TieBaAds.conf) |
-| **菜鸟裹裹去广告** | `CONF` | [CainiaoAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/CainiaoAds.conf) |
-| **微信小程序去广告** | `CONF` | [Applet.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/Applet.conf) |
-| **汽水音乐去广告** | `CONF` | [QiShuiMusicAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/QiShuiMusicAds.conf) |
-| **百度地图去广告** | `JS` | [bdmap.ads.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/bdmap.ads.js) |
-| **百度网盘净化** | `JS` | [bdpan.ads.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/bdpan.ads.js) |
-| **彩云天气净化** | `CONF` | [CaiYunAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/CaiYunAds.conf) |
-| **知乎净化助手** | `JS` | [zhihu.ads.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/zhihu.ads.js) |
-| **微博去广告** | `CONF` | [WeiboAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/WeiboAds.conf) |
-| **高德地图净化** | `CONF` | [AmapAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/AmapAds.conf) |
-| **闲鱼净化** | `CONF` | [GoofishAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/GoofishAds.conf) |
-
-#### ❖ 网页优化与功能增强
-
-| 模块功能 | 文件类型 | 原生直链订阅地址 |
-| :--- | :--- | :--- |
-| **Safari 超级搜索** | `CONF` | [Q-Search.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/Q-Search.conf) |
-| **Sub-Store 订阅管理** | `SNIPPET` | [SubStore.snippet](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/SubStore.snippet) |
-| **京东历史比价** | `JS` | [jd_price.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/jd_price.js) |
-| **BoxJs 脚本管理** | `CONF` | [boxjs.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/boxjs.conf) |
-| **Google 人机验证增强** | `SNIPPET` | [GoogleCAPTCHA.snippet](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/GoogleCAPTCHA.snippet) |
 
 ### Stash 专属覆写模块 (`Overrides`)
 
 | 模块功能 | 适用格式 | Stash 原生覆写订阅直链 |
-| :--- | :--- | :--- |
-| **高德地图去广告** | `.stoverride` | [AmapAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/AmapAds.stoverride) |
-| **小程序规则增强** | `.stoverride` | [Applet.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/Applet.stoverride) |
-| **彩云天气去广告** | `.stoverride` | [CaiYunAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/CaiYunAds.stoverride) |
-| **菜鸟裹裹去广告** | `.stoverride` | [CainiaoAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/CainiaoAds.stoverride) |
-| **个人自用覆写整合** | `.stoverride` | [ForOwnUse.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/ForOwnUse.stoverride) |
-| **闲鱼去广告** | `.stoverride` | [GoofishAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/GoofishAds.stoverride) |
-| **谷歌人机验证优化** | `.stoverride` | [GoogleCAPTCHA.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/GoogleCAPTCHA.stoverride) |
-| **快捷搜索增强 (Safari)** | `.stoverride` | [Q-Search.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/Q-Search.stoverride) |
-| **汽水音乐去广告** | `.stoverride` | [QiShuiMusicAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/QiShuiMusicAds.stoverride) |
-| **全平台通用开屏去广告** | `.stoverride` | [StartUpAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/StartUpAds.stoverride) |
-| **Sub-Store 订阅管理工具** | `.stoverride` | [SubStore.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/SubStore.stoverride) |
-| **百度贴吧去广告与净化** | `.stoverride` | [TieBaAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/TieBaAds.stoverride) |
-| **微信内直接打开外部链接** | `.stoverride` | [UnblockURLinWeChat.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/UnblockURLinWeChat.stoverride) |
-| **新浪微博去广告与净化** | `.stoverride` | [WeiboAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/WeiboAds.stoverride) |
-| **BoxJs 数据存储与管理** | `.stoverride` | [boxjs.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/boxjs.stoverride) |
-| **通用重定向与搜索增强** | `.stoverride` | [general.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/general.stoverride) |
-| **Soul 去广告与净化** | `.stoverride` | [soul.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/soul.stoverride) |
-| **通话录音增强模块** | `.stoverride` | [thly.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/thly.stoverride) |
-| **位置定位辅助增强** | `.stoverride` | [wloc.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/wloc.stoverride) |
+| :--- | :---: | :--- |
+| **🗺️ 高德地图去广告与首页精简** | `.stoverride` | [AmapAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/AmapAds.stoverride) |
+| **📱 微信小程序去广告与纯净体验** | `.stoverride` | [Applet.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/Applet.stoverride) |
+| **🌤️ 彩云天气去广告与免打扰** | `.stoverride` | [CaiYunAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/CaiYunAds.stoverride) |
+| **📦 菜鸟裹裹开屏与包裹广告拦截** | `.stoverride` | [CainiaoAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/CainiaoAds.stoverride) |
+| **⚙️ 个人自用定制扩展模块** | `.stoverride` | [ForOwnUse.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/ForOwnUse.stoverride) |
+| **🐟 闲鱼去广告与推荐流净化** | `.stoverride` | [GoofishAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/GoofishAds.stoverride) |
+| **🛡️ 谷歌人机验证自动放行** | `.stoverride` | [GoogleCAPTCHA.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/GoogleCAPTCHA.stoverride) |
+| **🔍 Q-Search 浏览器快捷搜索增强** | `.stoverride` | [Q-Search.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/Q-Search.stoverride) |
+| **🎵 汽水音乐去广告与收听净化** | `.stoverride` | [QiShuiMusicAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/QiShuiMusicAds.stoverride) |
+| **🚫 全局 App 开屏广告通用拦截** | `.stoverride` | [StartUpAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/StartUpAds.stoverride) |
+| **🧰 Sub-Store 节点订阅转换核心** | `.stoverride` | [SubStore.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/SubStore.stoverride) |
+| **💬 百度贴吧去广告与帖内净化** | `.stoverride` | [TieBaAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/TieBaAds.stoverride) |
+| **🔓 微信外链自动解除拦截直开** | `.stoverride` | [UnblockURLinWeChat.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/UnblockURLinWeChat.stoverride) |
+| **👁️ 新浪微博去广告与信息流净化** | `.stoverride` | [WeiboAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/WeiboAds.stoverride) |
+| **🎬 YouTube 去广告与视频流优化 (Maasea)** | `.stoverride` | [YoutubeAds.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/YoutubeAds.stoverride) |
+| **📦 BoxJS 脚本与数据管理面板** | `.stoverride` | [boxjs.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/boxjs.stoverride) |
+| **🧩 general** | `.stoverride` | [general.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/general.stoverride) |
+| **👻 Soul 社交开屏与动态广告拦截** | `.stoverride` | [soul.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/soul.stoverride) |
+| **🎙️ 通话录音功能扩展模块** | `.stoverride` | [thly.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/thly.stoverride) |
+| **📍 虚拟定位与位置信息修正模块** | `.stoverride` | [wloc.stoverride](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/wloc.stoverride) |
+
 
 ---
 

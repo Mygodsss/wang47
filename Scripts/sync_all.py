@@ -1,3 +1,7 @@
+import os
+import re
+import urllib.request
+from datetime import datetime, timezone, timedelta
 
 def sync_stash_rules_and_profile(qx_rule_dir="rule/QuantumultX", stash_rule_dir="rule/Stash", stash_conf_path="Profiles/Stash.yaml"):
     """全自动将 QX 规则转换为 Stash YAML 规则集并动态装配 Stash 配置"""
@@ -72,7 +76,6 @@ def update_readme_markdown(qx_rule_dir='rule/QuantumultX', rule_meta=None, readm
     '''全自动更新 README.md 的最新时间戳与规则表格'''
     if not os.path.exists(readme_path):
         return
-    from datetime import datetime, timezone, timedelta
     tz = timezone(timedelta(hours=8))
     now_str = datetime.now(tz).strftime('%Y-%m-%d %H:%M:%S')
     with open(readme_path, 'r', encoding='utf-8') as f:
@@ -103,8 +106,9 @@ def update_readme_markdown(qx_rule_dir='rule/QuantumultX', rule_meta=None, readm
         f.write(text)
     print(f'🎉 README.md 已自动对齐最新时间戳 [{now_str}] 与全量规则表格！')
 
+
 def extract_header_meta(file_path):
-    """从规则文件前 10 行提取注释中的元数据 (# tag: xxx, # policy: xxx, # enabled: false)"""
+    """从规则文件前 10 行提取注释中的元数据"""
     meta = {}
     try:
         with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
@@ -114,25 +118,18 @@ def extract_header_meta(file_path):
                     break
                 line = line.strip()
                 if line.startswith("#") or line.startswith(";"):
-                    # 匹配 tag / 标签 / name
                     m_tag = re.search(r"(?:tag|标签|name)\s*[:=]\s*(.+)", line, re.IGNORECASE)
                     if m_tag and "tag" not in meta:
                         meta["tag"] = m_tag.group(1).strip()
-                    # 匹配 policy / 策略
                     m_pol = re.search(r"(?:policy|策略)\s*[:=]\s*(.+)", line, re.IGNORECASE)
                     if m_pol and "policy" not in meta:
                         meta["policy"] = m_pol.group(1).strip()
-                    # 匹配 enabled / 开关
                     m_enb = re.search(r"(?:enabled|启用)\s*[:=]\s*(.+)", line, re.IGNORECASE)
                     if m_enb and "enabled" not in meta:
                         meta["enabled"] = m_enb.group(1).strip().lower() in ["true", "1", "yes"]
     except Exception:
         pass
     return meta
-
-import os
-import urllib.request
-from datetime import datetime
 
 RULES_MAP = {
     "Google 全家桶": ["Gemini", "GoogleVoice", "YouTube", "GooglePlay", "GoogleDrive", "GoogleMaps", "Google"],
@@ -184,7 +181,6 @@ POLICY_MAPPING = {
     "spotify": "海外视频",
 }
 
-WORKER_HOST = "https://rule-proxy.mygods.workers.dev"
 headers = {"User-Agent": "Mozilla/5.0"}
 
 def fetch_data(url):
@@ -300,8 +296,6 @@ print("✅ 聚合规则 all.list 已生成！")
 # ==========================================
 # 自动同步 Quantumult X 重写到 Stash 覆写 (.stoverride)
 # ==========================================
-import re
-
 qx_rw_dir = "rewrite/QuantumultX"
 stash_rw_dir = "rewrite/Stash"
 if os.path.exists(qx_rw_dir):
@@ -369,30 +363,20 @@ if os.path.exists(qx_rw_dir):
 # ==============================================================================
 # 全自动化目录联动总控 (Profiles/QuantumultX.conf & README.md 动态维护)
 # ==============================================================================
-import re
-
-# 1. 动态生成并更新 Profiles/QuantumultX.conf
 qx_conf_path = "Profiles/QuantumultX.conf"
 if os.path.exists(qx_conf_path):
     with open(qx_conf_path, "r", encoding="utf-8") as f:
         conf_text = f.read()
 
-    # 动态装配 [filter_remote] (按严格业务优先级 + 中文语义化标签)
     filter_remotes = []
     qx_rule_dir = "rule/QuantumultX"
 
-    # 规则元数据配置: (中文标签, 绑定策略, 优先级权重数值越小越靠前)
     RULE_META = {
-        # 1. 核心底层拦截与防断流
         "unbreak": ("🛡️ 节点防断流与系统修正", "direct", 1),
         "advertising": ("🚫 广告与行为追踪拦截", "reject", 2),
-
-        # 2. AI 大模型矩阵 (绝对优先于通用 Google)
         "openai": ("🧠 OpenAI (ChatGPT)", "AI-Auto", 10),
         "claude": ("🎭 Claude (Anthropic)", "AI-Auto", 11),
         "gemini": ("✨ Google Gemini AI", "AI-Auto", 12),
-
-        # 3. 交易所与 Web3 生态
         "okx": ("🪙 欧易 OKX 交易所", "okx", 20),
         "binance": ("🪙 币安 Binance 交易所", "binance", 21),
         "bybit": ("🪙 Bybit 交易所", "bybit", 22),
@@ -401,38 +385,26 @@ if os.path.exists(qx_conf_path):
         "coinbase": ("🪙 Coinbase 交易所", "crypto", 25),
         "kraken": ("🪙 Kraken 海妖交易所", "crypto", 26),
         "crypto": ("⛓️ Web3 钱包与基础设施", "crypto", 27),
-
-        # 4. 音视频海外流媒体
         "youtube": ("🎬 油管 YouTube (含推流CDN)", "海外视频", 30),
         "netflix": ("🍿 奈飞 Netflix 影音", "海外视频", 31),
         "disney": ("🏰 迪士尼 Disney+ 影音", "海外视频", 32),
         "spotify": ("🎵 声网 Spotify 音乐", "海外视频", 33),
         "tiktok": ("🎵 TikTok 国际版短视频", "TikTok", 34),
         "globalmedia": ("📺 海外主流流媒体合集", "自动选择", 35),
-
-        # 5. 海外社交与通讯
         "telegram": ("✈️ 电报 Telegram 通讯", "telegram", 40),
         "twitter": ("🐦 推特 Twitter / X", "美国节点", 41),
         "discord": ("💬 Discord 语音社区", "自动选择", 42),
         "reddit": ("🤖 红迪 Reddit 社区", "自动选择", 43),
-
-        # 6. 谷歌细分生态与生产力开发工具
         "googlemaps": ("🗺️ 谷歌地图与瓦片切片", "自动选择", 50),
         "googlevoice": ("📞 Google Voice 虚拟号码", "bitsflow", 51),
         "googledrive": ("💾 Google 云端硬盘 Drive", "自动选择", 52),
         "github": ("🐙 GitHub 开发者代码仓", "自动选择", 53),
         "docker": ("🐳 Docker 容器与镜像源", "自动选择", 54),
         "microsoft": ("💻 微软服务与 Office", "自动选择", 55),
-
-        # 7. 跨境金融与支付
         "wise": ("💱 Wise 跨国跨境汇款", "自动选择", 60),
         "paypal": ("💳 贝宝 PayPal 国际支付", "自动选择", 61),
         "stripe": ("💳 Stripe 跨境支付网关", "自动选择", 62),
-
-        # 8. 宽泛通用海外搜索 (排在细分服务之后)
         "google": ("🔍 Google 搜索与基础生态", "google", 70),
-
-        # 9. 苹果与国内直连
         "apple": ("🍎 苹果官方生态服务", "苹果服务", 80),
         "wechat": ("💬 微信与腾讯直连通信", "direct", 90),
         "china": ("🇨🇳 大陆直连域名大合集", "direct", 100),
@@ -440,15 +412,12 @@ if os.path.exists(qx_conf_path):
 
     if os.path.exists(qx_rule_dir):
         all_rules = [f[:-5] for f in os.listdir(qx_rule_dir) if f.endswith(".list") and f != "all.list"]
-        
-        # 按照权重排序，未在字典中声明的规则权重默认为 999 垫底
         sorted_rules = sorted(all_rules, key=lambda x: RULE_META.get(x, (x, "自动选择", 999))[2])
 
         for r in sorted_rules:
             file_path = os.path.join(qx_rule_dir, f"{r}.list")
             header_meta = extract_header_meta(file_path)
 
-            # 优先级: 头部自声明 > 内置字典 > 默认生成
             if "tag" in header_meta:
                 chinese_tag = header_meta["tag"]
             elif r in RULE_META:
@@ -466,25 +435,18 @@ if os.path.exists(qx_conf_path):
             line = f"https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/{r}.list, tag={chinese_tag}, force-policy={target_policy}, update-interval=172800, opt-parser=true, enabled=true"
             filter_remotes.append(line)
 
-    # 动态装配 [rewrite_remote] (中文特性语义化标签)
     rewrite_remotes = []
     qx_rw_dir = "rewrite/QuantumultX"
 
-    # 重写元数据配置: (中文标签, 默认是否开启 enabled)
     REWRITE_META = {
         "youtubeads": ("🎬 YouTube 去广告与视频流优化 (Maasea)", True),
-        # 核心工具与管理面板
         "boxjs": ("📦 BoxJS 脚本与数据管理面板", True),
         "substore": ("🧰 Sub-Store 节点订阅转换核心", True),
         "forownuse": ("⚙️ 个人自用定制扩展模块", True),
-
-        # 浏览与系统日常增强
         "q-search": ("🔍 Q-Search 浏览器快捷搜索增强", True),
         "googlecaptcha": ("🛡️ 谷歌人机验证自动放行", True),
         "unblockurlinwechat": ("🔓 微信外链自动解除拦截直开", True),
         "applet": ("📱 微信小程序去广告与纯净体验", True),
-
-        # 社交、电商与出行净化
         "weiboads": ("👁️ 新浪微博去广告与信息流净化", True),
         "tiebaads": ("💬 百度贴吧去广告与帖内净化", True),
         "goofishads": ("🐟 闲鱼去广告与推荐流净化", True),
@@ -493,8 +455,6 @@ if os.path.exists(qx_conf_path):
         "caiyunads": ("🌤️ 彩云天气去广告与免打扰", True),
         "qishuimusicads": ("🎵 汽水音乐去广告与收听净化", True),
         "soul": ("👻 Soul 社交开屏与动态广告拦截", True),
-
-        # 扩展与辅助模块
         "thly": ("🎙️ 通话录音功能扩展模块", True),
         "startupads": ("🚫 全局 App 开屏广告通用拦截", False),
         "wloc": ("📍 虚拟定位与位置信息修正模块", False),
@@ -521,23 +481,16 @@ if os.path.exists(qx_conf_path):
             line = f"https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/{f}, tag={chinese_tag}, update-interval=86400, opt-parser=true, enabled={is_enabled}"
             rewrite_remotes.append(line)
 
-    # 替换 [filter_remote]
     if filter_remotes and "[filter_remote]" in conf_text:
         pattern = r"(\[filter_remote\]\n)(.*?)(?=\n\[|\Z)"
         replacement = r"\1" + "\n".join(filter_remotes) + "\n"
         conf_text = re.sub(pattern, replacement, conf_text, flags=re.DOTALL)
 
-    # 替换 [rewrite_remote]
     if rewrite_remotes and "[rewrite_remote]" in conf_text:
         pattern = r"(\[rewrite_remote\]\n)(.*?)(?=\n\[|\Z)"
         replacement = r"\1" + "\n".join(rewrite_remotes) + "\n"
         conf_text = re.sub(pattern, replacement, conf_text, flags=re.DOTALL)
 
-    with open(qx_conf_path, "w", encoding="utf-8") as f:
-        f.write(conf_text)
-    print("✅ Profiles/QuantumultX.conf 已自动同步最新分流与重写远程直链！")
-
-    # --- 自动补齐: MitM 注入与根目录镜像 ---
     all_qx_mitm_hosts = set()
     if os.path.exists(qx_rw_dir):
         for f in os.listdir(qx_rw_dir):
@@ -561,8 +514,9 @@ if os.path.exists(qx_conf_path):
         else:
             conf_text += f"\n\n[mitm]\nhostname = {sorted_mitm}\n"
 
-        with open(qx_conf_path, "w", encoding="utf-8") as f:
-            f.write(conf_text)
+    with open(qx_conf_path, "w", encoding="utf-8") as f:
+        f.write(conf_text)
+    print("✅ Profiles/QuantumultX.conf 已自动同步最新分流与重写远程直链！")
 
     import shutil
     shutil.copy(qx_conf_path, "QuantumultX.conf")
@@ -571,50 +525,65 @@ if os.path.exists(qx_conf_path):
     print("✅ 已自动完成 MitM 注入与根目录主配置镜像同步！")
 
 
-# 2. 动态维护 README.md 中的 Stash 覆写与分流规则表格
+# ==============================================================================
+# 全动态自愈 README.md（分流、QX 重写、Stash 覆写全量对齐）
+# ==============================================================================
 readme_path = "README.md"
-if os.path.exists(readme_path) and os.path.exists("rewrite/Stash"):
+if os.path.exists(readme_path):
     with open(readme_path, "r", encoding="utf-8") as f:
-        readme_text = f.read()
-
-    stash_files = sorted([f for f in os.listdir("rewrite/Stash") if f.endswith(".stoverride")])
-    if stash_files and "### Stash 覆写配置" in readme_text:
-        table_rows = ["| 模块名称 | 描述 | Stash 覆写直链 |", "| :--- | :--- | :--- |"]
-        for sf in stash_files:
-            bname = sf.replace(".stoverride", "")
-            raw_url = f"https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/{sf}"
-            table_rows.append(f"| {bname} | 全自动转换同步模块 | `{raw_url}` |")
-        
-        pattern = r"(### Stash 覆写配置\n\n)(.*?)(?=\n##|\Z)"
-        replacement = r"\1" + "\n".join(table_rows) + "\n"
-        readme_text = re.sub(pattern, replacement, readme_text, flags=re.DOTALL)
-        
-        with open(readme_path, "w", encoding="utf-8") as f:
-            f.write(readme_text)
-        print(f"✅ README.md 已自动对齐全部 {len(stash_files)} 个 Stash 覆写直链！")
-
-
-# 3. 动态统计分流规则行数并更新 README.md 表格数字
-if os.path.exists("README.md") and os.path.exists("rule/QuantumultX"):
-    with open("README.md", "r", encoding="utf-8") as f:
         rm_text = f.read()
-    
-    rule_files = [f for f in os.listdir("rule/QuantumultX") if f.endswith(".list")]
-    for rf in rule_files:
-        rname = rf.replace(".list", "")
-        fpath = os.path.join("rule/QuantumultX", rf)
-        with open(fpath, "r", encoding="utf-8", errors="ignore") as f:
-            lines = [line.strip() for line in f if line.strip() and not line.strip().startswith(("#", "//", ";"))]
-            count = len(lines)
-        
-        # 匹配 README 表格中类似: | unbreak | ... | 1234 条 |
-        # 或者是: | unbreak | 1234 | 这种格式，动态将旧数字替换为最新实际行数
-        pattern = rf"(\|\s*{re.escape(rname)}\s*\|.*?\|)\s*[\d,]+\s*(条?\s*\|)"
-        rm_text = re.sub(pattern, rf"\g<1> {count:,} \2", rm_text, flags=re.IGNORECASE)
 
-    with open("README.md", "w", encoding="utf-8") as f:
+    # 1. 动态统计分流规则行数并更新
+    if os.path.exists("rule/QuantumultX"):
+        rule_files = [f for f in os.listdir("rule/QuantumultX") if f.endswith(".list")]
+        for rf in rule_files:
+            rname = rf.replace(".list", "")
+            fpath = os.path.join("rule/QuantumultX", rf)
+            with open(fpath, "r", encoding="utf-8", errors="ignore") as f:
+                lines = [line.strip() for line in f if line.strip() and not line.strip().startswith(("#", "//", ";"))]
+                count = len(lines)
+            pattern = rf"(\|\s*{re.escape(rname)}\s*\|.*?\|)\s*[\d,]+\s*(条?\s*\|)"
+            rm_text = re.sub(pattern, rf"\g<1> {count:,} \2", rm_text, flags=re.IGNORECASE)
+
+    # 2. 动态更新 QX 专属重写模块大表格
+    if os.path.exists("rewrite/QuantumultX"):
+        qx_rw_files = sorted([f for f in os.listdir("rewrite/QuantumultX") if f.endswith((".conf", ".snippet", ".js"))])
+        if qx_rw_files:
+            qx_rows = ["| 模块功能 | 文件类型 | 原生直链订阅地址 |", "| :--- | :---: | :--- |"]
+            for rf in qx_rw_files:
+                bname = os.path.splitext(rf)[0]
+                ext = rf.split(".")[-1].upper()
+                tag = REWRITE_META.get(bname.lower(), (f"🧩 {bname}", True))[0] if "REWRITE_META" in globals() else f"🧩 {bname}"
+                url = f"https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/{rf}"
+                qx_rows.append(f"| **{tag}** | `{ext}` | [{rf}]({url}) |")
+            qx_table = "\n".join(qx_rows) + "\n\n"
+            
+            pat_qx = r"(### Quantumult X 专属重写模块.*?\n\n)([\s\S]*?)(?=\n### Stash 专属覆写模块|\n---\n|\Z)"
+            if re.search(pat_qx, rm_text):
+                rm_text = re.sub(pat_qx, f"\\1{qx_table}", rm_text)
+
+    # 3. 动态更新 Stash 专属覆写模块大表格
+    if os.path.exists("rewrite/Stash"):
+        st_rw_files = sorted([f for f in os.listdir("rewrite/Stash") if f.endswith(".stoverride")])
+        if st_rw_files:
+            st_rows = ["| 模块功能 | 适用格式 | Stash 原生覆写订阅直链 |", "| :--- | :---: | :--- |"]
+            for sf in st_rw_files:
+                bname = sf.replace(".stoverride", "")
+                tag = REWRITE_META.get(bname.lower(), (f"🧩 {bname}", True))[0] if "REWRITE_META" in globals() else f"🧩 {bname}"
+                url = f"https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/Stash/{sf}"
+                st_rows.append(f"| **{tag}** | `.stoverride` | [{sf}]({url}) |")
+            st_table = "\n".join(st_rows) + "\n\n"
+
+            pat_st = r"(### Stash 专属覆写模块.*?\n\n)([\s\S]*?)(?=\n---\n|\n### 🛠️ 懒人|\Z)"
+            if re.search(pat_st, rm_text):
+                rm_text = re.sub(pat_st, f"\\1{st_table}", rm_text)
+
+    with open(readme_path, "w", encoding="utf-8") as f:
         f.write(rm_text)
-    update_readme_markdown(qx_rule_dir, RULE_META)
+    print("🎉 README.md 分流表格与双端重写表格已实现 100% 动态对齐！")
 
-    # 全自动同步 Stash 规则集与配置
-    sync_stash_rules_and_profile()
+# 4. 同步更新时间戳与分流直链
+update_readme_markdown(qx_rule_dir, RULE_META)
+
+# 5. 全自动同步 Stash 规则集与配置
+sync_stash_rules_and_profile()
