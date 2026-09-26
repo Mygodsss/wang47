@@ -555,8 +555,7 @@ if os.path.exists(qx_conf_path):
         sorted_mitm = ", ".join(sorted(all_qx_mitm_hosts))
         if "[mitm]" in conf_text:
             if re.search(r"hostname\s*=", conf_text):
-                conf_text = re.sub(r"(hostname\s*=\s*)([^
-]+)", f"\\1{sorted_mitm}", conf_text)
+                conf_text = re.sub(r'hostname\s*=.*', f'hostname = {sorted_mitm}', conf_text)
             else:
                 conf_text = conf_text.replace("[mitm]", f"[mitm]\nhostname = {sorted_mitm}")
         else:

@@ -56,6 +56,7 @@
 | 🍎 苹果官方生态服务 | `1881` 条 | `苹果服务` | [查看规则](rule/QuantumultX/apple.list) |
 | 💬 微信与腾讯直连通信 | `43` 条 | `direct` | [查看规则](rule/QuantumultX/wechat.list) |
 | 🇨🇳 大陆直连域名大合集 | `3753` 条 | `direct` | [查看规则](rule/QuantumultX/china.list) |
+| 🌐 Custom | `1` 条 | `自动选择` | [查看规则](rule/QuantumultX/Custom.list) |
 
 ## 🌐 分流路由规则 (Routing Rules)
 
