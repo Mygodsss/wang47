@@ -39,7 +39,7 @@ def update_readme_markdown(qx_rule_dir, rule_meta, readme_path="README.md"):
 
     with open(readme_path, "w", encoding="utf-8") as f:
         f.write(readme_text)
-    update_readme_markdown(qx_rule_dir, RULE_META)
+    print("🎉 README.md 规则特性与行数全量表格已实现自动化完全对齐！")
 
 
 def extract_header_meta(file_path):
