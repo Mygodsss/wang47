@@ -1,0 +1,47 @@
+# tag: 🏦 HK_Banks
+# policy: direct
+
+# === 渣打银行 (香港) ===
+HOST,www.sc.com
+HOST,api.sc.com
+HOST-SUFFIX,standardchartered.com.hk
+HOST-KEYWORD,standardchartered-hk
+
+# === 传统持牌商业银行 ===
+HOST-SUFFIX,ccb.com.hk
+HOST,asia.ccb.com
+HOST-SUFFIX,bochk.com
+HOST-SUFFIX,bankofchina.com.hk
+HOST-SUFFIX,bocpay.com.hk
+HOST-SUFFIX,hkbea.com
+HOST-SUFFIX,dbs.com.hk
+HOST-SUFFIX,cncbinternational.com
+HOST-SUFFIX,cmbwinglungbank.com
+HOST-SUFFIX,winglungbank.com
+HOST-SUFFIX,hangseng.com
+HOST-SUFFIX,shacombank.com.hk
+HOST-SUFFIX,publicbank.com.hk
+HOST-SUFFIX,ocbc.com.hk
+HOST-SUFFIX,ocbcwhhk.com
+HOST-SUFFIX,tybhk.com.hk
+HOST-SUFFIX,chiyubank.com
+HOST-SUFFIX,dahsing.com
+HOST-SUFFIX,dahsing.com.hk
+HOST-SUFFIX,chbank.com
+HOST-SUFFIX,ncb.com.hk
+HOST-SUFFIX,icbcasia.com
+HOST-SUFFIX,fubonbank.com.hk
+HOST-SUFFIX,fubon.com
+HOST-SUFFIX,citi.com.hk
+HOST-SUFFIX,bankcomm.com.hk
+HOST-SUFFIX,bodintl.com
+
+# === 8 家持牌虚拟/数字银行 ===
+HOST-SUFFIX,za.group
+HOST-SUFFIX,livibank.com
+HOST-SUFFIX,mox.com
+HOST-SUFFIX,welab.bank
+HOST-SUFFIX,fusionbank.com
+HOST-SUFFIX,paob.com.hk
+HOST-SUFFIX,antbank.hk
+HOST-SUFFIX,airstarbank.com

@@ -52,6 +52,7 @@
 | 💱 Wise 跨国跨境汇款 | `4` 条 | `自动选择` | [查看规则](rule/QuantumultX/wise.list) |
 | 💳 贝宝 PayPal 国际支付 | `248` 条 | `自动选择` | [查看规则](rule/QuantumultX/paypal.list) |
 | 💳 Stripe 跨境支付网关 | `1` 条 | `自动选择` | [查看规则](rule/QuantumultX/stripe.list) |
+| 🏦 HK_Banks | `39` 条 | `direct` | [查看规则](rule/QuantumultX/hkbanks.list) |
 | 🔍 Google 搜索与基础生态 | `711` 条 | `google` | [查看规则](rule/QuantumultX/google.list) |
 | 🍎 苹果官方生态服务 | `1881` 条 | `苹果服务` | [查看规则](rule/QuantumultX/apple.list) |
 | 💬 微信与腾讯直连通信 | `43` 条 | `direct` | [查看规则](rule/QuantumultX/wechat.list) |

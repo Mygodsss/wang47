@@ -404,6 +404,7 @@ if os.path.exists(qx_conf_path):
         "wise": ("💱 Wise 跨国跨境汇款", "自动选择", 60),
         "paypal": ("💳 贝宝 PayPal 国际支付", "自动选择", 61),
         "stripe": ("💳 Stripe 跨境支付网关", "自动选择", 62),
+        "hkbanks": ("🏦 HK_Banks", "direct", 63),
         "google": ("🔍 Google 搜索与基础生态", "google", 70),
         "apple": ("🍎 苹果官方生态服务", "苹果服务", 80),
         "wechat": ("💬 微信与腾讯直连通信", "direct", 90),
