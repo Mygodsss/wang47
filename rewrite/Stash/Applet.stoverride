@@ -38,8 +38,8 @@ http:
     - "wx.wxqqurl.cn"
     - "xcx.xianbaow.com"
   url-rewrite:
-  - ^https?:\/\/api\.blibee\.com\/cvsnotify-api\/cvs\/notify\/app\/banner\/v\d+$ - reject
-  - ^https?:\/\/ucmp\.sf-express\.com\/proxy\/operation-platform\/info-flow-adver\/query$ - reject
+  - ^https?:\/\/api\.blibee\.com\/cvsnotify-api\/cvs\/notify\/app\/banner\/v\d+$ - reject-200
+  - ^https?:\/\/ucmp\.sf-express\.com\/proxy\/operation-platform\/info-flow-adver\/query$ - reject-200
   script:
     - match: ^https?:\/\/wx\.mygolbs\.com\/WxBusServer\/ApiData\.do
       name: zhangshanggongjiao

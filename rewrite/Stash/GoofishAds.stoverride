@@ -5,8 +5,8 @@ http:
     - "acs.m.goofish.com"
     - "g-acs.m.goofish.com"
   url-rewrite:
-  - ^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.*splash\.ads - reject
-  - ^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.idle.ad.expose - reject
+  - ^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.*splash\.ads - reject-200
+  - ^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.idle.ad.expose - reject-200
   script:
     - match: ^http:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,4}(:\d+)?\/amdc\/mobileDispatch
       name: amdc

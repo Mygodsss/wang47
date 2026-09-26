@@ -9,22 +9,22 @@ http:
     - "mapi.weibo.*"
     - "new.vip.weibo.cn"
   url-rewrite:
-  - ^https?:\/\/api\.weibo\.cn\/\d\/statuses\/container_positive - reject
-  - ^https?:\/\/api\.weibo\.cn\/\d\/push\/info - reject
-  - ^https?:\/\/api\.weibo\.cn\/.*account\/recommend_interesttags - reject
-  - ^https?:\/\/api\.weibo\.cn\/.*\/media_homelist - reject
-  - ^https?:\/\/api\.weibo\.cn\/.*finder\/searchbarchange - reject
-  - ^https?:\/\/api\.weibo\.cn\/\d\/ad\/preload - reject
-  - ^https?:\/\/api\.weibo\.cn\/\d\/profile\/recommend_popuser - reject
-  - ^https?:\/\/boot.*weibo\.com\/v\d\/ad\/realtime - reject
-  - ^https?:\/\/api\.weibo\.cn\/.*discovery_home_bottom_getdotinfo - reject
-  - ^https?:\/\/m?api\.weibo\.c(n|om)\/\d/push/daily - reject
+  - ^https?:\/\/api\.weibo\.cn\/\d\/statuses\/container_positive - reject-200
+  - ^https?:\/\/api\.weibo\.cn\/\d\/push\/info - reject-200
+  - ^https?:\/\/api\.weibo\.cn\/.*account\/recommend_interesttags - reject-dict
+  - ^https?:\/\/api\.weibo\.cn\/.*\/media_homelist - reject-200
+  - ^https?:\/\/api\.weibo\.cn\/.*finder\/searchbarchange - reject-200
+  - ^https?:\/\/api\.weibo\.cn\/\d\/ad\/preload - reject-dict
+  - ^https?:\/\/api\.weibo\.cn\/\d\/profile\/recommend_popuser - reject-dict
+  - ^https?:\/\/boot.*weibo\.com\/v\d\/ad\/realtime - reject-200
+  - ^https?:\/\/api\.weibo\.cn\/.*discovery_home_bottom_getdotinfo - reject-dict
+  - ^https?:\/\/m?api\.weibo\.c(n|om)\/\d/push/daily - reject-dict
   - ^https?:\/\/(preload-click|preload-impression)\.uve\.weibo\.com\/(interface\/wbpullad\/wbpullad_click\.php|wbapplua\/get_wbpullad_log\.lua) - reject
   - ^https?:\/\/sdkapp\.uve\.weibo\.com\/interface\/sdk\/sdkconfig\.php - reject
-  - ^https?:\/\/m?api\.weibo\.c(n|om)\/\d\/hot\/hours_spotlight - reject
-  - ^https?:\/\/api\.weibo\.cn\/\d\/cardlist\?v_f=.*Weibo_intl - reject
-  - ^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php\?a=hot_search_users - reject
-  - ^https?:\/\/m?api\.weibo\.c(n|om)\/\d\/ad\/weibointl\? - reject
+  - ^https?:\/\/m?api\.weibo\.c(n|om)\/\d\/hot\/hours_spotlight - reject-dict
+  - ^https?:\/\/api\.weibo\.cn\/\d\/cardlist\?v_f=.*Weibo_intl - reject-dict
+  - ^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php\?a=hot_search_users - reject-dict
+  - ^https?:\/\/m?api\.weibo\.c(n|om)\/\d\/ad\/weibointl\? - reject-dict
   script:
     - match: ^https?:\/\/api\.weibo\.cn\/\d\/statuses\/container_detail
       name: weibo_json

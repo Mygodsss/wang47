@@ -8,14 +8,14 @@ http:
     - "m5-zb.amap.com"
     - "m5.amap.com"
   url-rewrite:
-  - ^https?:\/\/.*\.amap\.com\/ws\/aos\/alimama\/splash_screen - reject
-  - ^https?:\/\/.*\.amap\.com\/v\d\/ai_rec\/ - reject
-  - ^https?:\/\/.*\.amap\.com\/ws\/faas\/amap-navigation\/card-service-route-plan\? - reject
-  - ^https?:\/\/.*\.amap\.com\/ws\/boss\/order_web\/\w{8}_information - reject
+  - ^https?:\/\/.*\.amap\.com\/ws\/aos\/alimama\/splash_screen - reject-200
+  - ^https?:\/\/.*\.amap\.com\/v\d\/ai_rec\/ - reject-dict
+  - ^https?:\/\/.*\.amap\.com\/ws\/faas\/amap-navigation\/card-service-route-plan\? - reject-dict
+  - ^https?:\/\/.*\.amap\.com\/ws\/boss\/order_web\/\w{8}_information - reject-200
   - ^https?:\/\/.*\.amap\.com\/ws\/asa\/ads_attribution - reject
-  - ^https?:\/\/.*\.amap\.com\/ws\/shield\/scene\/recommend - reject
-  - ^https?:\/\/.*\.amap\.com\/uploadimg\/\w+\.gif - reject
-  - ^https?:\/\/.*\.amap\.com\/ws\/valueadded\/weather - reject
+  - ^https?:\/\/.*\.amap\.com\/ws\/shield\/scene\/recommend - reject-dict
+  - ^https?:\/\/.*\.amap\.com\/uploadimg\/\w+\.gif - reject-img
+  - ^https?:\/\/.*\.amap\.com\/ws\/valueadded\/weather - reject-dict
   script:
     - match: ^http:\/\/amdc\.m\.taobao\.com
       name: amdc

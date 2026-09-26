@@ -7,5 +7,5 @@ http:
     - match: ^https?:\/\/ls\.apple\.com\/gslb\?
       name: wloc
       type: request-header
-      require-body: true
+      require-body: false
       timeout: 10

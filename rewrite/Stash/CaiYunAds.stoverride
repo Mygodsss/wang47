@@ -7,7 +7,7 @@ http:
     - "starplucker.cyapi.cn"
     - "wrapper.cyapi.cn"
   url-rewrite:
-  - ^https?:\/\/ad\.cyapi\.cn\/v\d - reject
+  - ^https?:\/\/ad\.cyapi\.cn\/v\d - reject-200
   script:
     - match: ^https?:\/\/biz\.cyapi\.cn\/api\/v\d\/user_detail
       name: caiyun_json

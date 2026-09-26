@@ -5,7 +5,7 @@ http:
     - "tieba.baidu.com"
     - "tiebac.baidu.com"
   url-rewrite:
-  - ^https?:\/\/tieba(c)?\.baidu\.com\/c\/f\/ad\/getFeedAd - reject
+  - ^https?:\/\/tieba(c)?\.baidu\.com\/c\/f\/ad\/getFeedAd - reject-200
   script:
     - match: ^http(s:\/\/tiebac|:\/\/c\.tieba)\.baidu\.com\/c\/f\/(frs\/(page|threadlist|generalTabList)|pb\/page|excellent\/personalized)\?cmd
       name: tieba-proto
