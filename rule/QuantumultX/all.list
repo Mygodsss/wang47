@@ -51,7 +51,10 @@ IP-ASN,20473,OpenAI, AI-Auto
 HOST,cdn.usefathom.com,Claude, AI-Auto
 HOST-SUFFIX,anthropic.com,Claude, AI-Auto
 HOST-SUFFIX,claude.ai,Claude, AI-Auto
-HOST,lens.l.google.com,GoogleVoice, bitsflow
+HOST,voice.google.com, bitsflow
+HOST,voice.telephony.goog, bitsflow
+HOST-SUFFIX,voice.google.com, bitsflow
+HOST-KEYWORD,voice.telephony, bitsflow
 HOST,music.youtube.com,YouTube, 海外视频
 HOST,youtubei.googleapis.com,YouTube, 海外视频
 HOST,yt3.ggpht.com,YouTube, 海外视频

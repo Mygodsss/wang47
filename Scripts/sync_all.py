@@ -245,21 +245,81 @@ if os.path.exists(qx_conf_path):
     with open(qx_conf_path, "r", encoding="utf-8") as f:
         conf_text = f.read()
 
-    # 动态装配 [filter_remote]
+    # 动态装配 [filter_remote] (按严格业务优先级 + 中文语义化标签)
     filter_remotes = []
     qx_rule_dir = "rule/QuantumultX"
+
+    # 规则元数据配置: (中文标签, 绑定策略, 优先级权重数值越小越靠前)
+    RULE_META = {
+        # 1. 核心底层拦截与防断流
+        "unbreak": ("🛡️ 节点防断流与系统修正", "direct", 1),
+        "advertising": ("🚫 广告与行为追踪拦截", "reject", 2),
+
+        # 2. AI 大模型矩阵 (绝对优先于通用 Google)
+        "openai": ("🧠 OpenAI (ChatGPT)", "AI-Auto", 10),
+        "claude": ("🎭 Claude (Anthropic)", "AI-Auto", 11),
+        "gemini": ("✨ Google Gemini AI", "AI-Auto", 12),
+
+        # 3. 交易所与 Web3 生态
+        "okx": ("🪙 欧易 OKX 交易所", "okx", 20),
+        "binance": ("🪙 币安 Binance 交易所", "binance", 21),
+        "bybit": ("🪙 Bybit 交易所", "bybit", 22),
+        "bitget": ("🪙 Bitget 交易所", "bitget", 23),
+        "gate": ("🪙 Gate.io 芝麻开门", "gate", 24),
+        "coinbase": ("🪙 Coinbase 交易所", "crypto", 25),
+        "kraken": ("🪙 Kraken 海妖交易所", "crypto", 26),
+        "crypto": ("⛓️ Web3 钱包与基础设施", "crypto", 27),
+
+        # 4. 音视频海外流媒体
+        "youtube": ("🎬 油管 YouTube (含推流CDN)", "海外视频", 30),
+        "netflix": ("🍿 奈飞 Netflix 影音", "海外视频", 31),
+        "disney": ("🏰 迪士尼 Disney+ 影音", "海外视频", 32),
+        "spotify": ("🎵 声网 Spotify 音乐", "海外视频", 33),
+        "tiktok": ("🎵 TikTok 国际版短视频", "TikTok", 34),
+        "globalmedia": ("📺 海外主流流媒体合集", "自动选择", 35),
+
+        # 5. 海外社交与通讯
+        "telegram": ("✈️ 电报 Telegram 通讯", "telegram", 40),
+        "twitter": ("🐦 推特 Twitter / X", "美国节点", 41),
+        "discord": ("💬 Discord 语音社区", "自动选择", 42),
+        "reddit": ("🤖 红迪 Reddit 社区", "自动选择", 43),
+
+        # 6. 谷歌细分生态与生产力开发工具
+        "googlemaps": ("🗺️ 谷歌地图与瓦片切片", "自动选择", 50),
+        "googlevoice": ("📞 Google Voice 虚拟号码", "bitsflow", 51),
+        "googledrive": ("💾 Google 云端硬盘 Drive", "自动选择", 52),
+        "github": ("🐙 GitHub 开发者代码仓", "自动选择", 53),
+        "docker": ("🐳 Docker 容器与镜像源", "自动选择", 54),
+        "microsoft": ("💻 微软服务与 Office", "自动选择", 55),
+
+        # 7. 跨境金融与支付
+        "wise": ("💱 Wise 跨国跨境汇款", "自动选择", 60),
+        "paypal": ("💳 贝宝 PayPal 国际支付", "自动选择", 61),
+        "stripe": ("💳 Stripe 跨境支付网关", "自动选择", 62),
+
+        # 8. 宽泛通用海外搜索 (排在细分服务之后)
+        "google": ("🔍 Google 搜索与基础生态", "google", 70),
+
+        # 9. 苹果与国内直连
+        "apple": ("🍎 苹果官方生态服务", "苹果服务", 80),
+        "wechat": ("💬 微信与腾讯直连通信", "direct", 90),
+        "china": ("🇨🇳 大陆直连域名大合集", "direct", 100),
+    }
+
     if os.path.exists(qx_rule_dir):
-        priority = ["unbreak", "advertising", "crypto"]
-        all_rules = sorted([f[:-5] for f in os.listdir(qx_rule_dir) if f.endswith(".list") and f != "all.list"])
-        sorted_rules = [r for r in priority if r in all_rules] + [r for r in all_rules if r not in priority]
+        all_rules = [f[:-5] for f in os.listdir(qx_rule_dir) if f.endswith(".list") and f != "all.list"]
+        
+        # 按照权重排序，未在字典中声明的规则权重默认为 999 垫底
+        sorted_rules = sorted(all_rules, key=lambda x: RULE_META.get(x, (x, "自动选择", 999))[2])
 
         for r in sorted_rules:
-            policy = POLICY_MAPPING.get(r, "自动选择") if "POLICY_MAPPING" in globals() else "全球代理"
-            if r == "unbreak":
-                policy = "direct"
-            elif r == "advertising":
-                policy = "reject"
-            line = f"https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/{r}.list, tag={r}, force-policy={policy}, update-interval=172800, opt-parser=true, enabled=true"
+            if r in RULE_META:
+                chinese_tag, target_policy, _ = RULE_META[r]
+            else:
+                chinese_tag = r
+                target_policy = POLICY_MAPPING.get(r, "自动选择") if "POLICY_MAPPING" in globals() else "全球代理"
+
+            line = f"https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/{r}.list, tag={chinese_tag}, force-policy={target_policy}, update-interval=172800, opt-parser=true, enabled=true"
             filter_remotes.append(line)
 
     # 动态装配 [rewrite_remote]
