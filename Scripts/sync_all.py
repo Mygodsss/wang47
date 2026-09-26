@@ -1,3 +1,31 @@
+
+def extract_header_meta(file_path):
+    """从规则文件前 10 行提取注释中的元数据 (# tag: xxx, # policy: xxx, # enabled: false)"""
+    meta = {}
+    try:
+        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+            for _ in range(10):
+                line = f.readline()
+                if not line:
+                    break
+                line = line.strip()
+                if line.startswith("#") or line.startswith(";"):
+                    # 匹配 tag / 标签 / name
+                    m_tag = re.search(r"(?:tag|标签|name)\s*[:=]\s*(.+)", line, re.IGNORECASE)
+                    if m_tag and "tag" not in meta:
+                        meta["tag"] = m_tag.group(1).strip()
+                    # 匹配 policy / 策略
+                    m_pol = re.search(r"(?:policy|策略)\s*[:=]\s*(.+)", line, re.IGNORECASE)
+                    if m_pol and "policy" not in meta:
+                        meta["policy"] = m_pol.group(1).strip()
+                    # 匹配 enabled / 开关
+                    m_enb = re.search(r"(?:enabled|启用)\s*[:=]\s*(.+)", line, re.IGNORECASE)
+                    if m_enb and "enabled" not in meta:
+                        meta["enabled"] = m_enb.group(1).strip().lower() in ["true", "1", "yes"]
+    except Exception:
+        pass
+    return meta
+
 import os
 import urllib.request
 from datetime import datetime
@@ -313,10 +341,22 @@ if os.path.exists(qx_conf_path):
         sorted_rules = sorted(all_rules, key=lambda x: RULE_META.get(x, (x, "自动选择", 999))[2])
 
         for r in sorted_rules:
-            if r in RULE_META:
-                chinese_tag, target_policy, _ = RULE_META[r]
+            file_path = os.path.join(qx_rule_dir, f"{r}.list")
+            header_meta = extract_header_meta(file_path)
+
+            # 优先级: 头部自声明 > 内置字典 > 默认生成
+            if "tag" in header_meta:
+                chinese_tag = header_meta["tag"]
+            elif r in RULE_META:
+                chinese_tag = RULE_META[r][0]
             else:
-                chinese_tag = r
+                chinese_tag = f"🌐 {r.capitalize()}"
+
+            if "policy" in header_meta:
+                target_policy = header_meta["policy"]
+            elif r in RULE_META:
+                target_policy = RULE_META[r][1]
+            else:
                 target_policy = POLICY_MAPPING.get(r, "自动选择") if "POLICY_MAPPING" in globals() else "全球代理"
 
             line = f"https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/{r}.list, tag={chinese_tag}, force-policy={target_policy}, update-interval=172800, opt-parser=true, enabled=true"
@@ -350,9 +390,23 @@ if os.path.exists(qx_conf_path):
         for f in sorted(os.listdir(qx_rw_dir)):
             if f.endswith(".conf") or f.endswith(".snippet"):
                 name = os.path.splitext(f)[0]
-                meta = REWRITE_META.get(name, (name, True))
-                chinese_tag = meta[0]
-                is_enabled = "true" if meta[1] else "false"
+                file_path = os.path.join(qx_rw_dir, f)
+                header_meta = extract_header_meta(file_path)
+
+                # 优先级: 头部自声明 > 内置字典 > 默认推导
+                if "tag" in header_meta:
+                    chinese_tag = header_meta["tag"]
+                elif name in REWRITE_META:
+                    chinese_tag = REWRITE_META[name][0]
+                else:
+                    chinese_tag = f"🧩 {name}"
+
+                if "enabled" in header_meta:
+                    is_enabled = "true" if header_meta["enabled"] else "false"
+                elif name in REWRITE_META:
+                    is_enabled = "true" if REWRITE_META[name][1] else "false"
+                else:
+                    is_enabled = "true"
 
                 line = f"https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/{f}, tag={chinese_tag}, update-interval=86400, opt-parser=true, enabled={is_enabled}"
                 rewrite_remotes.append(line)
