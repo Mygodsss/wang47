@@ -371,6 +371,12 @@ rule-providers:
     url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/stripe.yaml"
     path: ./ruleset/stripe.yaml
     interval: 86400
+  hkbanks:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/hkbanks.yaml"
+    path: ./ruleset/hkbanks.yaml
+    interval: 86400
   google:
     type: http
     behavior: classical
@@ -435,6 +441,7 @@ rules:
   - RULE-SET,wise,自动选择
   - RULE-SET,paypal,自动选择
   - RULE-SET,stripe,自动选择
+  - RULE-SET,hkbanks,direct
   - RULE-SET,google,google
   - RULE-SET,apple,苹果服务
   - RULE-SET,wechat,direct
