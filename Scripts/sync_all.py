@@ -1,4 +1,47 @@
 
+def update_readme_markdown(qx_rule_dir, rule_meta, readme_path="README.md"):
+    """全自动根据规则文件和元数据重新渲染 README.md 的分流与重写表格"""
+    if not os.path.exists(readme_path) or not os.path.exists(qx_rule_dir):
+        return
+
+    # 统计每个规则文件的真实行数
+    rule_rows = []
+    all_rules = [f[:-5] for f in os.listdir(qx_rule_dir) if f.endswith(".list") and f != "all.list"]
+    sorted_rules = sorted(all_rules, key=lambda x: rule_meta.get(x, (x, "自动选择", 999))[2])
+
+    for r in sorted_rules:
+        file_path = os.path.join(qx_rule_dir, f"{r}.list")
+        line_count = 0
+        with open(file_path, "r", encoding="utf-8", errors="ignore") as rf:
+            line_count = sum(1 for line in rf if line.strip() and not line.strip().startswith(("#", ";")))
+        
+        tag, policy, _ = rule_meta.get(r, (f"🌐 {r}", "自动选择", 999))
+        rule_rows.append(f"| {tag} | `{line_count}` 条 | `{policy}` | [查看规则](rule/QuantumultX/{r}.list) |")
+
+    table_content = "\n".join([
+        "| 分流业务标签 | 规则行数 | 默认绑定策略 | 规则直链 |",
+        "| :--- | :---: | :--- | :--- |"
+    ] + rule_rows)
+
+    with open(readme_path, "r", encoding="utf-8") as f:
+        readme_text = f.read()
+
+    # 将动态表格注入到 <!-- RULE_TABLE_START --> 和 <!-- RULE_TABLE_END --> 之间
+    if "<!-- RULE_TABLE_START -->" in readme_text and "<!-- RULE_TABLE_END -->" in readme_text:
+        pattern = r"<!-- RULE_TABLE_START -->[\s\S]*?<!-- RULE_TABLE_END -->"
+        replacement = f"<!-- RULE_TABLE_START -->\n{table_content}\n<!-- RULE_TABLE_END -->"
+        readme_text = re.sub(pattern, replacement, readme_text)
+    else:
+        # 若未标记锚点，则智能替换原有的 Markdown 规则表格
+        table_pattern = r"\|\s*分流.*?\|[\s\S]*?\n(?=\n[#\[]|\Z)"
+        if re.search(table_pattern, readme_text):
+            readme_text = re.sub(table_pattern, table_content, readme_text)
+
+    with open(readme_path, "w", encoding="utf-8") as f:
+        f.write(readme_text)
+    update_readme_markdown(qx_rule_dir, RULE_META)
+
+
 def extract_header_meta(file_path):
     """从规则文件前 10 行提取注释中的元数据 (# tag: xxx, # policy: xxx, # enabled: false)"""
     meta = {}
@@ -470,4 +513,4 @@ if os.path.exists("README.md") and os.path.exists("rule/QuantumultX"):
 
     with open("README.md", "w", encoding="utf-8") as f:
         f.write(rm_text)
-    print("✅ README.md 中的规则数量统计已动态对齐最新行数！")
+    update_readme_markdown(qx_rule_dir, RULE_META)
