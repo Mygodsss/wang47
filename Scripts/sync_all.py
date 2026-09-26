@@ -501,28 +501,23 @@ if os.path.exists(qx_conf_path):
 
     if os.path.exists(qx_rw_dir):
         for f in sorted(os.listdir(qx_rw_dir)):
-            if f.endswith(".conf") or f.endswith(".snippet"):
-                name = os.path.splitext(f)[0]
-                file_path = os.path.join(qx_rw_dir, f)
-                header_meta = extract_header_meta(file_path)
-
-                # 优先级: 头部自声明 > 内置字典 > 默认推导
-                if "tag" in header_meta:
-                    chinese_tag = header_meta["tag"]
-                elif name.lower() in REWRITE_META:
-                    chinese_tag = REWRITE_META[name.lower()][0]
-                else:
-                    chinese_tag = f"🧩 {name}"
-
-                if "enabled" in header_meta:
-                    is_enabled = "true" if header_meta["enabled"] else "false"
-                elif name.lower() in REWRITE_META:
-                    chinese_tag = REWRITE_META[name.lower()][0]
-                elif name.lower() in REWRITE_META:
-                    is_enabled = "true" if REWRITE_META[name.lower()][1] else "false"
-                else:
-                    is_enabled = "true"
-
+        if not (f.endswith('.conf') or f.endswith('.snippet')):
+            continue
+        name = os.path.splitext(f)[0]
+        chinese_tag = f'🧩 {name}'
+        is_enabled = 'true'
+        if name.lower() in REWRITE_META:
+            chinese_tag = REWRITE_META[name.lower()][0]
+            is_enabled = 'true' if REWRITE_META[name.lower()][1] else 'false'
+        else:
+            try:
+                import os
+                with open(os.path.join('rewrite/QuantumultX', f), 'r', encoding='utf-8') as rf:
+                    first = rf.readline()
+                    if 'tag:' in first:
+                        chinese_tag = first.split('tag:', 1)[1].strip()
+            except Exception:
+                pass
                 line = f"https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/{f}, tag={chinese_tag}, update-interval=86400, opt-parser=true, enabled={is_enabled}"
                 rewrite_remotes.append(line)
 
