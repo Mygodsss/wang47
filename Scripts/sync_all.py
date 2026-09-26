@@ -25,20 +25,31 @@ NAME_ALIAS = {
 }
 
 POLICY_MAPPING = {
-    "gemini": "AI-Auto",
-    "ai": "AI-Auto",
-    "crypto": "crypto",
+    "unbreak": "direct",
+    "advertising": "reject",
+    "china": "direct",
+    "wechat": "direct",
     "okx": "okx",
     "binance": "binance",
     "bybit": "bybit",
     "bitget": "bitget",
     "gate": "gate",
+    "coinbase": "crypto",
+    "kraken": "crypto",
+    "crypto": "crypto",
+    "gemini": "AI-Auto",
+    "openai": "AI-Auto",
+    "claude": "AI-Auto",
     "google": "google",
+    "googlevoice": "bitsflow",
     "telegram": "telegram",
+    "twitter": "美国节点",
     "tiktok": "TikTok",
-    "youtube": "海外视频",
-    "media": "海外视频",
     "apple": "苹果服务",
+    "youtube": "海外视频",
+    "netflix": "海外视频",
+    "disney": "海外视频",
+    "spotify": "海外视频",
 }
 
 WORKER_HOST = "https://rule-proxy.mygods.workers.dev"
@@ -243,7 +254,7 @@ if os.path.exists(qx_conf_path):
         sorted_rules = [r for r in priority if r in all_rules] + [r for r in all_rules if r not in priority]
 
         for r in sorted_rules:
-            policy = POLICY_MAPPING.get(r, "全球代理") if "POLICY_MAPPING" in globals() else "全球代理"
+            policy = POLICY_MAPPING.get(r, "自动选择") if "POLICY_MAPPING" in globals() else "全球代理"
             if r == "unbreak":
                 policy = "direct"
             elif r == "advertising":
