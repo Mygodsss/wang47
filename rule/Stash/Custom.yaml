@@ -1,2 +1,3 @@
+# Custom Stash Rule Provider
 payload:
-
+  - DOMAIN-SUFFIX,facebook.com

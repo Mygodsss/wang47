@@ -201,5 +201,5 @@ def main():
     elif args.action == "rule-list":
         print(ctl.rules.list_custom_rules())
 
-if __name__ ==- "__main__":
+if __name__ == "__main__":
     main()
