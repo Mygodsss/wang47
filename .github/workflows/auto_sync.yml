@@ -65,7 +65,7 @@ jobs:
           echo "$OUTPUT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      # 2. 仓库交付：智能动态提交，免疫 missing files 报错
+      # 2. 仓库交付：智能动态提交，完美避开 pathspec 报错
       - name: Commit & Push Changes
         id: commit_step
         run: |
@@ -75,15 +75,15 @@ jobs:
           # 关键防线：绝对保护 README.md
           git checkout -- README.md 2>/dev/null || true
 
-          # 动态检查并添加实际存在的资产，完美避开 pathspec fatal 报错
+          # 动态检查并添加实际存在的资产
           for target in rule rewrite Profiles QuantumultX.conf Stash.yaml; do
             if [ -e "$target" ]; then
               git add "$target"
             fi
           done
 
-          # 检查被 stage 的变动
-          CORE_CHANGES=$(git status --porcelain --cached)
+          # 正确检查暂存区是否有变动
+          CORE_CHANGES=$(git diff --cached --name-only)
 
           if [ -n "$CORE_CHANGES" ]; then
             echo "💡 检测到核心分流资产实质变动，执行版本交付..."
