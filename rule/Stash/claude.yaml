@@ -1,4 +1,3 @@
-# Stash: claude
 payload:
   - DOMAIN,cdn.usefathom.com
   - DOMAIN-SUFFIX,anthropic.com
