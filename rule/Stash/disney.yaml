@@ -1,3 +1,6 @@
+# Stash Rule Provider: disney
+# Generated from disney.list by controller.py
+
 payload:
   - DOMAIN,cdn.registerdisney.go.com
   - DOMAIN-SUFFIX,20thcenturystudios.com.au
@@ -172,4 +175,3 @@ payload:
   - DOMAIN-SUFFIX,thisispolaris.com
   - DOMAIN-SUFFIX,watchdisneyfe.com
   - DOMAIN-SUFFIX,watchespn.com
-  - USER-AGENT,Disney+*

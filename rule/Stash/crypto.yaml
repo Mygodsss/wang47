@@ -1,3 +1,6 @@
+# Stash Rule Provider: crypto
+# Generated from crypto.list by controller.py
+
 payload:
   - DOMAIN-SUFFIX,kucoin.com
   - DOMAIN-SUFFIX,kucoin.net

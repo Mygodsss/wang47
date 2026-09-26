@@ -1,3 +1,6 @@
+# Stash Rule Provider: telegram
+# Generated from telegram.list by controller.py
+
 payload:
   - DOMAIN,api.imem.app
   - DOMAIN,api.swiftgram.app

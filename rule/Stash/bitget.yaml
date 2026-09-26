@@ -1,3 +1,6 @@
+# Stash Rule Provider: bitget
+# Generated from bitget.list by controller.py
+
 payload:
   - DOMAIN-SUFFIX,bitget.com
   - DOMAIN-SUFFIX,bitget.site

@@ -1,3 +1,6 @@
+# Stash Rule Provider: apple
+# Generated from apple.list by controller.py
+
 payload:
   - DOMAIN,apps.apple.com
   - DOMAIN,itunes.apple.com
@@ -1829,29 +1832,6 @@ payload:
   - DOMAIN-KEYWORD,smp-device
   - DOMAIN-KEYWORD,testflight
   - DOMAIN-KEYWORD,icloud.com.akadns.net
-  - USER-AGENT,*FindMyiPhone?
-  - USER-AGENT,*Music?
-  - USER-AGENT,*WeatherFoundation*
-  - USER-AGENT,*com.apple.Maps?
-  - USER-AGENT,*com.apple.mobileme.fmip1
-  - USER-AGENT,FMDClient*
-  - USER-AGENT,FMFD*
-  - USER-AGENT,FindMyFriends*
-  - USER-AGENT,FindMyiPhone*
-  - USER-AGENT,Maps*
-  - USER-AGENT,Wallet*
-  - USER-AGENT,com.apple.Maps
-  - USER-AGENT,com.apple.appstored*
-  - USER-AGENT,fmflocatord*
-  - USER-AGENT,geod*
-  - USER-AGENT,locationd*
-  - USER-AGENT,passd*
-  - USER-AGENT,Music*
-  - USER-AGENT,AppleNews*
-  - USER-AGENT,AppleTV*
-  - USER-AGENT,com.apple.news*
-  - USER-AGENT,com.apple.trustd*
-  - USER-AGENT,com.apple.tv*
   - IP-CIDR,139.178.128.0/18
   - IP-CIDR,144.178.0.0/19
   - IP-CIDR,144.178.36.0/22

@@ -1,3 +1,6 @@
+# Stash Rule Provider: wechat
+# Generated from wechat.list by controller.py
+
 payload:
   - DOMAIN,apd-pcdnwxlogin.teg.tencent-cloud.net
   - DOMAIN,btrace.qq.com
@@ -39,5 +42,3 @@ payload:
   - DOMAIN-SUFFIX,wxapp.tc.qq.com
   - DOMAIN-SUFFIX,wxs.qq.com
   - DOMAIN-SUFFIX,yun-hl.3g.qq.com
-  - USER-AGENT,MicroMessenger*
-  - USER-AGENT,WeChat*

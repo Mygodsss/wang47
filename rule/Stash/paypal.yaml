@@ -1,3 +1,6 @@
+# Stash Rule Provider: paypal
+# Generated from paypal.list by controller.py
+
 payload:
   - DOMAIN-SUFFIX,account-paypal.info
   - DOMAIN-SUFFIX,account-paypal.net
@@ -246,4 +249,3 @@ payload:
   - DOMAIN-SUFFIX,xoom.us
   - DOMAIN-SUFFIX,xoomcom.com
   - DOMAIN-KEYWORD,paypal
-  - USER-AGENT,PayPal*

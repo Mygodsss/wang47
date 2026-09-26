@@ -1,3 +1,6 @@
+# Stash Rule Provider: discord
+# Generated from discord.list by controller.py
+
 payload:
   - DOMAIN-SUFFIX,airhorn.solutions
   - DOMAIN-SUFFIX,airhornbot.com
