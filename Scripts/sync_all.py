@@ -501,23 +501,22 @@ if os.path.exists(qx_conf_path):
 
     if os.path.exists(qx_rw_dir):
         for f in sorted(os.listdir(qx_rw_dir)):
-        if not (f.endswith('.conf') or f.endswith('.snippet')):
-            continue
-        name = os.path.splitext(f)[0]
-        chinese_tag = f'🧩 {name}'
-        is_enabled = 'true'
-        if name.lower() in REWRITE_META:
-            chinese_tag = REWRITE_META[name.lower()][0]
-            is_enabled = 'true' if REWRITE_META[name.lower()][1] else 'false'
-        else:
-            try:
-                import os
-                with open(os.path.join('rewrite/QuantumultX', f), 'r', encoding='utf-8') as rf:
-                    first = rf.readline()
-                    if 'tag:' in first:
-                        chinese_tag = first.split('tag:', 1)[1].strip()
-            except Exception:
-                pass
+            if not (f.endswith('.conf') or f.endswith('.snippet')):
+                continue
+            name = os.path.splitext(f)[0]
+            chinese_tag = f"🧩 {name}"
+            is_enabled = "true"
+            if name.lower() in REWRITE_META:
+                chinese_tag = REWRITE_META[name.lower()][0]
+                is_enabled = "true" if REWRITE_META[name.lower()][1] else "false"
+            else:
+                try:
+                    with open(os.path.join("rewrite/QuantumultX", f), "r", encoding="utf-8") as rf:
+                        first = rf.readline()
+                        if "tag:" in first:
+                            chinese_tag = first.split("tag:", 1)[1].strip()
+                except Exception:
+                    pass
                 line = f"https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/{f}, tag={chinese_tag}, update-interval=86400, opt-parser=true, enabled={is_enabled}"
                 rewrite_remotes.append(line)
 
