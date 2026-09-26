@@ -118,7 +118,7 @@ def extract_header_meta(file_path):
                     break
                 line = line.strip()
                 if line.startswith("#") or line.startswith(";"):
-                    m_tag = re.search(r"(?:tag|标签|name)\s*[:=]\s*(.+)", line, re.IGNORECASE)
+                    m_tag = re.search(r"(?:tag|标签)\s*[:=]\s*(.+)", line, re.IGNORECASE)
                     if m_tag and "tag" not in meta:
                         meta["tag"] = m_tag.group(1).strip()
                     m_pol = re.search(r"(?:policy|策略)\s*[:=]\s*(.+)", line, re.IGNORECASE)
@@ -134,7 +134,7 @@ def extract_header_meta(file_path):
 RULES_MAP = {
     "Google 全家桶": ["Gemini", "GoogleVoice", "YouTube", "GooglePlay", "GoogleDrive", "GoogleMaps", "Google"],
     "AI 智能助手": ["OpenAI", "Claude"],
-    "Crypto 加密货币": ["OKX", "Binance", "Bybit", "Bitget", "Gate", "Coinbase", "Kraken", "Crypto"],
+    "Crypto 加密货币": ["OKX", "Binance", "Bybit", "Bitget", "Gate", "Crypto"],
     "Finance 金融支付": ["Wise", "Stripe", "PayPal"],
     "Social 社交通讯": ["Telegram", "Twitter", "Discord", "Reddit"],
     "Media 流媒体服务": ["Spotify", "Netflix", "Disney"],
@@ -148,8 +148,6 @@ NAME_ALIAS = {
     "googleplay": "GooglePlay",
     "googledrive": "GoogleDrive",
     "googlemaps": "GoogleEarth",
-    "coinbase": "Cryptocurrency",
-    "kraken": "Cryptocurrency",
     "gate": "GateIO"
 }
 
@@ -271,7 +269,7 @@ EXECUTION_ORDER = [
     "youtube", "spotify", "netflix", "disney",
     "googlemaps", "googleplay", "googledrive",
     "google",
-    "okx", "binance", "bybit", "bitget", "gate", "coinbase", "kraken", "crypto",
+    "okx", "binance", "bybit", "bitget", "gate", "crypto",
     "wise", "stripe", "paypal",
     "telegram", "twitter", "discord", "reddit",
     "github", "docker", "apple", "microsoft",
@@ -409,6 +407,7 @@ if os.path.exists(qx_conf_path):
         "apple": ("🍎 苹果官方生态服务", "苹果服务", 80),
         "wechat": ("💬 微信与腾讯直连通信", "direct", 90),
         "china": ("🇨🇳 大陆直连域名大合集", "direct", 100),
+        "custom": ("🌐 个人私有自定义规则", "自动选择", 110),
     }
 
     if os.path.exists(qx_rule_dir):

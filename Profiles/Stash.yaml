@@ -239,18 +239,6 @@ rule-providers:
     url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/gate.yaml"
     path: ./ruleset/gate.yaml
     interval: 86400
-  coinbase:
-    type: http
-    behavior: classical
-    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/coinbase.yaml"
-    path: ./ruleset/coinbase.yaml
-    interval: 86400
-  kraken:
-    type: http
-    behavior: classical
-    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/kraken.yaml"
-    path: ./ruleset/kraken.yaml
-    interval: 86400
   crypto:
     type: http
     behavior: classical
@@ -401,11 +389,11 @@ rule-providers:
     url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/china.yaml"
     path: ./ruleset/china.yaml
     interval: 86400
-  Custom:
+  custom:
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/Custom.yaml"
-    path: ./ruleset/Custom.yaml
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/custom.yaml"
+    path: ./ruleset/custom.yaml
     interval: 86400
 
 rules:
@@ -419,8 +407,6 @@ rules:
   - RULE-SET,bybit,bybit
   - RULE-SET,bitget,bitget
   - RULE-SET,gate,gate
-  - RULE-SET,coinbase,crypto
-  - RULE-SET,kraken,crypto
   - RULE-SET,crypto,crypto
   - RULE-SET,youtube,海外视频
   - RULE-SET,netflix,海外视频
@@ -446,6 +432,6 @@ rules:
   - RULE-SET,apple,苹果服务
   - RULE-SET,wechat,direct
   - RULE-SET,china,direct
-  - RULE-SET,Custom,自动选择
+  - RULE-SET,custom,自动选择
   - GEOIP,CN,DIRECT
   - MATCH,兜底分流

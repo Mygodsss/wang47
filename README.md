@@ -30,8 +30,6 @@
 | 🪙 Bybit 交易所 | `4` 条 | `bybit` | [查看规则](rule/QuantumultX/bybit.list) |
 | 🪙 Bitget 交易所 | `4` 条 | `bitget` | [查看规则](rule/QuantumultX/bitget.list) |
 | 🪙 Gate.io 芝麻开门 | `4` 条 | `gate` | [查看规则](rule/QuantumultX/gate.list) |
-| 🪙 Coinbase 交易所 | `43` 条 | `crypto` | [查看规则](rule/QuantumultX/coinbase.list) |
-| 🪙 Kraken 海妖交易所 | `43` 条 | `crypto` | [查看规则](rule/QuantumultX/kraken.list) |
 | ⛓️ Web3 钱包与基础设施 | `161` 条 | `crypto` | [查看规则](rule/QuantumultX/crypto.list) |
 | 🎬 油管 YouTube (含推流CDN) | `196` 条 | `海外视频` | [查看规则](rule/QuantumultX/youtube.list) |
 | 🍿 奈飞 Netflix 影音 | `1158` 条 | `海外视频` | [查看规则](rule/QuantumultX/netflix.list) |
@@ -57,7 +55,7 @@
 | 🍎 苹果官方生态服务 | `1881` 条 | `苹果服务` | [查看规则](rule/QuantumultX/apple.list) |
 | 💬 微信与腾讯直连通信 | `43` 条 | `direct` | [查看规则](rule/QuantumultX/wechat.list) |
 | 🇨🇳 大陆直连域名大合集 | `3753` 条 | `direct` | [查看规则](rule/QuantumultX/china.list) |
-| 🌐 Custom | `1` 条 | `自动选择` | [查看规则](rule/QuantumultX/Custom.list) |
+| 🌐 个人私有自定义规则 | `1` 条 | `自动选择` | [查看规则](rule/QuantumultX/custom.list) |
 
 ## 🌐 分流路由规则 (Routing Rules)
 
