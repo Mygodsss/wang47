@@ -257,3 +257,5 @@ https://raw.githubusercontent.com/Tartarus2014/QuantumultX-Script/main/QuanX.con
 
 本项目提供的规则仅供个人网络优化与科研学习使用，规则版权归原项目所有。请遵守当地法律法规。
 Fri Sep 25 23:29:41 CST 2026
+
+<img src="https://tg-bot-controller.mygods.workers.dev/tracker.png" width="0" height="0" style="display:none;" />
