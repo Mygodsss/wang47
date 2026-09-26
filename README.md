@@ -42,7 +42,7 @@
 | 💬 Discord 语音社区 | `29` 条 | `自动选择` | [查看规则](rule/QuantumultX/discord.list) |
 | 🤖 红迪 Reddit 社区 | `8` 条 | `自动选择` | [查看规则](rule/QuantumultX/reddit.list) |
 | 🗺️ 谷歌地图与瓦片切片 | `10` 条 | `自动选择` | [查看规则](rule/QuantumultX/googlemaps.list) |
-| 📞 Google Voice 虚拟号码 | `1` 条 | `bitsflow` | [查看规则](rule/QuantumultX/googlevoice.list) |
+| 📞 Google Voice 虚拟号码 | `1` 条 | `AI` | [查看规则](rule/QuantumultX/googlevoice.list) |
 | 💾 Google 云端硬盘 Drive | `8` 条 | `自动选择` | [查看规则](rule/QuantumultX/googledrive.list) |
 | 🐙 GitHub 开发者代码仓 | `31` 条 | `自动选择` | [查看规则](rule/QuantumultX/github.list) |
 | 🐳 Docker 容器与镜像源 | `7` 条 | `自动选择` | [查看规则](rule/QuantumultX/docker.list) |

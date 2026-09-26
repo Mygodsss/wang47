@@ -419,7 +419,7 @@ rules:
   - RULE-SET,discord,自动选择
   - RULE-SET,reddit,自动选择
   - RULE-SET,googlemaps,自动选择
-  - RULE-SET,googlevoice,bitsflow
+  - RULE-SET,googlevoice,AI
   - RULE-SET,googledrive,自动选择
   - RULE-SET,github,自动选择
   - RULE-SET,docker,自动选择
