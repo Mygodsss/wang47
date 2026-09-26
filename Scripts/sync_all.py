@@ -316,3 +316,26 @@ if os.path.exists(readme_path) and os.path.exists("rewrite/Stash"):
         with open(readme_path, "w", encoding="utf-8") as f:
             f.write(readme_text)
         print(f"✅ README.md 已自动对齐全部 {len(stash_files)} 个 Stash 覆写直链！")
+
+
+# 3. 动态统计分流规则行数并更新 README.md 表格数字
+if os.path.exists("README.md") and os.path.exists("rule/QuantumultX"):
+    with open("README.md", "r", encoding="utf-8") as f:
+        rm_text = f.read()
+    
+    rule_files = [f for f in os.listdir("rule/QuantumultX") if f.endswith(".list")]
+    for rf in rule_files:
+        rname = rf.replace(".list", "")
+        fpath = os.path.join("rule/QuantumultX", rf)
+        with open(fpath, "r", encoding="utf-8", errors="ignore") as f:
+            lines = [line.strip() for line in f if line.strip() and not line.strip().startswith(("#", "//", ";"))]
+            count = len(lines)
+        
+        # 匹配 README 表格中类似: | unbreak | ... | 1234 条 |
+        # 或者是: | unbreak | 1234 | 这种格式，动态将旧数字替换为最新实际行数
+        pattern = rf"(\|\s*{re.escape(rname)}\s*\|.*?\|)\s*[\d,]+\s*(条?\s*\|)"
+        rm_text = re.sub(pattern, rf"\g<1> {count:,} \2", rm_text, flags=re.IGNORECASE)
+
+    with open("README.md", "w", encoding="utf-8") as f:
+        f.write(rm_text)
+    print("✅ README.md 中的规则数量统计已动态对齐最新行数！")
