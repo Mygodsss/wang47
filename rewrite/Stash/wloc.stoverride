@@ -1,3 +1,11 @@
 # Generated from QuantumultX/wloc.conf
 name: wloc
 http:
+  mitm:
+    - "ls.apple.com"
+  script:
+    - match: ^https?:\/\/ls\.apple\.com\/gslb\?
+      name: wloc
+      type: request-header
+      require-body: true
+      timeout: 10
