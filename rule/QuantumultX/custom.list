@@ -1,6 +1,0 @@
-# tag: 🌐 个人私有自定义规则
-# policy: 自动选择
-
-# Custom Quantumult X Rules
-# Format: TYPE,VALUE,POLICY
-HOST-SUFFIX,facebook.com,PROXY
