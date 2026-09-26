@@ -75,6 +75,13 @@ jobs:
           # 关键防线：绝对保护 README.md
           git checkout -- README.md 2>/dev/null || true
 
+          # 微创更新主页时间戳，不破坏排版
+          if [ -f "README.md" ]; then
+            CURRENT_TIME=$(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')
+            sed -i "s/[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\} [0-9]\{2\}:[0-9]\{2\}:[0-9]\{2\}/$CURRENT_TIME/g" README.md
+            git add README.md
+          fi
+
           # 动态检查并添加实际存在的资产
           for target in rule rewrite Profiles QuantumultX.conf Stash.yaml; do
             if [ -e "$target" ]; then
@@ -86,7 +93,7 @@ jobs:
           CORE_CHANGES=$(git diff --cached --name-only)
 
           if [ -n "$CORE_CHANGES" ]; then
-            echo "💡 检测到核心分流资产实质变动，执行版本交付..."
+            echo "💡 检测到核心分流资产或时间戳实质变动，执行版本交付..."
             
             if [ "$IS_MANAGE_RULE" = "true" ]; then
               git commit -m "chore(rule): [Telegram Bot] 动态更新分流规则"
