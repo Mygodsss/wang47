@@ -122,22 +122,46 @@ jobs:
           JOB_STATUS: ${{ job.status }}
           HAS_CHANGES: ${{ steps.commit_step.outputs.has_changes }}
         run: |
-          if [ -z "$TG_BOT_TOKEN" ] || [ -z "$TG_CHAT_ID" ]; then
-            echo "ℹ️ 未配置 TG_BOT_TOKEN 或 TG_CHAT_ID，跳过通知发送。"
-            exit 0
-          fi
+          python3 - << 'PY_TG'
+          import os, json, urllib.request
+          from datetime import datetime, timezone, timedelta
 
-          if [ "$JOB_STATUS" = "success" ]; then
-            if [ "$HAS_CHANGES" = "true" ]; then
-              MSG="🚀 *QX & Stash 自动化闭环完成*%0A%0A*状态:* 规则编译完成、公开仓库已提交、私密 Gist 已更新%0A*时间:* $(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M:%S') (UTC+8)%0A*仓库:* [wang47](https://github.com/${{ github.repository }})"
-            else
-              MSG="ℹ️ *QX & Stash 日常巡检*%0A%0A*状态:* 上游规则无变化，Gist 保持最新%0A*时间:* $(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M:%S') (UTC+8)"
-            fi
-          else
-            MSG="❌ *自动化流水线运行报错*%0A%0A*状态:* 请前往 Actions 日志排查%0A*链接:* https://github.com/${{ github.repository }}/actions"
-          fi
+          token = os.environ.get('TG_BOT_TOKEN', '').strip()
+          chat_id = os.environ.get('TG_CHAT_ID', '').strip()
+          status = os.environ.get('JOB_STATUS', '')
+          has_changes = os.environ.get('HAS_CHANGES', '')
 
-          curl -s -X POST "https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage" \
-            -d "chat_id=${TG_CHAT_ID}" \
-            -d "parse_mode=Markdown" \
-            -d "text=${MSG}" > /dev/null
+          if not token or not chat_id:
+              print('ℹ️ 未检测到 TG 凭证，跳过发送。')
+              exit(0)
+
+          tz = timezone(timedelta(hours=8))
+          now_str = datetime.now(tz).strftime('%Y-%m-%d %H:%M:%S')
+          repo = os.environ.get('GITHUB_REPOSITORY', 'Mygodsss/wang47')
+
+          if status == 'success':
+              if has_changes == 'true':
+                  text = f'🚀 *QX-Rules 自动同步成功*\n\n*状态:* 规则与覆写已更新并推送到仓库\n*时间:* {now_str} (UTC+8)\n*仓库:* [{repo}](https://github.com/{repo})'
+              else:
+                  text = f'ℹ️ *QX-Rules 自动同步检测*\n\n*状态:* 上游规则无变动，保持最新\n*时间:* {now_str} (UTC+8)'
+          else:
+              text = f'❌ *QX-Rules 自动同步失败*\n\n*状态:* 流水线运行报错，请排查\n*链接:* https://github.com/{repo}/actions'
+
+          url = f'https://api.telegram.org/bot{token}/sendMessage'
+          payload = {
+              'chat_id': chat_id,
+              'text': text,
+              'parse_mode': 'Markdown',
+              'disable_web_page_preview': True
+          }
+          req = urllib.request.Request(
+              url,
+              data=json.dumps(payload).encode('utf-8'),
+              headers={'Content-Type': 'application/json'}
+          )
+          try:
+              with urllib.request.urlopen(req) as resp:
+                  print('🎉 Telegram 推送成功:', resp.read().decode('utf-8'))
+          except Exception as e:
+              print(f'❌ Telegram 发送异常: {e}')
+          PY_TG
