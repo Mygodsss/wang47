@@ -518,8 +518,8 @@ if os.path.exists(qx_conf_path):
                             chinese_tag = first.split("tag:", 1)[1].strip()
                 except Exception:
                     pass
-                line = f"https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/{f}, tag={chinese_tag}, update-interval=86400, opt-parser=true, enabled={is_enabled}"
-                rewrite_remotes.append(line)
+            line = f"https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/{f}, tag={chinese_tag}, update-interval=86400, opt-parser=true, enabled={is_enabled}"
+            rewrite_remotes.append(line)
 
     # 替换 [filter_remote]
     if filter_remotes and "[filter_remote]" in conf_text:
