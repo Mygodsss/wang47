@@ -322,14 +322,39 @@ if os.path.exists(qx_conf_path):
             line = f"https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/QuantumultX/{r}.list, tag={chinese_tag}, force-policy={target_policy}, update-interval=172800, opt-parser=true, enabled=true"
             filter_remotes.append(line)
 
-    # 动态装配 [rewrite_remote]
+    # 动态装配 [rewrite_remote] (中文特性语义化标签)
     rewrite_remotes = []
     qx_rw_dir = "rewrite/QuantumultX"
+
+    # 重写元数据配置: (中文标签, 默认是否开启 enabled)
+    REWRITE_META = {
+        # 核心工具
+        "boxjs": ("📦 BoxJS 脚本与数据管理面板", True),
+        "SubStore": ("🧰 Sub-Store 节点订阅转换核心", True),
+        # 日常体验增强
+        "Q-Search": ("🔍 Q-Search 浏览器快捷搜索增强", True),
+        "GoogleCAPTCHA": ("🛡️ 谷歌人机验证自动放行", True),
+        "UnblockURLinWeChat": ("🔓 微信外链自动解除拦截直开", True),
+        # 头部 App 广告拦截
+        "WeiboAds": ("👁️ 新浪微博去广告与信息流净化", True),
+        "TieBaAds": ("💬 百度贴吧去广告与帖内净化", True),
+        "soul": ("👻 Soul 社交开屏与动态广告拦截", True),
+        "QiShuiMusicAds": ("🎵 汽水音乐去广告与收听净化", True),
+        # 其他垂直模块
+        "StartUpAds": ("🚫 全局 App 开屏广告通用拦截", False),
+        "thly": ("🎬 影视聚合平台去广告净化", True),
+        "wloc": ("📍 虚拟定位与位置信息修正模块", False),
+    }
+
     if os.path.exists(qx_rw_dir):
         for f in sorted(os.listdir(qx_rw_dir)):
             if f.endswith(".conf") or f.endswith(".snippet"):
                 name = os.path.splitext(f)[0]
-                line = f"https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/{f}, tag={name}, update-interval=86400, opt-parser=true, enabled=true"
+                meta = REWRITE_META.get(name, (name, True))
+                chinese_tag = meta[0]
+                is_enabled = "true" if meta[1] else "false"
+
+                line = f"https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/{f}, tag={chinese_tag}, update-interval=86400, opt-parser=true, enabled={is_enabled}"
                 rewrite_remotes.append(line)
 
     # 替换 [filter_remote]
