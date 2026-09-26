@@ -1,8 +1,8 @@
-name: Auto Sync Rules and Overrides
+name: Full Automation Pipeline (Sync, Profiles & Gist)
 
 on:
   schedule:
-    # 每天北京时间凌晨 04:00 (UTC 20:00) 静默自动运行
+    # 每天北京时间凌晨 04:00 (UTC 20:00) 自动执行
     - cron: '0 20 * * *'
   push:
     branches:
@@ -17,7 +17,7 @@ permissions:
   contents: write
 
 jobs:
-  auto-update:
+  build-and-sync:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -30,27 +30,92 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Run Auto Sync
+      # 1. 运行核心总控：编译 QX、Stash 规则集、重装配置、刷新 README
+      - name: Run Auto Sync Engine
         run: |
           python Scripts/sync_all.py
 
-      - name: Auto Commit & Push (Silent)
+      # 2. 将编译后的公开内容（脱敏后的 QX 配置、Stash 配置、YAML 规则集、自述文件）回写公开仓库
+      - name: Commit & Push Public Changes
         id: commit_step
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
           if git diff --staged --quiet; then
-            echo "无变更，跳过更新。"
+            echo "无公共文件变更"
             echo "has_changes=false" >> $GITHUB_OUTPUT
           else
-            git commit -m "chore(auto): daily sync rules, profiles and README [skip ci]"
+            git commit -m "chore(auto): sync rules, profiles and markdown tables"
             git push
             echo "has_changes=true" >> $GITHUB_OUTPUT
           fi
 
+      # 3. 核心联动：直接在本次构建中注入真实机场节点与私密分流，推送到个人私密 Gist
+      - name: Inject Secrets & Push to Secret Gist
+        env:
+          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+          GIST_ID: ${{ secrets.GIST_ID }}
+          AIRPORT_SUB: ${{ secrets.AIRPORT_SUB }}
+          PRIVATE_LOCAL_RULES: ${{ secrets.PRIVATE_LOCAL_RULES }}
+        run: |
+          python3 - << 'PY_SCRIPT'
+          import os
+          import re
+          import json
+          import urllib.request
+
+          gist_id = os.environ.get('GIST_ID', '').strip()
+          gist_token = os.environ.get('GIST_TOKEN', '').strip()
+          airport_sub = os.environ.get('AIRPORT_SUB', '').strip()
+          private_rules = os.environ.get('PRIVATE_LOCAL_RULES', '').strip()
+
+          if not gist_id or not gist_token or not airport_sub:
+              print("⚠️ 缺少 Gist 凭证，跳过私密 Gist 注入环节。")
+              exit(0)
+
+          # 1. 处理 QX 配置
+          conf_path = "Profiles/QuantumultX.conf"
+          with open(conf_path, "r", encoding="utf-8") as f:
+              qx_content = f.read()
+
+          # 注入机场节点
+          qx_content = re.sub(r"\[server_remote\][\s\S]*?(?=\n\[|\Z)", f"[server_remote]\n{airport_sub}\n", qx_content)
+
+          # 注入私有锁区分流 (Kraken/KuCoin/Crypto.com 等)
+          if private_rules:
+              local_anchor = "[filter_local]\n"
+              injected_filter = f"[filter_local]\n\n# >>> 私密专属锁区分流 <<<\n{private_rules}\n"
+              qx_content = qx_content.replace(local_anchor, injected_filter, 1)
+
+          # 2. 推送至 Secret Gist (同步交付 QX 完整配置)
+          url = f"https://api.github.com/gists/{gist_id}"
+          headers = {
+              "Authorization": f"Bearer {gist_token}",
+              "Accept": "application/vnd.github.v3+json",
+              "User-Agent": "GitHub-Action-Pipeline"
+          }
+          data = {
+              "files": {
+                  "QuantumultX.conf": {
+                      "content": qx_content
+                  }
+              }
+          }
+
+          req = urllib.request.Request(url, data=json.dumps(data).encode("utf-8"), headers=headers, method="PATCH")
+          try:
+              with urllib.request.urlopen(req) as response:
+                  if response.status == 200:
+                      print("🎉 Secret Gist 私密配置全量更新成功！")
+          except Exception as e:
+              print(f"❌ Gist 同步失败: {e}")
+              raise e
+          PY_SCRIPT
+
+      # 4. Telegram 结果报告 (已修复 if 作用域与 Secrets 判定)
       - name: Send Telegram Notification
-        if: always() && env.TG_BOT_TOKEN != '' && env.TG_CHAT_ID != ''
+        if: always() && secrets.TG_BOT_TOKEN != '' && secrets.TG_CHAT_ID != ''
         env:
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
@@ -59,12 +124,12 @@ jobs:
         run: |
           if [ "$JOB_STATUS" = "success" ]; then
             if [ "$HAS_CHANGES" = "true" ]; then
-              MSG="🚀 *QX-Rules 自动同步成功*%0A%0A*状态:* 规则与覆写已更新并推送到仓库%0A*时间:* $(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M:%S') (UTC+8)%0A*仓库:* [wang47](https://github.com/${{ github.repository }})"
+              MSG="🚀 *QX & Stash 自动化闭环完成*%0A%0A*状态:* 规则编译完成、公开仓库已提交、私密 Gist 已更新%0A*时间:* $(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M:%S') (UTC+8)%0A*仓库:* [wang47](https://github.com/${{ github.repository }})"
             else
-              MSG="ℹ️ *QX-Rules 自动同步检测*%0A%0A*状态:* 上游规则无变动，跳过更新%0A*时间:* $(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M:%S') (UTC+8)"
+              MSG="ℹ️ *QX & Stash 日常巡检*%0A%0A*状态:* 上游规则无变化，Gist 保持最新%0A*时间:* $(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M:%S') (UTC+8)"
             fi
           else
-            MSG="❌ *QX-Rules 同步执行失败*%0A%0A*状态:* GitHub Actions 运行报错，请前往排查%0A*链接:* https://github.com/${{ github.repository }}/actions"
+            MSG="❌ *自动化流水线运行报错*%0A%0A*状态:* 请前往 Actions 日志排查%0A*链接:* https://github.com/${{ github.repository }}/actions"
           fi
 
           curl -s -X POST "https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage" \
