@@ -389,18 +389,6 @@ rule-providers:
     url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/china.yaml"
     path: ./ruleset/china.yaml
     interval: 86400
-  custom:
-    type: http
-    behavior: classical
-    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/custom.yaml"
-    path: ./ruleset/custom.yaml
-    interval: 86400
-  Custom:
-    type: http
-    behavior: classical
-    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/Custom.yaml"
-    path: ./ruleset/Custom.yaml
-    interval: 86400
 
 rules:
   - RULE-SET,unbreak,direct
@@ -438,7 +426,5 @@ rules:
   - RULE-SET,apple,苹果服务
   - RULE-SET,wechat,direct
   - RULE-SET,china,direct
-  - RULE-SET,custom,自动选择
-  - RULE-SET,Custom,自动选择
   - GEOIP,CN,DIRECT
   - MATCH,兜底分流
