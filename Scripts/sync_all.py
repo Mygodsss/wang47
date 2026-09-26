@@ -80,9 +80,7 @@ def update_readme_markdown(qx_rule_dir='rule/QuantumultX', rule_meta=None, readm
     now_str = datetime.now(tz).strftime('%Y-%m-%d %H:%M:%S')
     with open(readme_path, 'r', encoding='utf-8') as f:
         text = f.read()
-    # 动态更新时间戳
     text = re.sub(r'(自动更新时间\s*[:：]\s*`?)\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}(`?)', lambda m: f'{m.group(1)}{now_str}{m.group(2)}', text)
-    # 动态重构表格
     if os.path.exists(qx_rule_dir):
         meta_dict = rule_meta if rule_meta else (RULE_META if 'RULE_META' in globals() else {})
         all_rules = [f[:-5] for f in os.listdir(qx_rule_dir) if f.endswith('.list') and f != 'all.list']
@@ -409,7 +407,6 @@ if os.path.exists(qx_conf_path):
         "apple": ("🍎 苹果官方生态服务", "苹果服务", 80),
         "wechat": ("💬 微信与腾讯直连通信", "direct", 90),
         "china": ("🇨🇳 大陆直连域名大合集", "direct", 100),
-        "custom": ("🌐 个人私有自定义规则", "自动选择", 110),
     }
 
     if os.path.exists(qx_rule_dir):
@@ -494,6 +491,12 @@ if os.path.exists(qx_conf_path):
         conf_text = re.sub(pattern, replacement, conf_text, flags=re.DOTALL)
 
     all_qx_mitm_hosts = set()
+    # 彻底拦截野鸡盗版小程序、灰产域名及系统高风险定位
+    JUNK_FILTER = re.compile(
+        r"(\.top|\.xyz|\.work|\.vip|\.ltd|bspapp\.com|jxjt888|syshhc|heikeji|laoguikeji|benbenfx|i3zh|bbkj|bpojie|xgjyouhui|guilaile|gongzijx|hkj178|iosoi|lysl2020|xianbaow|blibee|enmonster|caixin|sf-express|taobao\.com|ls\.apple\.com)",
+        re.IGNORECASE
+    )
+
     if os.path.exists(qx_rw_dir):
         for f in os.listdir(qx_rw_dir):
             if f.endswith(('.conf', '.snippet')):
@@ -503,10 +506,20 @@ if os.path.exists(qx_conf_path):
                             hosts = line.split("=", 1)[1].strip()
                             for h in hosts.split(","):
                                 h = h.strip().replace("%append%", "").strip()
-                                if h and not re.search(r"[\(\)\|]", h) and h not in ["ls.apple.com"]:
-                                    h = h.rstrip("*")
-                                    if h:
-                                        all_qx_mitm_hosts.add(h)
+                                if not h:
+                                    continue
+                                # 清理括号包裹的正则并提取有效域名
+                                if "(" in h or ")" in h or "|" in h:
+                                    clean_parts = [p.strip("() ") for p in h.split("|") if p.strip("() ") and not p.strip("() ").startswith(".*")]
+                                    sub_hosts = clean_parts
+                                else:
+                                    sub_hosts = [h]
+                                for sh in sub_hosts:
+                                    sh = sh.strip()
+                                    if sh == "www.google.com*":
+                                        sh = "www.google.com"
+                                    if sh and not JUNK_FILTER.search(sh):
+                                        all_qx_mitm_hosts.add(sh)
 
     if all_qx_mitm_hosts:
         sorted_mitm = ", ".join(sorted(all_qx_mitm_hosts))
@@ -537,7 +550,6 @@ if os.path.exists(readme_path):
     with open(readme_path, "r", encoding="utf-8") as f:
         rm_text = f.read()
 
-    # 1. 动态统计分流规则行数并更新
     if os.path.exists("rule/QuantumultX"):
         rule_files = [f for f in os.listdir("rule/QuantumultX") if f.endswith(".list")]
         for rf in rule_files:
@@ -549,7 +561,6 @@ if os.path.exists(readme_path):
             pattern = rf"(\|\s*{re.escape(rname)}\s*\|.*?\|)\s*[\d,]+\s*(条?\s*\|)"
             rm_text = re.sub(pattern, rf"\g<1> {count:,} \2", rm_text, flags=re.IGNORECASE)
 
-    # 2. 动态更新 QX 专属重写模块大表格
     if os.path.exists("rewrite/QuantumultX"):
         qx_rw_files = sorted([f for f in os.listdir("rewrite/QuantumultX") if f.endswith((".conf", ".snippet", ".js"))])
         if qx_rw_files:
@@ -566,7 +577,6 @@ if os.path.exists(readme_path):
             if re.search(pat_qx, rm_text):
                 rm_text = re.sub(pat_qx, f"\\1{qx_table}", rm_text)
 
-    # 3. 动态更新 Stash 专属覆写模块大表格
     if os.path.exists("rewrite/Stash"):
         st_rw_files = sorted([f for f in os.listdir("rewrite/Stash") if f.endswith(".stoverride")])
         if st_rw_files:
