@@ -9,13 +9,15 @@ on:
       - main
     paths:
       - 'Scripts/**'
+      - 'scripts/**'
       - 'Profiles/**'
       - 'rule/**'
       - 'rewrite/**'
       - '.github/workflows/**'
   workflow_dispatch:
   repository_dispatch:
-    types: [tg_sync]
+    # 在原版 tg_sync 基础上，增加了 manage_rule 动态增删规则监听
+    types: [tg_sync, manage_rule]
 
 permissions:
   contents: write
@@ -34,36 +36,69 @@ jobs:
         with:
           python-version: '3.11'
 
-      # 1. 运行核心总控：联网拉取上游规则、转译 Stash、组装双端全套配置、刷新自述文件
-      - name: Run Auto Sync Engine
+      # 1. 核心调度：区分是 Telegram 增删单条规则，还是原本的全量同步
+      - name: Run Engine
+        id: run_engine
         run: |
-          python Scripts/sync_all.py
+          EVENT_ACTION="${{ github.event.action }}"
+          OP_ACTION="${{ github.event.client_payload.action }}"
+          PAYLOAD="${{ github.event.client_payload.payload }}"
+          
+          CTL_PATH="scripts/controller.py"
+          [ ! -f "$CTL_PATH" ] && CTL_PATH="Scripts/controller.py"
 
-      # 2. 仓库全量交付：智能识别实质更新，杜绝时间戳垃圾提交
+          # 模式 A: 来自 Telegram 的动态规则增删
+          if [ "$EVENT_ACTION" = "manage_rule" ]; then
+            echo "⚡️ 正在执行 Telegram 规则管理任务: $OP_ACTION"
+            OUTPUT=$(python3 "$CTL_PATH" --action "$OP_ACTION" --payload "$PAYLOAD" || true)
+            echo "IS_MANAGE_RULE=true" >> $GITHUB_ENV
+
+          # 模式 B: 原有的全量同步 (定时任务 / git push / /sync 指令)
+          else
+            echo "🚀 正在执行原有的全量抓取与双端资产编译..."
+            SYNC_PATH="Scripts/sync_all.py"
+            [ ! -f "$SYNC_PATH" ] && SYNC_PATH="scripts/sync_all.py"
+            if [ -f "$SYNC_PATH" ]; then
+              python3 "$SYNC_PATH" || true
+            fi
+            
+            # 双端编译与探针校验
+            OUTPUT=$(python3 "$CTL_PATH" --action build-all || true)
+            echo "IS_MANAGE_RULE=false" >> $GITHUB_ENV
+          fi
+
+          echo "REPORT<<EOF" >> $GITHUB_ENV
+          echo "$OUTPUT" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      # 2. 仓库全量交付：严格限定资产目录，绝不误触/覆盖原版 README.md
       - name: Commit & Push Changes
         id: commit_step
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-          # 检测核心分流/重写目录，以及两套全量远程订阅主配置文件
           CORE_CHANGES=$(git status --porcelain rule/ rewrite/ Profiles/ QuantumultX.conf Stash.yaml)
 
           if [ -n "$CORE_CHANGES" ]; then
-            echo "💡 检测到上游规则或主配置有实质变动，执行全量交付..."
-            git add -A
-            git commit -m "chore(auto): sync upstream rules and update subscription profiles"
+            echo "💡 检测到核心分流资产实质变动，执行版本交付..."
+            git add rule/ rewrite/ Profiles/ QuantumultX.conf Stash.yaml
+            
+            if [ "$IS_MANAGE_RULE" = "true" ]; then
+              git commit -m "chore(rule): [Telegram Bot] 动态更新分流规则"
+            else
+              git commit -m "chore(auto): sync upstream rules and update subscription profiles"
+            fi
+            
             git pull --rebase origin main
             git push origin main
             echo "has_changes=true" >> $GITHUB_OUTPUT
           else
-            echo "ℹ️ 上游规则与主配置无实质变动，放弃时间戳改动，保持仓库干净..."
-            git reset --hard HEAD
-            git clean -fd
+            echo "ℹ️ 上游规则与主配置无实质变动，保持仓库干净..."
             echo "has_changes=false" >> $GITHUB_OUTPUT
           fi
 
-      # 3. Telegram 结果报告 (智能区分规则更新与日常巡检)
+      # 3. Telegram 结果报告 (智能区分三种反馈形态)
       - name: Send Telegram Notification
         if: always()
         env:
@@ -71,6 +106,8 @@ jobs:
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
           JOB_STATUS: ${{ job.status }}
           HAS_CHANGES: ${{ steps.commit_step.outputs.has_changes }}
+          IS_MANAGE: ${{ env.IS_MANAGE_RULE }}
+          REPORT: ${{ env.REPORT }}
         run: |
           python3 - << 'PY_TG'
           import os, json, urllib.request
@@ -80,6 +117,8 @@ jobs:
           chat_id = os.environ.get('TG_CHAT_ID', '').strip()
           status = os.environ.get('JOB_STATUS', '')
           has_changes = os.environ.get('HAS_CHANGES', '')
+          is_manage = os.environ.get('IS_MANAGE', '')
+          report = os.environ.get('REPORT', '').strip()
 
           if not token or not chat_id:
               print('ℹ️ 未检测到 TG_BOT_TOKEN 或 TG_CHAT_ID，跳过通知。')
@@ -90,12 +129,17 @@ jobs:
           repo = os.environ.get('GITHUB_REPOSITORY', 'Mygodsss/wang47')
 
           if status == 'success':
-              if has_changes == 'true':
-                  text = f'🚀 *QX & Stash 自动同步完成*\n\n*状态:* 上游规则/主配置已刷新，最新订阅资产已交付仓库\n*时间:* {now_str} (UTC+8)\n*仓库:* [{repo}](https://github.com/{repo})'
+              # 回执 1: Telegram 增删规则操作结果
+              if is_manage == 'true':
+                  text = f"🤖 *Wang47 规则自动化运维回执*\n\n{report}\n\n*时间:* {now_str} (UTC+8)\n*状态:* 已编译并推送到仓库"
+              # 回执 2: 全量定时/手动同步有实质更新
+              elif has_changes == 'true':
+                  text = f"🚀 *QX & Stash 自动同步完成*\n\n*状态:* 上游规则/主配置已刷新，最新订阅资产已交付仓库\n*时间:* {now_str} (UTC+8)\n*仓库:* [{repo}](https://github.com/{repo})"
+              # 回执 3: 日常例行巡检无变动
               else:
-                  text = f'ℹ️ *QX & Stash 日常巡检*\n\n*状态:* 上游规则无变动，双端订阅配置保持最新\n*时间:* {now_str} (UTC+8)'
+                  text = f"ℹ️ *QX & Stash 日常巡检*\n\n*状态:* 上游规则无变动，双端订阅配置保持最新\n*时间:* {now_str} (UTC+8)"
           else:
-              text = f'❌ *QX & Stash 流水线运行报错*\n\n*状态:* 构建失败，请排查 Actions 日志\n*链接:* https://github.com/{repo}/actions'
+              text = f"❌ *流水线运行报错*\n\n*报错详情:*\n```\n{report[:300]}\n```\n*排查链接:* https://github.com/{repo}/actions"
 
           url = f'https://api.telegram.org/bot{token}/sendMessage'
           payload = {
@@ -110,8 +154,8 @@ jobs:
               headers={'Content-Type': 'application/json'}
           )
           try:
-              with urllib.request.urlopen(req) as resp:
-                  print('🎉 Telegram 推送成功:', resp.read().decode('utf-8'))
+              urllib.request.urlopen(req)
+              print('🎉 Telegram 推送成功')
           except Exception as e:
               print(f'❌ Telegram 发送异常: {e}')
               raise e
