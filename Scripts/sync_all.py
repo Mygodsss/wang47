@@ -39,7 +39,6 @@ def sync_stash_rules_and_profile(qx_rule_dir="rule/QuantumultX", stash_rule_dir=
 
     print(f"✅ 已全自动将 {len(all_rules)} 份 QX 分流规则编译为 Stash YAML 规则集！")
 
-    # 装配 Profiles/Stash.yaml
     if os.path.exists(stash_conf_path) and "RULE_META" in globals():
         with open(stash_conf_path, "r", encoding="utf-8") as sf:
             s_text = sf.read()
@@ -136,7 +135,8 @@ RULES_MAP = {
     "Finance 金融支付": ["Wise", "Stripe", "PayPal"],
     "Social 社交通讯": ["Telegram", "Twitter", "Discord", "Reddit"],
     "Media 流媒体服务": ["Spotify", "Netflix", "Disney"],
-    "Developer 开发者与科技": ["GitHub", "Docker", "Apple", "Microsoft"],
+    "Developer 开发者与科技": ["GitHub", "Docker", "Microsoft"],
+    "Apple 苹果生态精细分流": ["AppleTV", "AppleProxy", "AppleCN", "Apple"],
     "Privacy 隐私过滤": ["Advertising"]
 }
 
@@ -146,7 +146,11 @@ NAME_ALIAS = {
     "googleplay": "GooglePlay",
     "googledrive": "GoogleDrive",
     "googlemaps": "GoogleEarth",
-    "gate": "GateIO"
+    "gate": "GateIO",
+    "appletv": "AppleTV",
+    "appleproxy": "AppleProxy",
+    "applecn": "AppleCN",
+    "apple": "Apple"
 }
 
 POLICY_MAPPING = {
@@ -170,11 +174,14 @@ POLICY_MAPPING = {
     "telegram": "telegram",
     "twitter": "美国节点",
     "tiktok": "TikTok",
-    "apple": "苹果服务",
     "youtube": "海外视频",
     "netflix": "海外视频",
     "disney": "海外视频",
     "spotify": "海外视频",
+    "appletv": "海外视频",
+    "appleproxy": "美国节点",
+    "applecn": "direct",
+    "apple": "苹果服务",
 }
 
 headers = {"User-Agent": "Mozilla/5.0"}
@@ -229,8 +236,22 @@ for cat, items in RULES_MAP.items():
             continue
         up_name = NAME_ALIAS.get(fname, name)
 
-        qx_url = f"https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/QuantumultX/{up_name}/{up_name}.list"
-        qx_content = fetch_data(qx_url)
+        # 智能多路径候选下载（兼容大小写与不同上游命名习惯）
+        candidates = [up_name, up_name.lower(), up_name.capitalize()]
+        if fname == "applecn":
+            candidates.extend(["AppleCN", "apple-cn", "Apple-CN", "Apple/AppleCN"])
+        elif fname == "appleproxy":
+            candidates.extend(["AppleProxy", "apple-proxy", "Apple-Proxy", "Apple/AppleProxy"])
+        elif fname == "appletv":
+            candidates.extend(["AppleTV", "apple-tv", "Apple-TV", "Apple/AppleTV"])
+
+        qx_content = None
+        for cand in dict.fromkeys(candidates):
+            qx_url = f"https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/QuantumultX/{cand}/{cand}.list"
+            qx_content = fetch_data(qx_url)
+            if qx_content:
+                break
+
         if not qx_content:
             if fname == "googlevoice":
                 qx_content = "HOST,voice.google.com\nHOST,voice.telephony.goog\nHOST-SUFFIX,voice.google.com\nHOST-KEYWORD,voice.telephony"
@@ -245,8 +266,13 @@ for cat, items in RULES_MAP.items():
         if qx_content:
             write_file(f"rule/QuantumultX/{fname}.list", qx_content)
 
-        stash_url = f"https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/{up_name}/{up_name}.yaml"
-        stash_content = fetch_data(stash_url)
+        stash_content = None
+        for cand in dict.fromkeys(candidates):
+            stash_url = f"https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/{cand}/{cand}.yaml"
+            stash_content = fetch_data(stash_url)
+            if stash_content:
+                break
+
         if not stash_content:
             if fname == "googlevoice":
                 stash_content = "payload:\n  - DOMAIN,voice.google.com\n  - DOMAIN,voice.telephony.goog\n  - DOMAIN-SUFFIX,voice.google.com\n  - DOMAIN-KEYWORD,voice.telephony"
@@ -264,13 +290,14 @@ for cat, items in RULES_MAP.items():
 EXECUTION_ORDER = [
     "gemini", "openai", "claude",
     "googlevoice",
-    "youtube", "spotify", "netflix", "disney",
+    "youtube", "spotify", "netflix", "disney", "appletv",
     "googlemaps", "googleplay", "googledrive",
     "google",
     "okx", "binance", "bybit", "bitget", "gate", "crypto",
     "wise", "stripe", "paypal",
     "telegram", "twitter", "discord", "reddit",
-    "github", "docker", "apple", "microsoft",
+    "github", "docker", "microsoft",
+    "appleproxy", "applecn", "apple",
     "advertising"
 ]
 
@@ -404,6 +431,9 @@ if os.path.exists(qx_conf_path):
         "stripe": ("💳 Stripe 跨境支付网关", "自动选择", 62),
         "hkbanks": ("🏦 HK_Banks", "direct", 63),
         "google": ("🔍 Google 搜索与基础生态", "google", 70),
+        "appletv": ("📺 Apple TV+ 影音点播", "海外视频", 77),
+        "appleproxy": ("🍎 Apple 海外受限服务", "美国节点", 78),
+        "applecn": ("🍏 Apple 境内直连加速", "direct", 79),
         "apple": ("🍎 苹果官方生态服务", "苹果服务", 80),
         "wechat": ("💬 微信与腾讯直连通信", "direct", 90),
         "china": ("🇨🇳 大陆直连域名大合集", "direct", 100),
@@ -491,7 +521,6 @@ if os.path.exists(qx_conf_path):
         conf_text = re.sub(pattern, replacement, conf_text, flags=re.DOTALL)
 
     all_qx_mitm_hosts = set()
-    # 彻底拦截野鸡盗版小程序、灰产域名及系统高风险定位
     JUNK_FILTER = re.compile(
         r"(\.top|\.xyz|\.work|\.vip|\.ltd|bspapp\.com|jxjt888|syshhc|heikeji|laoguikeji|benbenfx|i3zh|bbkj|bpojie|xgjyouhui|guilaile|gongzijx|hkj178|iosoi|lysl2020|xianbaow|blibee|enmonster|caixin|sf-express|taobao\.com|ls\.apple\.com)",
         re.IGNORECASE
@@ -508,7 +537,6 @@ if os.path.exists(qx_conf_path):
                                 h = h.strip().replace("%append%", "").strip()
                                 if not h:
                                     continue
-                                # 清理括号包裹的正则并提取有效域名
                                 if "(" in h or ")" in h or "|" in h:
                                     clean_parts = [p.strip("() ") for p in h.split("|") if p.strip("() ") and not p.strip("() ").startswith(".*")]
                                     sub_hosts = clean_parts

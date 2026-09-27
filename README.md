@@ -52,6 +52,8 @@
 | 💳 Stripe 跨境支付网关 | `1` 条 | `自动选择` | [查看规则](rule/QuantumultX/stripe.list) |
 | 🏦 HK_Banks | `39` 条 | `direct` | [查看规则](rule/QuantumultX/hkbanks.list) |
 | 🔍 Google 搜索与基础生态 | `711` 条 | `google` | [查看规则](rule/QuantumultX/google.list) |
+| 📺 Apple TV+ 影音点播 | `9` 条 | `海外视频` | [查看规则](rule/QuantumultX/appletv.list) |
+| 🍎 Apple 海外受限服务 | `44` 条 | `美国节点` | [查看规则](rule/QuantumultX/appleproxy.list) |
 | 🍎 苹果官方生态服务 | `1881` 条 | `苹果服务` | [查看规则](rule/QuantumultX/apple.list) |
 | 💬 微信与腾讯直连通信 | `43` 条 | `direct` | [查看规则](rule/QuantumultX/wechat.list) |
 | 🇨🇳 大陆直连域名大合集 | `3753` 条 | `direct` | [查看规则](rule/QuantumultX/china.list) |
