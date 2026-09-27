@@ -371,6 +371,18 @@ rule-providers:
     url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/google.yaml"
     path: ./ruleset/google.yaml
     interval: 86400
+  appletv:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/appletv.yaml"
+    path: ./ruleset/appletv.yaml
+    interval: 86400
+  appleproxy:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/Mygodsss/wang47/main/rule/Stash/appleproxy.yaml"
+    path: ./ruleset/appleproxy.yaml
+    interval: 86400
   apple:
     type: http
     behavior: classical
@@ -429,6 +441,8 @@ rules:
   - RULE-SET,stripe,自动选择
   - RULE-SET,hkbanks,direct
   - RULE-SET,google,google
+  - RULE-SET,appletv,海外视频
+  - RULE-SET,appleproxy,美国节点
   - RULE-SET,apple,苹果服务
   - RULE-SET,wechat,direct
   - RULE-SET,china,direct
