@@ -194,9 +194,22 @@ def fetch_data(url):
     except:
         return None
 
+def fetch_binary(url):
+    try:
+        req = urllib.request.Request(url, headers=headers)
+        with urllib.request.urlopen(req, timeout=20) as resp:
+            return resp.read()
+    except:
+        return None
+
 def write_file(path, content):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
+        f.write(content)
+
+def write_binary(path, content):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "wb") as f:
         f.write(content)
 
 print("🚀 正在抓取并自动编译规则...")
@@ -520,14 +533,14 @@ if os.path.exists(qx_conf_path):
         conf_text = re.sub(pattern, replacement, conf_text, flags=re.DOTALL)
 
     # ==========================================================================
-    # 动态装配 [task_local] (流媒体与节点纯净度交互任务自动注入)
+    # 动态装配 [task_local] (脚本直链与图标直链全部 100% 绑定至用户个人仓库)
     # ==========================================================================
     custom_tasks = [
-        "event-interaction https://raw.githubusercontent.com/Mygodsss/wang47/main/Scripts/streaming-ui-check/streaming-ui-check.js, tag=流媒体解锁查询, img-url=https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/IconSet/YouTube.png, enabled=true",
-        "event-interaction https://raw.githubusercontent.com/Mygodsss/wang47/main/Scripts/server-info-pure/server-info-pure.js, tag=节点纯净度详情, img-url=https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/IconSet/Speedtest.png, enabled=true"
+        "event-interaction https://raw.githubusercontent.com/Mygodsss/wang47/main/Scripts/streaming-ui-check/streaming-ui-check.js, tag=流媒体解锁查询, img-url=https://raw.githubusercontent.com/Mygodsss/wang47/main/Scripts/streaming-ui-check/icon.png, enabled=true",
+        "event-interaction https://raw.githubusercontent.com/Mygodsss/wang47/main/Scripts/server-info-pure/server-info-pure.js, tag=节点纯净度详情, img-url=https://raw.githubusercontent.com/Mygodsss/wang47/main/Scripts/server-info-pure/icon.png, enabled=true"
     ]
     
-    # 过滤掉旧的外部直链任务，避免重复堆叠
+    # 过滤掉旧的任务行，防止重复累加
     filtered_lines = [
         line for line in conf_text.splitlines()
         if not any(k in line for k in ["streaming-ui-check", "server-info-pure", "流媒体解锁查询", "节点纯净度详情"])
@@ -539,7 +552,7 @@ if os.path.exists(qx_conf_path):
         conf_text = re.sub(r"(\[task_local\]\n)", rf"\1{task_block}\n", conf_text)
     else:
         conf_text += f"\n\n[task_local]\n{task_block}\n"
-    print("✅ Profiles/QuantumultX.conf 的 [task_local] 交互任务已全自动装配对齐！")
+    print("✅ Profiles/QuantumultX.conf 的 [task_local] 交互任务与本地自托管图标已完成注入！")
 
     all_qx_mitm_hosts = set()
     JUNK_FILTER = re.compile(
@@ -647,39 +660,104 @@ if os.path.exists(readme_path):
 
 
 # ==============================================================================
-# 6. 全自动同步独立 JS 脚本 (存入 Scripts/ 目录下的独立专属文件夹)
+# 6. 全自动同步独立 JS 脚本与配套图标 (存入 Scripts/ 下专属目录)
 # ==============================================================================
-def sync_custom_scripts():
-    """抓取外部 JS 脚本并在 Scripts/ 目录下为不同脚本创建独立子文件夹"""
-    remote_scripts = {
-        # 流媒体解锁查询：存放在 Scripts/streaming-ui-check/
-        "Scripts/streaming-ui-check/streaming-ui-check.js": [
-            "https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/Scripts/streaming-ui-check.js"
-        ],
-        # 节点纯净度检测：存放在 Scripts/server-info-pure/ (配置多源备用)
-        "Scripts/server-info-pure/server-info-pure.js": [
-            "https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Scripts/server-info-pure.js",
-            "https://raw.githubusercontent.com/Rabbit-Spec/Surge/master/Module/Panel/IP-Info/server-info-pure.js",
-            "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/quantumultx/server-info-pure.js"
-        ]
+DEFAULT_SERVER_INFO_JS = """/**
+ * 节点纯净度与 IP 详细信息检测 (Quantumult X 兜底自愈组件)
+ */
+const $ = {
+    get: (url, cb) => $httpClient.get(url, cb),
+    done: (val) => $done(val)
+};
+
+const queryUrl = "http://ip-api.com/json/?fields=status,message,country,regionName,city,zip,lat,lon,timezone,isp,org,as,query";
+
+$.get(queryUrl, (err, resp, body) => {
+    if (err) {
+        $.done({ "title": "节点纯净度检测", "content": "⚠️ 请求超时，无法获取节点出口数据" });
+    } else {
+        try {
+            const data = JSON.parse(body);
+            if (data.status === "success") {
+                const title = `🌐 ${data.country} - ${data.city}`;
+                const content = `IP: ${data.query}\\nISP: ${data.isp}\\n组织: ${data.org || data.as}\\n时区: ${data.timezone}`;
+                $.done({ "title": title, "content": content });
+            } else {
+                $.done({ "title": "节点纯净度检测", "content": `查询失败: ${data.message || '未知错误'}` });
+            }
+        } catch (e) {
+            $.done({ "title": "节点纯净度检测", "content": `解析异常: ${e.message}` });
+        }
     }
-    
+});
+"""
+
+def sync_custom_scripts():
+    """抓取外部 JS 脚本与配套图标并在 Scripts/ 目录下创建独立子文件夹"""
+    # 1. 脚本代码抓取源与兜底配置
+    remote_scripts = {
+        "Scripts/streaming-ui-check/streaming-ui-check.js": {
+            "urls": [
+                "https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/Scripts/streaming-ui-check.js",
+                "https://fastly.jsdelivr.net/gh/KOP-XIAO/QuantumultX@master/Scripts/streaming-ui-check.js"
+            ],
+            "fallback": None
+        },
+        "Scripts/server-info-pure/server-info-pure.js": {
+            "urls": [
+                "https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Script/server-info-pure.js",
+                "https://gitlab.com/ddgksf2013/cuttlefish/-/raw/master/Script/server-info-pure.js",
+                "https://fastly.jsdelivr.net/gh/ddgksf2013/Cuttlefish@master/Script/server-info-pure.js",
+                "https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Script/server_info.js"
+            ],
+            "fallback": DEFAULT_SERVER_INFO_JS
+        }
+    }
+
     count = 0
-    for file_path, urls in remote_scripts.items():
+    for file_path, item in remote_scripts.items():
         content = None
-        for url in urls:
+        for url in item["urls"]:
             content = fetch_data(url)
             if content:
                 break
         
+        if not content and item["fallback"]:
+            content = item["fallback"]
+            print(f"⚡️ 已为 {file_path} 激活保底自愈引擎代码！")
+
         if content:
             write_file(file_path, content)
             count += 1
-            print(f"✅ 成功抓取脚本并写入专属目录: {file_path}")
+            print(f"✅ 成功抓取/更新脚本: {file_path}")
         else:
-            print(f"⚠️ 脚本拉取失败: {file_path} 所有源均不可用")
-            
-    print(f"🎉 独立 JS 脚本同步完成，共交付 {count} 个脚本到 Scripts 对应子目录！")
+            print(f"⚠️ 脚本拉取失败: {file_path}")
+
+    # 2. 配套高清图标本地化同步
+    remote_icons = {
+        "Scripts/streaming-ui-check/icon.png": [
+            "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube.png",
+            "https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/IconSet/YouTube.png"
+        ],
+        "Scripts/server-info-pure/icon.png": [
+            "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Speedtest.png",
+            "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Server.png"
+        ]
+    }
+
+    icon_count = 0
+    for icon_path, urls in remote_icons.items():
+        data = None
+        for u in urls:
+            data = fetch_binary(u)
+            if data:
+                break
+        if data:
+            write_binary(icon_path, data)
+            icon_count += 1
+            print(f"🎨 配套图标已本地化同步: {icon_path}")
+
+    print(f"🎉 独立组件同步完成，共交付 {count} 个脚本与 {icon_count} 个专属本地图标！")
 
 
 # ------------------------------------------------------------------------------
@@ -691,5 +769,5 @@ update_readme_markdown(qx_rule_dir, RULE_META)
 # 5. 全自动同步 Stash 规则集与配置
 sync_stash_rules_and_profile()
 
-# 6. 同步外部独立 JS 脚本
+# 6. 同步外部独立 JS 脚本与配套自托管图标
 sync_custom_scripts()
