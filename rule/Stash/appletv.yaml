@@ -1,4 +1,3 @@
-# Stash: appletv
 payload:
   - DOMAIN,hls-amt.itunes.apple.com
   - DOMAIN,hls.itunes.apple.com
@@ -7,3 +6,5 @@ payload:
   - DOMAIN,tv.applemusic.com
   - DOMAIN,uts-api.itunes.apple.com
   - DOMAIN-SUFFIX,tv.apple.com
+  - USER-AGENT,AppleTV*
+  - USER-AGENT,com.apple.tv*

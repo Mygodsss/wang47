@@ -21,7 +21,7 @@
 | 分流业务标签 | 规则行数 | 默认绑定策略 | 规则直链 |
 | :--- | :---: | :--- | :--- |
 | 🛡️ 节点防断流与系统修正 | `32` 条 | `direct` | [查看规则](rule/QuantumultX/unbreak.list) |
-| 🚫 广告与行为追踪拦截 | `286237` 条 | `reject` | [查看规则](rule/QuantumultX/advertising.list) |
+| 🚫 广告与行为追踪拦截 | `286873` 条 | `reject` | [查看规则](rule/QuantumultX/advertising.list) |
 | 🧠 OpenAI (ChatGPT) | `35` 条 | `AI-Auto` | [查看规则](rule/QuantumultX/openai.list) |
 | 🎭 Claude (Anthropic) | `3` 条 | `AI-Auto` | [查看规则](rule/QuantumultX/claude.list) |
 | ✨ Google Gemini AI | `13` 条 | `AI-Auto` | [查看规则](rule/QuantumultX/gemini.list) |
@@ -57,6 +57,7 @@
 | 🍎 苹果官方生态服务 | `1881` 条 | `苹果服务` | [查看规则](rule/QuantumultX/apple.list) |
 | 💬 微信与腾讯直连通信 | `43` 条 | `direct` | [查看规则](rule/QuantumultX/wechat.list) |
 | 🇨🇳 大陆直连域名大合集 | `3753` 条 | `direct` | [查看规则](rule/QuantumultX/china.list) |
+| 🌐 Custom | `0` 条 | `自动选择` | [查看规则](rule/QuantumultX/Custom.list) |
 
 ## 🌐 分流路由规则 (Routing Rules)
 
