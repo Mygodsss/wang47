@@ -4,6 +4,7 @@
 import os
 import re
 import shutil
+import time
 import urllib.request
 from datetime import datetime, timezone, timedelta
 
@@ -19,22 +20,9 @@ def fetch_data(url, timeout=12):
     except Exception:
         return None
 
-def fetch_binary(url, timeout=12):
-    try:
-        req = urllib.request.Request(url, headers=HTTP_HEADERS)
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            return resp.read()
-    except Exception:
-        return None
-
 def write_file(path, content):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
-        f.write(content)
-
-def write_binary(path, content):
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "wb") as f:
         f.write(content)
 
 def extract_header_meta(file_path):
@@ -318,126 +306,16 @@ def sync_rewrites_to_stash():
         count_st += 1
     print(f"✅ Stash 覆写文件同步完成，共更新 {count_st} 个 .stoverride 文件！")
 
-NATIVE_SERVER_INFO_PURE_JS = r"""const $ = {
-    get: (url, cb) => {
-        if (typeof $httpClient !== "undefined") $httpClient.get({ url: url, timeout: 8 }, cb);
-        else if (typeof $task !== "undefined") $task.fetch({ url: url, timeout: 8 }).then(r => cb(null, r, r.body), e => cb(e, null, null));
-    },
-    done: (obj) => $done(obj)
-};
-function getFlagEmoji(countryCode) {
-    if (!countryCode || countryCode.length !== 2) return "🌐";
-    return String.fromCodePoint(...countryCode.toUpperCase().split("").map(c => 127397 + c.charCodeAt(0)));
-}
-$.get("https://ipwho.is/", (err, resp, body) => {
-    if (!err && body) {
-        try {
-            const data = JSON.parse(body);
-            if (data.success) {
-                const flag = getFlagEmoji(data.country_code);
-                const isHosting = data.security && data.security.hosting;
-                const isProxy = data.security && (data.security.proxy || data.security.vpn || data.security.tor);
-                let purityTag = isProxy ? "🔴 较低 (公开代理/高风控)" : (isHosting ? "🟡 良好 (商业机房/IDC)" : "🟢 极高 (原生家宽/住宅)");
-                const lines = [
-                    `📍 节点出口: ${data.ip}`,
-                    `🏢 归属运营: ${data.connection ? data.connection.isp : data.isp || "未知"}`,
-                    `🛡️ 纯净评级: ${purityTag}`,
-                    `🏷️ 节点类型: ${isHosting ? "机房广播 (Hosting)" : "原生住宅 (Residential)"}`
-                ];
-                const msg = lines.join("\n");
-                $.done({ title: `${flag} ${data.country} · ${data.city}`, message: msg, content: msg });
-                return;
-            }
-        } catch (e) {}
-    }
-    $.done({ title: "节点纯净度体检", message: "⚠️ 请求超时，未能获取纯净度数据。", content: "超时" });
-});
-"""
-
-NATIVE_AI_CHECK_JS = r"""const $ = {
-    get: (url, cb) => {
-        if (typeof $httpClient !== "undefined") $httpClient.get({ url: url, timeout: 6 }, cb);
-        else if (typeof $task !== "undefined") $task.fetch({ url: url, timeout: 6 }).then(r => cb(null, r, r.body), e => cb(e, null, null));
-    },
-    done: (obj) => $done(obj)
-};
-let results = { openai: "⏳", claude: "⏳", gemini: "⏳" };
-let doneCount = 0;
-function finish() {
-    doneCount++;
-    if (doneCount === 3) {
-        const lines = [`🧠 OpenAI (ChatGPT): ${results.openai}`, `🎭 Anthropic Claude: ${results.claude}`, `✨ Google Gemini AI: ${results.gemini}`];
-        $.done({ title: "🤖 AI 智能助手可用性检测", message: lines.join("\n"), content: lines.join("\n") });
-    }
-}
-$.get("https://chatgpt.com/cdn-cgi/trace", (err, resp, body) => {
-    if (!err && resp && resp.statusCode === 200 && body) {
-        const m = body.match(/loc=([A-Z]{2})/);
-        results.openai = (m && (m[1] === "CN" || m[1] === "HK")) ? `🔴 不可用 (${m[1]})` : `🟢 支持访问 (${m ? m[1] : "OK"})`;
-    } else results.openai = "🔴 访问受阻";
-    finish();
-});
-$.get("https://claude.ai/login", (err, resp) => {
-    if (!err && resp && (resp.statusCode === 200 || resp.statusCode === 302)) results.claude = "🟢 支持访问";
-    else results.claude = "🔴 节点受限";
-    finish();
-});
-$.get("https://gemini.google.com/", (err, resp) => {
-    if (!err && resp && (resp.statusCode === 200 || resp.statusCode === 302)) results.gemini = "🟢 支持访问";
-    else results.gemini = "🔴 地区暂不支持";
-    finish();
-});
-"""
-
-NATIVE_CRYPTO_CHECK_JS = r"""const $ = {
-    get: (url, cb) => {
-        if (typeof $httpClient !== "undefined") $httpClient.get({ url: url, timeout: 6 }, cb);
-        else if (typeof $task !== "undefined") $task.fetch({ url: url, timeout: 6 }).then(r => cb(null, r, r.body), e => cb(e, null, null));
-    },
-    done: (obj) => $done(obj)
-};
-let results = { okx: "⏳", binance: "⏳", bybit: "⏳" };
-let count = 0;
-function finish() {
-    count++;
-    if (count === 3) {
-        const lines = [`🪙 币安 Binance : ${results.binance}`, `🪙 欧易 OKX     : ${results.okx}`, `🪙 Bybit 交易所 : ${results.bybit}`];
-        $.done({ title: "⛓️ Web3 交易所可用性体检", message: lines.join("\n"), content: lines.join("\n") });
-    }
-}
-$.get("https://www.binance.com/", (e, r) => { results.binance = (!e && r && r.statusCode === 200) ? "🟢 畅通" : "🔴 受限"; finish(); });
-$.get("https://www.okx.com/", (e, r) => { results.okx = (!e && r && r.statusCode === 200) ? "🟢 畅通" : "🔴 受限"; finish(); });
-$.get("https://www.bybit.com/", (e, r) => { results.bybit = (!e && r && r.statusCode === 200) ? "🟢 畅通" : "🔴 受限"; finish(); });
-"""
-
-NATIVE_GOOGLE_CHECK_JS = r"""const $ = {
-    get: (url, cb) => {
-        if (typeof $httpClient !== "undefined") $httpClient.get({ url: url, timeout: 6 }, cb);
-        else if (typeof $task !== "undefined") $task.fetch({ url: url, timeout: 6 }).then(r => cb(null, r, r.body), e => cb(e, null, null));
-    },
-    done: (obj) => $done(obj)
-};
-$.get("https://www.google.com/search?q=114514", (err, resp, body) => {
-    if (!err && resp && body) {
-        let isCN = false;
-        if (resp.headers && resp.headers["location"] && (resp.headers["location"].includes(".google.cn") || resp.headers["location"].includes("google.com.hk"))) isCN = true;
-        if (body.includes("google.cn") || (body.includes("中国") && body.includes("来自你的 IP 地址"))) isCN = true;
-        const msg = isCN ? "🔴 警告: 当前节点已被 Google 判定为【送中】" : "🟢 优良: 当前节点未发生 Google 送中";
-        $.done({ title: "🔍 Google 搜索地域排查", message: msg, content: msg });
-    } else $.done({ title: "Google 搜索排查", message: "⚠️ 连接超时。", content: "超时" });
-});
-"""
-
-def sync_all_five_scripts_and_icons():
-    # 用户 Pro 版脚本已锁定，保留现有文件不予覆盖
-    pass
-
 def assemble_quantumultx_conf(repo_user="Mygodsss", repo_name="wang47"):
     qx_conf_path = "Profiles/QuantumultX.conf"
     if not os.path.exists(qx_conf_path):
         return
     with open(qx_conf_path, "r", encoding="utf-8") as f:
         conf_text = f.read()
+
+    tz = timezone(timedelta(hours=8))
+    now_str = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
+    v_stamp = int(time.time())
 
     filter_remotes = []
     qx_rule_dir = "rule/QuantumultX"
@@ -470,12 +348,13 @@ def assemble_quantumultx_conf(repo_user="Mygodsss", repo_name="wang47"):
     if rewrite_remotes and "[rewrite_remote]" in conf_text:
         conf_text = re.sub(r"(\[rewrite_remote\]\n)(.*?)(?=\n\[|\Z)", r"\1" + "\n".join(rewrite_remotes) + "\n", conf_text, flags=re.DOTALL)
 
+    # 动态附加防缓存时间戳 ?v=v_stamp，确保手机端每次重新拉取配置都能即时丢弃旧缓存
     five_tasks = [
-        f"event-interaction https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/streaming-ui-check/streaming-ui-check.js, tag=流媒体解锁查询, img-url=https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/streaming-ui-check/icon.png, enabled=true",
-        f"event-interaction https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/server-info-pure/server-info-pure.js, tag=节点纯净度详情, img-url=https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/server-info-pure/icon.png, enabled=true",
-        f"event-interaction https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/ai-check/ai-check.js, tag=AI智能助手诊断, img-url=https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/ai-check/icon.png, enabled=true",
-        f"event-interaction https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/google-check/google-check.js, tag=Google送中排查, img-url=https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/google-check/icon.png, enabled=true",
-        f"event-interaction https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/crypto-check/crypto-check.js, tag=交易所合规排查, img-url=https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/crypto-check/icon.png, enabled=true"
+        f"event-interaction https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/streaming-ui-check/streaming-ui-check.js?v={v_stamp}, tag=流媒体解锁查询, img-url=https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/streaming-ui-check/streaming-ui-check.png, enabled=true",
+        f"event-interaction https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/server-info-pure/server-info-pure.js?v={v_stamp}, tag=节点纯净度详情, img-url=https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/server-info-pure/server-info-pure.png, enabled=true",
+        f"event-interaction https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/ai-check/ai-check.js?v={v_stamp}, tag=AI智能助手诊断, img-url=https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/ai-check/ai-check.png, enabled=true",
+        f"event-interaction https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/google-check/google-check.js?v={v_stamp}, tag=Google送中排查, img-url=https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/google-check/google-check.png, enabled=true",
+        f"event-interaction https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/crypto-check/crypto-check.js?v={v_stamp}, tag=交易所合规排查, img-url=https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/crypto-check/crypto-check.png, enabled=true"
     ]
     task_keys = ["streaming-ui-check", "server-info-pure", "ai-check", "crypto-check", "google-check", "流媒体解锁", "节点纯净度", "送中", "交易所合规", "AI智能助手"]
     clean_lines = [l for l in conf_text.splitlines() if not any(k in l for k in task_keys)]
@@ -520,6 +399,13 @@ def assemble_quantumultx_conf(repo_user="Mygodsss", repo_name="wang47"):
             conf_text += f"\n\n[mitm]\nhostname = {sorted_mitm}\n"
 
     conf_text = conf_text.replace("static=google, direct, proxy, reject,", "static=google, direct, reject, 全球代理,")
+    
+    header_stamp = f"# Wang47 Quantumult X 动态配置 - 构建时间: {now_str} (UTC+8)\n"
+    if conf_text.startswith("# Wang47 Quantumult X"):
+        conf_text = re.sub(r"^# Wang47 Quantumult X.*?\n", header_stamp, conf_text)
+    else:
+        conf_text = header_stamp + conf_text
+
     with open(qx_conf_path, "w", encoding="utf-8") as f:
         f.write(conf_text)
     shutil.copy(qx_conf_path, "QuantumultX.conf")
@@ -568,6 +454,15 @@ def sync_stash_rules_and_profile(qx_rule_dir="rule/QuantumultX", stash_rule_dir=
         rules.extend(["  - GEOIP,CN,DIRECT", "  - MATCH,兜底分流"])
         s_text = re.sub(r"rule-providers:[\s\S]*?(?=\nrules:|\nproxy-groups:|\n\[|\Z)", "\n".join(providers) + "\n", s_text)
         s_text = re.sub(r"rules:[\s\S]*?(?=\nproxy-groups:|\nrule-providers:|\n\[|\Z)", "\n".join(rules) + "\n", s_text)
+        
+        tz = timezone(timedelta(hours=8))
+        now_str = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
+        s_stamp = f"# Wang47 Stash 动态配置 - 构建时间: {now_str} (UTC+8)\n"
+        if s_text.startswith("# Wang47 Stash"):
+            s_text = re.sub(r"^# Wang47 Stash.*?\n", s_stamp, s_text)
+        else:
+            s_text = s_stamp + s_text
+
         with open(stash_conf_path, "w", encoding="utf-8") as sf:
             sf.write(s_text)
         if os.path.exists("Stash.yaml"):
@@ -581,7 +476,16 @@ def update_readme_markdown(qx_rule_dir="rule/QuantumultX", readme_path="README.m
     now_str = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
     with open(readme_path, "r", encoding="utf-8") as f:
         text = f.read()
-    text = re.sub(r"(自动更新时间\s*[:：]\s*`?)\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}(`?)", rf"\g<1>{now_str}\2", text)
+
+    time_patterns = [
+        r"([上下最]?[新更步自动巡检]+时间\s*[:：]\s*`?)\d{4}[-/]\d{1,2}[-/]\d{1,2}\s+\d{1,2}:\d{2}(?::\d{2})?(`?)",
+        r"(.*?时间\s*[:：]\s*`?)\d{4}[-/]\d{1,2}[-/]\d{1,2}\s+\d{1,2}:\d{2}(?::\d{2})?(`?)"
+    ]
+    for p in time_patterns:
+        if re.search(p, text):
+            text = re.sub(p, rf"\g<1>{now_str}\2", text, count=1)
+            break
+
     if os.path.exists(qx_rule_dir):
         all_rules = [f[:-5] for f in os.listdir(qx_rule_dir) if f.endswith(".list") and f != "all.list"]
         sorted_rules = sorted(all_rules, key=lambda x: RULE_META.get(x, (x, "自动选择", 999))[2])
@@ -626,7 +530,6 @@ def update_readme_markdown(qx_rule_dir="rule/QuantumultX", readme_path="README.m
 if __name__ == "__main__":
     compile_rules()
     sync_rewrites_to_stash()
-    # 脚本已被用户 Pro 版锁定，跳过覆盖
     assemble_quantumultx_conf(repo_user="Mygodsss", repo_name="wang47")
     sync_stash_rules_and_profile()
     update_readme_markdown()

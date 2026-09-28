@@ -38,35 +38,19 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install Dependencies
+        run: |
+          pip install requests pyyaml
+
       - name: Run Engine
         id: run_engine
         run: |
-          EVENT_ACTION="${{ github.event.action }}"
-          OP_ACTION="${{ github.event.client_payload.action }}"
-          PAYLOAD="${{ github.event.client_payload.payload }}"
+          echo "🚀 正在执行全量抓取与双端资产编译..."
+          SYNC_PATH="Scripts/sync_all.py"
+          [ ! -f "$SYNC_PATH" ] && SYNC_PATH="scripts/sync_all.py"
           
-          CTL_PATH="Scripts/controller.py"
-          [ ! -f "$CTL_PATH" ] && CTL_PATH="scripts/controller.py"
-
-          if [ "$EVENT_ACTION" = "manage_rule" ]; then
-            echo "⚡️ 正在执行 Telegram 规则管理任务: $OP_ACTION"
-            OUTPUT=$(python3 "$CTL_PATH" --action "$OP_ACTION" --payload "$PAYLOAD" || true)
-            echo "IS_MANAGE_RULE=true" >> $GITHUB_ENV
-          else
-            echo "🚀 正在执行全量抓取与双端资产编译..."
-            SYNC_PATH="Scripts/sync_all.py"
-            [ ! -f "$SYNC_PATH" ] && SYNC_PATH="scripts/sync_all.py"
-            if [ -f "$SYNC_PATH" ]; then
-              python3 "$SYNC_PATH" || true
-            fi
-            
-            OUTPUT=$(python3 "$CTL_PATH" --action build-all || true)
-            echo "IS_MANAGE_RULE=false" >> $GITHUB_ENV
-          fi
-
-          echo "REPORT<<EOF" >> $GITHUB_ENV
-          echo "$OUTPUT" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          # 不加 || true，如遇语法错误立即抛出报警，拒绝假死
+          python3 "$SYNC_PATH"
 
       - name: Commit & Push Changes
         id: commit_step
@@ -84,12 +68,7 @@ jobs:
 
           if [ -n "$CORE_CHANGES" ]; then
             echo "💡 检测到核心分流资产或配置实质变动，执行版本交付..."
-            
-            if [ "$IS_MANAGE_RULE" = "true" ]; then
-              git commit -m "chore(rule): [Telegram Bot] 动态更新分流规则 [skip ci]"
-            else
-              git commit -m "chore(auto): sync upstream rules and update subscription profiles [skip ci]"
-            fi
+            git commit -m "chore(auto): sync upstream rules and update subscription profiles [skip ci]"
             
             SUCCESS=false
             for i in 1 2 3; do
@@ -124,8 +103,6 @@ jobs:
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
           JOB_STATUS: ${{ job.status }}
           HAS_CHANGES: ${{ steps.commit_step.outputs.has_changes }}
-          IS_MANAGE: ${{ env.IS_MANAGE_RULE }}
-          REPORT: ${{ env.REPORT }}
         run: |
           python3 - << 'PY_TG'
           import os, json, urllib.request
@@ -135,8 +112,6 @@ jobs:
           chat_id = os.environ.get('TG_CHAT_ID', '').strip()
           status = os.environ.get('JOB_STATUS', '')
           has_changes = os.environ.get('HAS_CHANGES', '')
-          is_manage = os.environ.get('IS_MANAGE', '')
-          report = os.environ.get('REPORT', '').strip()
 
           if not token or not chat_id:
               exit(0)
@@ -146,9 +121,7 @@ jobs:
           repo = os.environ.get('GITHUB_REPOSITORY', 'Mygodsss/wang47')
 
           if status == 'success':
-              if is_manage == 'true':
-                  text = f"🤖 *Wang47 规则自动化运维回执*\n\n{report}\n\n*时间:* {now_str} (UTC+8)\n*状态:* 已编译并推送到仓库"
-              elif has_changes == 'true':
+              if has_changes == 'true':
                   text = f"🚀 *QX & Stash 自动同步完成*\n\n*状态:* 上游规则/主配置已刷新，最新订阅资产已交付仓库\n*时间:* {now_str} (UTC+8)\n*仓库:* [{repo}](https://github.com/{repo})"
               else:
                   text = f"ℹ️ *QX & Stash 日常巡检*\n\n*状态:* 上游规则无变动，双端订阅配置保持最新\n*时间:* {now_str} (UTC+8)"
