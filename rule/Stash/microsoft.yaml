@@ -1,3 +1,4 @@
+# Stash: microsoft
 payload:
   - DOMAIN,bg.v4.a.dl.ws.microsoft.com
   - DOMAIN,bg4.v4.a.dl.ws.microsoft.com
@@ -707,6 +708,3 @@ payload:
   - DOMAIN-KEYWORD,1drv
   - DOMAIN-KEYWORD,onedrive
   - DOMAIN-KEYWORD,skydrive
-  - USER-AGENT,Microsoft*
-  - USER-AGENT,OneDrive*
-  - USER-AGENT,OneDriveiOSApp*
