@@ -627,24 +627,36 @@ if os.path.exists(readme_path):
 # ==============================================================================
 # 6. 全自动同步独立 JS 脚本 (流媒体与节点纯净度检测)
 # ==============================================================================
-def sync_custom_scripts(scripts_dir="scripts"):
-    """抓取上游权威 JS 脚本并托管至本地仓库，规避源站防盗链与 403 阻断"""
+def sync_custom_scripts(scripts_dir="js"):
+    """抓取上游权威 JS 脚本并托管至本地 js/ 目录，规避源站防盗链与 403 阻断"""
     remote_scripts = {
-        "streaming-ui-check.js": "https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/Scripts/streaming-ui-check.js",
-        "server-info-pure.js": "https://raw.githubusercontent.com/ddgksf2013/scripts/master/server-info-pure.js"
+        "streaming-ui-check.js": [
+            "https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/Scripts/streaming-ui-check.js"
+        ],
+        "server-info-pure.js": [
+            "https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Scripts/server-info-pure.js",
+            "https://raw.githubusercontent.com/Rabbit-Spec/Surge/master/Module/Panel/IP-Info/server-info-pure.js",
+            "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/quantumultx/server-info-pure.js"
+        ]
     }
     
     count = 0
-    for name, url in remote_scripts.items():
-        content = fetch_data(url)
+    for name, urls in remote_scripts.items():
+        content = None
+        for url in urls:
+            content = fetch_data(url)
+            if content:
+                break
+        
         if content:
             target_path = os.path.join(scripts_dir, name)
             write_file(target_path, content)
             count += 1
+            print(f"✅ 成功抓取脚本: {name}")
         else:
-            print(f"⚠️ 外部脚本拉取失败或源站不可用: {url}")
+            print(f"⚠️ 脚本拉取失败: {name} 所有源均不可用")
             
-    print(f"✅ 独立 JS 脚本同步完成，共抓取托管 {count} 个脚本至 {scripts_dir}/ 目录！")
+    print(f"🎉 独立 JS 脚本同步完成，共抓取托管 {count} 个脚本至 {scripts_dir}/ 目录！")
 
 
 # ------------------------------------------------------------------------------
