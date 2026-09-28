@@ -82,8 +82,8 @@ jobs:
             git add README.md
           fi
 
-          # 动态检查并添加实际存在的资产
-          for target in rule rewrite Profiles QuantumultX.conf Stash.yaml; do
+          # 动态检查并添加实际存在的资产（已加入 scripts）
+          for target in rule rewrite Profiles scripts QuantumultX.conf Stash.yaml; do
             if [ -e "$target" ]; then
               git add "$target"
             fi
