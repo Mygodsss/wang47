@@ -151,11 +151,11 @@
 
 | 组件标签 | 图标 | 功能说明与检测维度 | 脚本直链 |
 | :--- | :---: | :--- | :--- |
-| **流媒体解锁查询** | 🎬 | Netflix、YouTube Premium、Disney+、Bilibili 原生与版权解锁检测 | [查看脚本](Scripts/streaming-ui-check/streaming-ui-check.js) |
-| **节点纯净度详情** | 🛡️ | 五维深度纯净度 Pro 版、AS 归属纠偏、原生住宅 / IDC 机房判定 | [查看脚本](Scripts/server-info-pure/server-info-pure.js) |
-| **AI智能助手诊断** | 🤖 | OpenAI (ChatGPT)、Claude、Google Gemini 等 AI 可用性检测 | [查看脚本](Scripts/ai-check/ai-check.js) |
-| **Google送中排查** | 🔍 | Google 搜索地域归属、未送中判定、reCAPTCHA 风控拦截诊断 | [查看脚本](Scripts/google-check/google-check.js) |
-| **交易所合规排查** | 🪙 | 币安、OKX、Bybit、Coinbase 等 Web3 交易所网络连通性体检 | [查看脚本](Scripts/crypto-check/crypto-check.js) |
+| **AI智能助手诊断** | 🤖 | OpenAI、Claude、Gemini 等全球前沿 AI 并发体检 | [查看脚本](Scripts/ai-check/ai-check.js) |
+| **交易所合规排查** | 🪙 | Binance、OKX、Bybit 等全球主流交易所连通性体检 | [查看脚本](Scripts/crypto-check/crypto-check.js) |
+| **Google送中排查** | 🔍 | Google 搜索归属、原生未送中判定、风控拦截诊断 | [查看脚本](Scripts/google-check/google-check.js) |
+| **节点纯净度详情** | 🛡️ | Quantumult X 节点纯净度五维深度体检引擎 (Pro 旗舰版) | [查看脚本](Scripts/server-info-pure/server-info-pure.js) |
+| **流媒体解锁查询** | 🎬 | Thanks to & modified from | [查看脚本](Scripts/streaming-ui-check/streaming-ui-check.js) |
 <!-- TOOLS_TABLE_END -->
 
 ---

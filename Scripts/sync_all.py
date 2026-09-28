@@ -137,6 +137,59 @@ REWRITE_META = {
     "wloc": ("📍 虚拟定位与位置信息修正模块", False),
 }
 
+def scan_detection_scripts(scripts_dir="Scripts"):
+    """纯动态扫描 Scripts 目录，增删检测组件自动实时感知并提取描述"""
+    if not os.path.exists(scripts_dir):
+        return []
+
+    DEFAULT_META = {
+        "server-info-pure": ("节点纯净度详情", "🛡️", "五维深度纯净度 Pro 版、AS 归属纠偏、原生住宅 / IDC 机房判定"),
+        "streaming-ui-check": ("流媒体解锁查询", "🎬", "Netflix、YouTube Premium、Disney+、Bilibili 原生与版权解锁检测"),
+        "ai-check": ("AI智能助手诊断", "🤖", "OpenAI、Claude、Gemini 等全球前沿 AI 并发体检"),
+        "google-check": ("Google送中排查", "🔍", "Google 搜索归属、原生未送中判定、风控拦截诊断"),
+        "crypto-check": ("交易所合规排查", "🪙", "Binance、OKX、Bybit 等全球主流交易所连通性体检")
+    }
+
+    scanned = []
+    for item in sorted(os.listdir(scripts_dir)):
+        dir_path = os.path.join(scripts_dir, item)
+        if not os.path.isdir(dir_path):
+            continue
+        js_file = os.path.join(dir_path, f"{item}.js")
+        if not os.path.exists(js_file):
+            continue
+
+        desc = None
+        try:
+            with open(js_file, "r", encoding="utf-8", errors="ignore") as f:
+                c = f.read(600)
+                m = re.search(r"/\*\*([\s\S]*?)\*/", c)
+                if m:
+                    lines = [l.strip().lstrip("*").strip() for l in m.group(1).splitlines() if l.strip().lstrip("*").strip()]
+                    if lines:
+                        desc = lines[0]
+        except Exception:
+            pass
+
+        if item in DEFAULT_META:
+            tag, icon, fb_desc = DEFAULT_META[item]
+            desc = desc or fb_desc
+        else:
+            tag = f"🔧 {item}"
+            icon = "⚡"
+            desc = desc or "自定义节点交互诊断组件"
+
+        png_name = f"{item}.png" if os.path.exists(os.path.join(dir_path, f"{item}.png")) else "icon.png"
+        scanned.append({
+            "name": item,
+            "tag": tag,
+            "icon": icon,
+            "desc": desc,
+            "js_rel": f"Scripts/{item}/{item}.js",
+            "png_rel": f"Scripts/{item}/{png_name}"
+        })
+    return scanned
+
 def compile_rules():
     print("🚀 正在抓取并全量编译分流规则...")
     acl4ssr_raw = fetch_data("https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Cryptocurrency.list")
@@ -348,19 +401,25 @@ def assemble_quantumultx_conf(repo_user="Mygodsss", repo_name="wang47"):
     if rewrite_remotes and "[rewrite_remote]" in conf_text:
         conf_text = re.sub(r"(\[rewrite_remote\]\n)(.*?)(?=\n\[|\Z)", r"\1" + "\n".join(rewrite_remotes) + "\n", conf_text, flags=re.DOTALL)
 
-    # 动态附加防缓存时间戳 ?v=v_stamp，确保手机端每次重新拉取配置都能即时丢弃旧缓存
-    five_tasks = [
-        f"event-interaction https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/streaming-ui-check/streaming-ui-check.js?v={v_stamp}, tag=流媒体解锁查询, img-url=https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/streaming-ui-check/streaming-ui-check.png, enabled=true",
-        f"event-interaction https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/server-info-pure/server-info-pure.js?v={v_stamp}, tag=节点纯净度详情, img-url=https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/server-info-pure/server-info-pure.png, enabled=true",
-        f"event-interaction https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/ai-check/ai-check.js?v={v_stamp}, tag=AI智能助手诊断, img-url=https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/ai-check/ai-check.png, enabled=true",
-        f"event-interaction https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/google-check/google-check.js?v={v_stamp}, tag=Google送中排查, img-url=https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/google-check/google-check.png, enabled=true",
-        f"event-interaction https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/crypto-check/crypto-check.js?v={v_stamp}, tag=交易所合规排查, img-url=https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/Scripts/crypto-check/crypto-check.png, enabled=true"
-    ]
+    # 动态扫描生成 QX 任务栏配置
+    scanned_items = scan_detection_scripts("Scripts")
+    dynamic_tasks = []
     task_keys = ["streaming-ui-check", "server-info-pure", "ai-check", "crypto-check", "google-check", "流媒体解锁", "节点纯净度", "送中", "交易所合规", "AI智能助手"]
+
+    for it in scanned_items:
+        dynamic_tasks.append(
+            f"event-interaction https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/{it['js_rel']}?v={v_stamp}, "
+            f"tag={it['tag']}, "
+            f"img-url=https://raw.githubusercontent.com/{repo_user}/{repo_name}/main/{it['png_rel']}, "
+            f"enabled=true"
+        )
+        task_keys.append(it["name"])
+        task_keys.append(it["tag"])
+
     clean_lines = [l for l in conf_text.splitlines() if not any(k in l for k in task_keys)]
     conf_text = "\n".join(clean_lines)
 
-    task_block = "\n".join(five_tasks)
+    task_block = "\n".join(dynamic_tasks)
     if "[task_local]" in conf_text:
         conf_text = re.sub(r"(\[task_local\]\n)", rf"\1{task_block}\n", conf_text)
     else:
@@ -409,7 +468,7 @@ def assemble_quantumultx_conf(repo_user="Mygodsss", repo_name="wang47"):
     with open(qx_conf_path, "w", encoding="utf-8") as f:
         f.write(conf_text)
     shutil.copy(qx_conf_path, "QuantumultX.conf")
-    print("✅ Profiles/QuantumultX.conf 的 5 项交互任务与根目录镜像同步完成！")
+    print(f"✅ Profiles/QuantumultX.conf 动态装配完成，共同步 {len(dynamic_tasks)} 项检测组件！")
 
 def sync_stash_rules_and_profile(qx_rule_dir="rule/QuantumultX", stash_rule_dir="rule/Stash", stash_conf_path="Profiles/Stash.yaml"):
     if not os.path.exists(stash_rule_dir):
@@ -486,6 +545,28 @@ def update_readme_markdown(qx_rule_dir="rule/QuantumultX", readme_path="README.m
             text = re.sub(p, rf"\g<1>{now_str}\2", text, count=1)
             break
 
+    # 纯动态扫描构建自述文件面板
+    tools = scan_detection_scripts("Scripts")
+    tool_rows = []
+    for t in tools:
+        tool_rows.append(f"| **{t['tag']}** | {t['icon']} | {t['desc']} | [查看脚本]({t['js_rel']}) |")
+
+    tools_table = "\n".join([
+        "| 组件标签 | 图标 | 功能说明与检测维度 | 脚本直链 |",
+        "| :--- | :---: | :--- | :--- |"
+    ] + tool_rows)
+    tools_section = f"<!-- TOOLS_TABLE_START -->\n### 🛠️ 交互式节点检测与诊断组件 (Quantumult X)\n\n{tools_table}\n<!-- TOOLS_TABLE_END -->"
+
+    if "<!-- TOOLS_TABLE_START -->" in text and "<!-- TOOLS_TABLE_END -->" in text:
+        text = re.sub(r"<!-- TOOLS_TABLE_START -->[\s\S]*?<!-- TOOLS_TABLE_END -->", tools_section, text)
+    else:
+        if "### Quantumult X 专属重写模块" in text:
+            text = text.replace("### Quantumult X 专属重写模块", tools_section + "\n\n---\n\n### Quantumult X 专属重写模块")
+        elif "<!-- RULE_TABLE_START -->" in text:
+            text = text.replace("<!-- RULE_TABLE_START -->", tools_section + "\n\n---\n\n<!-- RULE_TABLE_START -->")
+        else:
+            text += "\n\n---\n\n" + tools_section + "\n"
+
     if os.path.exists(qx_rule_dir):
         all_rules = [f[:-5] for f in os.listdir(qx_rule_dir) if f.endswith(".list") and f != "all.list"]
         sorted_rules = sorted(all_rules, key=lambda x: RULE_META.get(x, (x, "自动选择", 999))[2])
@@ -525,7 +606,7 @@ def update_readme_markdown(qx_rule_dir="rule/QuantumultX", readme_path="README.m
 
     with open(readme_path, "w", encoding="utf-8") as f:
         f.write(text)
-    print(f"🎉 README.md 已自动对齐最新时间戳 [{now_str}] 与全量三端表格！")
+    print(f"🎉 README.md 动态表格渲染完成，实时展示 {len(tools)} 项检测组件！")
 
 if __name__ == "__main__":
     compile_rules()
@@ -533,4 +614,4 @@ if __name__ == "__main__":
     assemble_quantumultx_conf(repo_user="Mygodsss", repo_name="wang47")
     sync_stash_rules_and_profile()
     update_readme_markdown()
-    print("\n🚀 [All Done] Wang47 5 项检测脚本与双端规则引擎全量自动化同步执行完毕！")
+    print("\n🚀 [All Done] Wang47 全动态规则与检测引擎全量同步执行完毕！")
