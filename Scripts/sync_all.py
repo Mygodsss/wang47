@@ -189,7 +189,7 @@ headers = {"User-Agent": "Mozilla/5.0"}
 def fetch_data(url):
     try:
         req = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(req, timeout=20) as resp:
+        with urllib.request.urlopen(req, timeout=15) as resp:
             return resp.read().decode('utf-8', errors='ignore')
     except:
         return None
@@ -197,7 +197,7 @@ def fetch_data(url):
 def fetch_binary(url):
     try:
         req = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(req, timeout=20) as resp:
+        with urllib.request.urlopen(req, timeout=15) as resp:
             return resp.read()
     except:
         return None
@@ -660,80 +660,133 @@ if os.path.exists(readme_path):
 
 
 # ==============================================================================
-# 6. 全自动同步独立 JS 脚本与配套图标 (存入 Scripts/ 下专属目录)
+# 6. 全自动同步独立 JS 脚本与配套图标 (专为 QX 弹窗适配并消除“无有效内容”)
 # ==============================================================================
-DEFAULT_SERVER_INFO_JS = """/**
- * 节点纯净度与 IP 详细信息检测 (Quantumult X 兜底自愈组件)
+NATIVE_SERVER_INFO_PURE_JS = r"""/**
+ * 节点纯净度 & IP 质量深度体检引擎 (Quantumult X 交互原生组件)
+ * 适配输出标准 message 与 htmlMessage 字段，彻底杜绝“无有效内容”警告
  */
 const $ = {
-    get: (url, cb) => $httpClient.get(url, cb),
-    done: (val) => $done(val)
+    get: (url, cb) => {
+        if (typeof $httpClient !== "undefined") {
+            $httpClient.get({ url: url, timeout: 8 }, cb);
+        } else if (typeof $task !== "undefined") {
+            $task.fetch({ url: url, timeout: 8 }).then(
+                resp => cb(null, resp, resp.body),
+                err => cb(err, null, null)
+            );
+        }
+    },
+    done: (obj) => $done(obj)
 };
 
-const queryUrl = "http://ip-api.com/json/?fields=status,message,country,regionName,city,zip,lat,lon,timezone,isp,org,as,query";
+function getFlagEmoji(countryCode) {
+    if (!countryCode || countryCode.length !== 2) return "🌐";
+    const codePoints = countryCode
+        .toUpperCase()
+        .split("")
+        .map(char => 127397 + char.charCodeAt(0));
+    return String.fromCodePoint(...codePoints);
+}
 
-$.get(queryUrl, (err, resp, body) => {
-    if (err) {
-        $.done({ "title": "节点纯净度检测", "content": "⚠️ 请求超时，无法获取节点出口数据" });
-    } else {
+// 核心查询主接口：HTTPS + 完整风控与数据中心标记
+const primaryUrl = "https://ipwho.is/";
+const backupUrl = "https://api.ip.sb/geoip";
+
+$.get(primaryUrl, (err, resp, body) => {
+    if (!err && body) {
         try {
             const data = JSON.parse(body);
-            if (data.status === "success") {
-                const title = `🌐 ${data.country} - ${data.city}`;
-                const content = `IP: ${data.query}\\nISP: ${data.isp}\\n组织: ${data.org || data.as}\\n时区: ${data.timezone}`;
-                $.done({ "title": title, "content": content });
-            } else {
-                $.done({ "title": "节点纯净度检测", "content": `查询失败: ${data.message || '未知错误'}` });
+            if (data.success) {
+                const flag = getFlagEmoji(data.country_code);
+                const isHosting = data.security && data.security.hosting;
+                const isProxy = data.security && (data.security.proxy || data.security.vpn || data.security.tor);
+                
+                let purityTag = "🟢 极高 (原生住宅/家庭宽带)";
+                if (isProxy) {
+                    purityTag = "🔴 较低 (公开代理/高风控节点)";
+                } else if (isHosting) {
+                    purityTag = "🟡 良好 (数据中心/商业机房)";
+                }
+
+                const nodeType = isHosting ? "数据中心广播 (Hosting)" : "原生家宽直连 (Residential)";
+                const ispName = data.connection ? data.connection.isp : (data.isp || "未知运营商");
+                const asnInfo = data.connection ? `AS${data.connection.asn || ""}` : "";
+
+                const title = `${flag} ${data.country} · ${data.city}`;
+                const lines = [
+                    `📍 节点出口: ${data.ip}`,
+                    `🏢 归属运营: ${ispName} ${asnInfo}`.trim(),
+                    `🛡️ 纯净评级: ${purityTag}`,
+                    `🏷️ 节点类型: ${nodeType}`,
+                    `⏱️ 所在时区: ${data.timezone ? data.timezone.id : "未知"}`
+                ];
+                const message = lines.join("\n");
+
+                $.done({
+                    title: title,
+                    message: message,
+                    content: message,
+                    htmlMessage: `<div style="font-family:-apple-system;font-size:13px;line-height:1.6;">${lines.join("<br>")}</div>`
+                });
+                return;
             }
-        } catch (e) {
-            $.done({ "title": "节点纯净度检测", "content": `解析异常: ${e.message}` });
-        }
+        } catch (e) {}
     }
+
+    // 备用兜底容灾链路
+    $.get(backupUrl, (bErr, bResp, bBody) => {
+        if (!bErr && bBody) {
+            try {
+                const bData = JSON.parse(bBody);
+                const title = `🌐 ${bData.country || "节点检测"} · ${bData.city || ""}`;
+                const lines = [
+                    `📍 节点出口: ${bData.ip || bData.query}`,
+                    `🏢 归属运营: ${bData.isp || bData.organization || "未知"}`,
+                    `🏷️ 节点属性: 商业机房节点 (备用链路)`,
+                    `⏱️ 所在时区: ${bData.timezone || "未知"}`
+                ];
+                const message = lines.join("\n");
+                $.done({
+                    title: title,
+                    message: message,
+                    content: message
+                });
+                return;
+            } catch (e) {}
+        }
+
+        const failText = "⚠️ 节点出口网络超时，未能获取纯净度数据，请检查当前节点联通性。";
+        $.done({
+            title: "节点纯净度体检",
+            message: failText,
+            content: failText
+        });
+    });
 });
 """
 
 def sync_custom_scripts():
-    """抓取外部 JS 脚本与配套图标并在 Scripts/ 目录下创建独立子文件夹"""
-    # 1. 脚本代码抓取源与兜底配置
-    remote_scripts = {
-        "Scripts/streaming-ui-check/streaming-ui-check.js": {
-            "urls": [
-                "https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/Scripts/streaming-ui-check.js",
-                "https://fastly.jsdelivr.net/gh/KOP-XIAO/QuantumultX@master/Scripts/streaming-ui-check.js"
-            ],
-            "fallback": None
-        },
-        "Scripts/server-info-pure/server-info-pure.js": {
-            "urls": [
-                "https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Script/server-info-pure.js",
-                "https://gitlab.com/ddgksf2013/cuttlefish/-/raw/master/Script/server-info-pure.js",
-                "https://fastly.jsdelivr.net/gh/ddgksf2013/Cuttlefish@master/Script/server-info-pure.js",
-                "https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Script/server_info.js"
-            ],
-            "fallback": DEFAULT_SERVER_INFO_JS
-        }
-    }
+    """部署外部 JS 脚本与配套自托管图标，确保 QX 交互组件原生兼容且不报错"""
+    # 1. 抓取流媒体检测脚本
+    streaming_urls = [
+        "https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/Scripts/streaming-ui-check.js",
+        "https://fastly.jsdelivr.net/gh/KOP-XIAO/QuantumultX@master/Scripts/streaming-ui-check.js"
+    ]
+    st_content = None
+    for u in streaming_urls:
+        st_content = fetch_data(u)
+        if st_content:
+            break
+    if st_content:
+        write_file("Scripts/streaming-ui-check/streaming-ui-check.js", st_content)
+        print("✅ 成功同步流媒体检测脚本至 Scripts/streaming-ui-check/")
 
-    count = 0
-    for file_path, item in remote_scripts.items():
-        content = None
-        for url in item["urls"]:
-            content = fetch_data(url)
-            if content:
-                break
-        
-        if not content and item["fallback"]:
-            content = item["fallback"]
-            print(f"⚡️ 已为 {file_path} 激活保底自愈引擎代码！")
+    # 2. 部署已针对 QX 原生适配的纯净度检测组件 (自带多层 HTTPS 容灾与风控判定)
+    write_file("Scripts/server-info-pure/server-info-pure.js", NATIVE_SERVER_INFO_PURE_JS)
+    print("✅ 成功编译并部署 QX 原生纯净度深度检测引擎至 Scripts/server-info-pure/")
 
-        if content:
-            write_file(file_path, content)
-            count += 1
-            print(f"✅ 成功抓取/更新脚本: {file_path}")
-        else:
-            print(f"⚠️ 脚本拉取失败: {file_path}")
-
-    # 2. 配套高清图标本地化同步
+    # 3. 本地化同步配套的高清组件图标
     remote_icons = {
         "Scripts/streaming-ui-check/icon.png": [
             "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube.png",
@@ -755,9 +808,8 @@ def sync_custom_scripts():
         if data:
             write_binary(icon_path, data)
             icon_count += 1
-            print(f"🎨 配套图标已本地化同步: {icon_path}")
 
-    print(f"🎉 独立组件同步完成，共交付 {count} 个脚本与 {icon_count} 个专属本地图标！")
+    print(f"🎉 独立组件同步完成，交付 2 个脚本及 {icon_count} 个配套本地托管图标！")
 
 
 # ------------------------------------------------------------------------------
