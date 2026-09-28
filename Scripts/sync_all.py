@@ -625,15 +625,17 @@ if os.path.exists(readme_path):
 
 
 # ==============================================================================
-# 6. 全自动同步独立 JS 脚本 (流媒体与节点纯净度检测)
+# 6. 全自动同步独立 JS 脚本 (在 Scripts/ 下为不同脚本创建专属子目录)
 # ==============================================================================
-def sync_custom_scripts(scripts_dir="js"):
-    """抓取上游权威 JS 脚本并托管至本地 js/ 目录，规避源站防盗链与 403 阻断"""
+def sync_custom_scripts():
+    """抓取外部 JS 脚本并在 Scripts/ 目录下为不同脚本创建独立子文件夹"""
     remote_scripts = {
-        "streaming-ui-check.js": [
+        # 流媒体解锁查询：存放在 Scripts/streaming-ui-check/
+        "Scripts/streaming-ui-check/streaming-ui-check.js": [
             "https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/Scripts/streaming-ui-check.js"
         ],
-        "server-info-pure.js": [
+        # 节点纯净度检测：存放在 Scripts/server-info-pure/ (带多源备用)
+        "Scripts/server-info-pure/server-info-pure.js": [
             "https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Scripts/server-info-pure.js",
             "https://raw.githubusercontent.com/Rabbit-Spec/Surge/master/Module/Panel/IP-Info/server-info-pure.js",
             "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/quantumultx/server-info-pure.js"
@@ -641,7 +643,7 @@ def sync_custom_scripts(scripts_dir="js"):
     }
     
     count = 0
-    for name, urls in remote_scripts.items():
+    for file_path, urls in remote_scripts.items():
         content = None
         for url in urls:
             content = fetch_data(url)
@@ -649,14 +651,13 @@ def sync_custom_scripts(scripts_dir="js"):
                 break
         
         if content:
-            target_path = os.path.join(scripts_dir, name)
-            write_file(target_path, content)
+            write_file(file_path, content)
             count += 1
-            print(f"✅ 成功抓取脚本: {name}")
+            print(f"✅ 成功抓取脚本并写入专属目录: {file_path}")
         else:
-            print(f"⚠️ 脚本拉取失败: {name} 所有源均不可用")
+            print(f"⚠️ 脚本拉取失败: {file_path} 所有源均不可用")
             
-    print(f"🎉 独立 JS 脚本同步完成，共抓取托管 {count} 个脚本至 {scripts_dir}/ 目录！")
+    print(f"🎉 独立 JS 脚本同步完成，共交付 {count} 个脚本到 Scripts 对应子目录！")
 
 
 # ------------------------------------------------------------------------------
