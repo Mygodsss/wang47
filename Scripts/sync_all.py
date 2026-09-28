@@ -519,6 +519,28 @@ if os.path.exists(qx_conf_path):
         replacement = r"\1" + "\n".join(rewrite_remotes) + "\n"
         conf_text = re.sub(pattern, replacement, conf_text, flags=re.DOTALL)
 
+    # ==========================================================================
+    # 动态装配 [task_local] (流媒体与节点纯净度交互任务自动注入)
+    # ==========================================================================
+    custom_tasks = [
+        "event-interaction https://raw.githubusercontent.com/Mygodsss/wang47/main/Scripts/streaming-ui-check/streaming-ui-check.js, tag=流媒体解锁查询, img-url=https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/IconSet/YouTube.png, enabled=true",
+        "event-interaction https://raw.githubusercontent.com/Mygodsss/wang47/main/Scripts/server-info-pure/server-info-pure.js, tag=节点纯净度详情, img-url=https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/IconSet/Speedtest.png, enabled=true"
+    ]
+    
+    # 过滤掉旧的外部直链任务，避免重复堆叠
+    filtered_lines = [
+        line for line in conf_text.splitlines()
+        if not any(k in line for k in ["streaming-ui-check", "server-info-pure", "流媒体解锁查询", "节点纯净度详情"])
+    ]
+    conf_text = "\n".join(filtered_lines)
+
+    task_block = "\n".join(custom_tasks)
+    if "[task_local]" in conf_text:
+        conf_text = re.sub(r"(\[task_local\]\n)", rf"\1{task_block}\n", conf_text)
+    else:
+        conf_text += f"\n\n[task_local]\n{task_block}\n"
+    print("✅ Profiles/QuantumultX.conf 的 [task_local] 交互任务已全自动装配对齐！")
+
     all_qx_mitm_hosts = set()
     JUNK_FILTER = re.compile(
         r"(\.top|\.xyz|\.work|\.vip|\.ltd|bspapp\.com|jxjt888|syshhc|heikeji|laoguikeji|benbenfx|i3zh|bbkj|bpojie|xgjyouhui|guilaile|gongzijx|hkj178|iosoi|lysl2020|xianbaow|blibee|enmonster|caixin|sf-express|taobao\.com|ls\.apple\.com)",
@@ -560,7 +582,7 @@ if os.path.exists(qx_conf_path):
 
     with open(qx_conf_path, "w", encoding="utf-8") as f:
         f.write(conf_text)
-    print("✅ Profiles/QuantumultX.conf 已自动同步最新分流与重写远程直链！")
+    print("✅ Profiles/QuantumultX.conf 已自动同步最新分流、重写与计划任务直链！")
 
     import shutil
     shutil.copy(qx_conf_path, "QuantumultX.conf")
@@ -625,7 +647,7 @@ if os.path.exists(readme_path):
 
 
 # ==============================================================================
-# 6. 全自动同步独立 JS 脚本 (在 Scripts/ 下为不同脚本创建专属子目录)
+# 6. 全自动同步独立 JS 脚本 (存入 Scripts/ 目录下的独立专属文件夹)
 # ==============================================================================
 def sync_custom_scripts():
     """抓取外部 JS 脚本并在 Scripts/ 目录下为不同脚本创建独立子文件夹"""
@@ -634,7 +656,7 @@ def sync_custom_scripts():
         "Scripts/streaming-ui-check/streaming-ui-check.js": [
             "https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/Scripts/streaming-ui-check.js"
         ],
-        # 节点纯净度检测：存放在 Scripts/server-info-pure/ (带多源备用)
+        # 节点纯净度检测：存放在 Scripts/server-info-pure/ (配置多源备用)
         "Scripts/server-info-pure/server-info-pure.js": [
             "https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Scripts/server-info-pure.js",
             "https://raw.githubusercontent.com/Rabbit-Spec/Surge/master/Module/Panel/IP-Info/server-info-pure.js",
