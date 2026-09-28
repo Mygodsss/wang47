@@ -1,33 +1,39 @@
 const $ = {
     get: (url, cb) => {
-        if (typeof $httpClient !== "undefined") $httpClient.get({ url: url, timeout: 6 }, cb);
-        else if (typeof $task !== "undefined") $task.fetch({ url: url, timeout: 6 }).then(r => cb(null, r, r.body), e => cb(e, null, null));
+        if (typeof $httpClient !== "undefined") $httpClient.get({ url: url, timeout: 5 }, cb);
+        else if (typeof $task !== "undefined") $task.fetch({ url: url, timeout: 5 }).then(r => cb(null, r, r.body), e => cb(e, null, null));
     },
     done: (obj) => $done(obj)
 };
-let results = { openai: "⏳", claude: "⏳", gemini: "⏳" };
-let doneCount = 0;
-function finish() {
-    doneCount++;
-    if (doneCount === 3) {
-        const lines = [`🧠 OpenAI (ChatGPT): ${results.openai}`, `🎭 Anthropic Claude: ${results.claude}`, `✨ Google Gemini AI: ${results.gemini}`];
-        $.done({ title: "🤖 AI 智能助手可用性检测", message: lines.join("\n"), content: lines.join("\n") });
-    }
-}
-$.get("https://chatgpt.com/cdn-cgi/trace", (err, resp, body) => {
-    if (!err && resp && resp.statusCode === 200 && body) {
-        const m = body.match(/loc=([A-Z]{2})/);
-        results.openai = (m && (m[1] === "CN" || m[1] === "HK")) ? `🔴 不可用 (${m[1]})` : `🟢 支持访问 (${m ? m[1] : "OK"})`;
-    } else results.openai = "🔴 访问受阻";
-    finish();
-});
-$.get("https://claude.ai/login", (err, resp) => {
-    if (!err && resp && (resp.statusCode === 200 || resp.statusCode === 302)) results.claude = "🟢 支持访问";
-    else results.claude = "🔴 节点受限";
-    finish();
-});
-$.get("https://gemini.google.com/", (err, resp) => {
-    if (!err && resp && (resp.statusCode === 200 || resp.statusCode === 302)) results.gemini = "🟢 支持访问";
-    else results.gemini = "🔴 地区暂不支持";
-    finish();
+const aiTargets = [
+    { key: "openai", name: "OpenAI ChatGPT", url: "https://chatgpt.com/cdn-cgi/trace", type: "trace" },
+    { key: "claude", name: "Anthropic Claude", url: "https://claude.ai/login", type: "status" },
+    { key: "gemini", name: "Google Gemini ", url: "https://gemini.google.com/", type: "status" },
+    { key: "grok", name: "xAI Grok      ", url: "https://grok.com/", type: "status" },
+    { key: "perplexity", name: "Perplexity AI ", url: "https://www.perplexity.ai/", type: "status" },
+    { key: "copilot", name: "微软 Copilot  ", url: "https://copilot.microsoft.com/", type: "status" },
+    { key: "poe", name: "Poe (Quora)   ", url: "https://poe.com/login", type: "status" },
+    { key: "mistral", name: "Mistral AI    ", url: "https://chat.mistral.ai/", type: "status" },
+    { key: "meta", name: "Meta AI       ", url: "https://www.meta.ai/", type: "status" },
+    { key: "groq", name: "Groq 极速推理 ", url: "https://groq.com/", type: "status" }
+];
+const results = new Array(aiTargets.length);
+let completed = 0;
+aiTargets.forEach((target, index) => {
+    $.get(target.url, (err, resp, body) => {
+        if (!err && resp) {
+            if (target.type === "trace" && body) {
+                const locMatch = body.match(/loc=([A-Z]{2})/);
+                const loc = locMatch ? locMatch[1] : "OK";
+                results[index] = (loc === "CN" || loc === "HK") ? `🧠 ${target.name}: 🔴 地区受限 (${loc})` : `🧠 ${target.name}: 🟢 畅通支持 (${loc})`;
+            } else if (resp.statusCode >= 200 && resp.statusCode < 400) results[index] = `✨ ${target.name}: 🟢 畅通支持`;
+            else if (resp.statusCode === 403 || resp.statusCode === 451) results[index] = `✨ ${target.name}: 🔴 节点受限`;
+            else results[index] = `✨ ${target.name}: ⚠️ 异常 (${resp.statusCode})`;
+        } else results[index] = `✨ ${target.name}: ⚠️ 超时受阻`;
+        completed++;
+        if (completed === aiTargets.length) {
+            const message = results.join("\n");
+            $.done({ title: "🤖 全球 10 大 AI 矩阵可用性体检", message: message, content: message });
+        }
+    });
 });

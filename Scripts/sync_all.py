@@ -428,7 +428,7 @@ $.get("https://www.google.com/search?q=114514", (err, resp, body) => {
 });
 """
 
-def sync_all_five_scripts_and_icons():
+def # 脚本已被用户 Pro 版锁定，跳过覆盖:
     print("🛠️ 正在全量同步 5 项检测脚本与自托管高清图标...")
     st_content = fetch_data("https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/Scripts/streaming-ui-check.js")
     if not st_content:
@@ -652,7 +652,7 @@ def update_readme_markdown(qx_rule_dir="rule/QuantumultX", readme_path="README.m
 if __name__ == "__main__":
     compile_rules()
     sync_rewrites_to_stash()
-    sync_all_five_scripts_and_icons()
+    # 脚本已被用户 Pro 版锁定，跳过覆盖
     assemble_quantumultx_conf(repo_user="Mygodsss", repo_name="wang47")
     sync_stash_rules_and_profile()
     update_readme_markdown()
