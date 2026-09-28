@@ -8,8 +8,6 @@ on:
       - main
     paths:
       - 'Scripts/**'
-      - 'scripts/**'
-      - 'js/**'
       - 'Profiles/**'
       - 'rule/**'
       - 'rewrite/**'
@@ -66,7 +64,7 @@ jobs:
           echo "$OUTPUT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      # 2. 仓库交付：智能动态提交，完美避开 pathspec 报错
+      # 2. 仓库交付：智能动态提交，规避冲突与误删
       - name: Commit & Push Changes
         id: commit_step
         run: |
@@ -83,8 +81,8 @@ jobs:
             git add README.md
           fi
 
-          # 动态检查并添加实际存在的资产（已加入 js 与 scripts 双重容错）
-          for target in rule rewrite Profiles js scripts QuantumultX.conf Stash.yaml; do
+          # 动态检查并添加实际存在的资产（统一收敛到 Scripts 目录管理）
+          for target in rule rewrite Profiles Scripts QuantumultX.conf Stash.yaml; do
             if [ -e "$target" ]; then
               git add "$target"
             fi
@@ -102,7 +100,8 @@ jobs:
               git commit -m "chore(auto): sync upstream rules and update subscription profiles"
             fi
             
-            git pull --rebase origin main
+            # 防撞车拉取合并：遇到 README 时间戳冲突自动采纳最新生成的内容
+            git pull --rebase -X theirs origin main || (git rebase --abort && git pull origin main --strategy-option=theirs -m "chore: auto resolve conflict")
             git push origin main
             echo "has_changes=true" >> $GITHUB_OUTPUT
           else
