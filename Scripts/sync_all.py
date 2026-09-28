@@ -428,35 +428,9 @@ $.get("https://www.google.com/search?q=114514", (err, resp, body) => {
 });
 """
 
-def # 脚本已被用户 Pro 版锁定，跳过覆盖:
-    print("🛠️ 正在全量同步 5 项检测脚本与自托管高清图标...")
-    st_content = fetch_data("https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/Scripts/streaming-ui-check.js")
-    if not st_content:
-        st_content = fetch_data("https://fastly.jsdelivr.net/gh/KOP-XIAO/QuantumultX@master/Scripts/streaming-ui-check.js")
-    if st_content:
-        write_file("Scripts/streaming-ui-check/streaming-ui-check.js", st_content)
-
-    write_file("Scripts/server-info-pure/server-info-pure.js", NATIVE_SERVER_INFO_PURE_JS)
-    write_file("Scripts/ai-check/ai-check.js", NATIVE_AI_CHECK_JS)
-    write_file("Scripts/crypto-check/crypto-check.js", NATIVE_CRYPTO_CHECK_JS)
-    write_file("Scripts/google-check/google-check.js", NATIVE_GOOGLE_CHECK_JS)
-
-    icons_map = {
-        "Scripts/streaming-ui-check/icon.png": ["https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube.png"],
-        "Scripts/server-info-pure/icon.png": ["https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Speedtest.png"],
-        "Scripts/ai-check/icon.png": ["https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Bot.png"],
-        "Scripts/crypto-check/icon.png": ["https://raw.githubusercontent.com/Orz-3/mini/master/Alpha/Bitcloud.png"],
-        "Scripts/google-check/icon.png": ["https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Google_Search.png"]
-    }
-    saved_icons = 0
-    for local_path, urls in icons_map.items():
-        for u in urls:
-            data = fetch_binary(u)
-            if data:
-                write_binary(local_path, data)
-                saved_icons += 1
-                break
-    print(f"🎉 5 大检测组件全量固化就绪，已交付 5 个独立 JS 引擎与 {saved_icons} 个自托管高清图标！")
+def sync_all_five_scripts_and_icons():
+    # 用户 Pro 版脚本已锁定，保留现有文件不予覆盖
+    pass
 
 def assemble_quantumultx_conf(repo_user="Mygodsss", repo_name="wang47"):
     qx_conf_path = "Profiles/QuantumultX.conf"
