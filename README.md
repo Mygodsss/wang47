@@ -154,7 +154,6 @@
 | **📱 微信小程序去广告与纯净体验** | `CONF` | [Applet.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/Applet.conf) |
 | **🌤️ 彩云天气去广告与免打扰** | `CONF` | [CaiYunAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/CaiYunAds.conf) |
 | **📦 菜鸟裹裹开屏与包裹广告拦截** | `CONF` | [CainiaoAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/CainiaoAds.conf) |
-| **🧩 ChinaMobileNoAds** | `JS` | [ChinaMobileNoAds.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/ChinaMobileNoAds.js) |
 | **⚙️ 个人自用定制扩展模块** | `CONF` | [ForOwnUse.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/ForOwnUse.conf) |
 | **🐟 闲鱼去广告与推荐流净化** | `CONF` | [GoofishAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/GoofishAds.conf) |
 | **🛡️ 谷歌人机验证自动放行** | `SNIPPET` | [GoogleCAPTCHA.snippet](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/GoogleCAPTCHA.snippet) |
@@ -166,17 +165,10 @@
 | **🔓 微信外链自动解除拦截直开** | `CONF` | [UnblockURLinWeChat.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/UnblockURLinWeChat.conf) |
 | **👁️ 新浪微博去广告与信息流净化** | `CONF` | [WeiboAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/WeiboAds.conf) |
 | **🎬 YouTube 去广告与视频流优化 (Maasea)** | `CONF` | [YoutubeAds.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/YoutubeAds.conf) |
-| **🧩 bdmap.ads** | `JS` | [bdmap.ads.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/bdmap.ads.js) |
-| **🧩 bdpan.ads** | `JS` | [bdpan.ads.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/bdpan.ads.js) |
 | **📦 BoxJS 脚本与数据管理面板** | `CONF` | [boxjs.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/boxjs.conf) |
-| **🧩 jd_price** | `JS` | [jd_price.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/jd_price.js) |
-| **🧩 jijianhuilv.vip** | `JS` | [jijianhuilv.vip.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/jijianhuilv.vip.js) |
 | **👻 Soul 社交开屏与动态广告拦截** | `CONF` | [soul.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/soul.conf) |
 | **🎙️ 通话录音功能扩展模块** | `CONF` | [thly.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/thly.conf) |
-| **🧩 wannianli.vip** | `JS` | [wannianli.vip.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/wannianli.vip.js) |
 | **📍 虚拟定位与位置信息修正模块** | `CONF` | [wloc.conf](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/wloc.conf) |
-| **📍 虚拟定位与位置信息修正模块** | `JS` | [wloc.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/wloc.js) |
-| **🧩 zhihu.ads** | `JS` | [zhihu.ads.js](https://raw.githubusercontent.com/Mygodsss/wang47/main/rewrite/QuantumultX/zhihu.ads.js) |
 
 
 ### Stash 专属覆写模块 (`Overrides`)

@@ -1,4 +1,4 @@
-# Quantumult X 全量自动化集成规则表 (由 GitHub Actions 每日编译维护)
+# Quantumult X 全量自动化集成规则表
 
 HOST,ai.google.dev,Gemini, AI-Auto
 HOST,alkalimakersuite-pa.clients6.google.com,Gemini, AI-Auto
@@ -51,7 +51,7 @@ IP-ASN,20473,OpenAI, AI-Auto
 HOST,cdn.usefathom.com,Claude, AI-Auto
 HOST-SUFFIX,anthropic.com,Claude, AI-Auto
 HOST-SUFFIX,claude.ai,Claude, AI-Auto
-HOST,lens.l.google.com,GoogleVoice, AI
+HOST,lens.l.google.com,GoogleVoice, bitsflow
 HOST,music.youtube.com,YouTube, 海外视频
 HOST,youtubei.googleapis.com,YouTube, 海外视频
 HOST,yt3.ggpht.com,YouTube, 海外视频
@@ -2789,6 +2789,45 @@ HOST-SUFFIX,xoom.us,PayPal, 全球代理
 HOST-SUFFIX,xoomcom.com,PayPal, 全球代理
 HOST-KEYWORD,paypal,PayPal, 全球代理
 USER-AGENT,PayPal*,PayPal, 全球代理
+HOST,www.sc.com, direct
+HOST,api.sc.com, direct
+HOST-SUFFIX,standardchartered.com.hk, direct
+HOST-KEYWORD,standardchartered-hk, direct
+HOST-SUFFIX,ccb.com.hk, direct
+HOST,asia.ccb.com, direct
+HOST-SUFFIX,bochk.com, direct
+HOST-SUFFIX,bankofchina.com.hk, direct
+HOST-SUFFIX,bocpay.com.hk, direct
+HOST-SUFFIX,hkbea.com, direct
+HOST-SUFFIX,dbs.com.hk, direct
+HOST-SUFFIX,cncbinternational.com, direct
+HOST-SUFFIX,cmbwinglungbank.com, direct
+HOST-SUFFIX,winglungbank.com, direct
+HOST-SUFFIX,hangseng.com, direct
+HOST-SUFFIX,shacombank.com.hk, direct
+HOST-SUFFIX,publicbank.com.hk, direct
+HOST-SUFFIX,ocbc.com.hk, direct
+HOST-SUFFIX,ocbcwhhk.com, direct
+HOST-SUFFIX,tybhk.com.hk, direct
+HOST-SUFFIX,chiyubank.com, direct
+HOST-SUFFIX,dahsing.com, direct
+HOST-SUFFIX,dahsing.com.hk, direct
+HOST-SUFFIX,chbank.com, direct
+HOST-SUFFIX,ncb.com.hk, direct
+HOST-SUFFIX,icbcasia.com, direct
+HOST-SUFFIX,fubonbank.com.hk, direct
+HOST-SUFFIX,fubon.com, direct
+HOST-SUFFIX,citi.com.hk, direct
+HOST-SUFFIX,bankcomm.com.hk, direct
+HOST-SUFFIX,bodintl.com, direct
+HOST-SUFFIX,za.group, direct
+HOST-SUFFIX,livibank.com, direct
+HOST-SUFFIX,mox.com, direct
+HOST-SUFFIX,welab.bank, direct
+HOST-SUFFIX,fusionbank.com, direct
+HOST-SUFFIX,paob.com.hk, direct
+HOST-SUFFIX,antbank.hk, direct
+HOST-SUFFIX,airstarbank.com, direct
 HOST,api.imem.app,Telegram, telegram
 HOST,api.swiftgram.app,Telegram, telegram
 HOST-SUFFIX,cdn-telegram.org,Telegram, telegram

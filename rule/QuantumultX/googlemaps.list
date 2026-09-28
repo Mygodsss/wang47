@@ -1,4 +1,7 @@
 # Google Maps 专用规则
+# tag: 🗺️ 谷歌地图与瓦片切片
+# policy: 自动选择
+
 HOST-SUFFIX,maps.google.com
 HOST-SUFFIX,maps.googleapis.com
 HOST-SUFFIX,lh3.googleusercontent.com

@@ -1,23 +1,33 @@
-/**
- * Quantumult X AI 智能助手诊断 (Pro 旗舰版)
- */
-const targetNode = (typeof $environment !== "undefined" && $environment.executeNode) ?$environment.executeNode : undefined;
-function req(url) {
-    return new Promise(resolve => {
-        $task.fetch({ url: url, method: "GET", headers: { "User-Agent": "Mozilla/5.0" }, node: targetNode, timeout: 5000 })
-            .then(resp => resolve({ status: resp.statusCode }), () => resolve({ status: 0 }));
-    });
+const $ = {
+    get: (url, cb) => {
+        if (typeof $httpClient !== "undefined") $httpClient.get({ url: url, timeout: 6 }, cb);
+        else if (typeof $task !== "undefined") $task.fetch({ url: url, timeout: 6 }).then(r => cb(null, r, r.body), e => cb(e, null, null));
+    },
+    done: (obj) => $done(obj)
+};
+let results = { openai: "⏳", claude: "⏳", gemini: "⏳" };
+let doneCount = 0;
+function finish() {
+    doneCount++;
+    if (doneCount === 3) {
+        const lines = [`🧠 OpenAI (ChatGPT): ${results.openai}`, `🎭 Anthropic Claude: ${results.claude}`, `✨ Google Gemini AI: ${results.gemini}`];
+        $.done({ title: "🤖 AI 智能助手可用性检测", message: lines.join("\n"), content: lines.join("\n") });
+    }
 }
-async function checkAI() {
-    const [gpt, claude, gemini, copilot] = await Promise.all([
-        req("https://chatgpt.com/"), req("https://claude.ai/login"), req("https://gemini.google.com/"), req("https://copilot.microsoft.com/")
-    ]);
-    const lines = [
-        `🧠 ChatGPT: ${gpt.status === 200 ? "🟢 完美支持" : "🔴 受限"}`,
-        `🎭 Claude: ${claude.status === 200 ? "🟢 完美支持" : "🔴 地区受限"}`,
-        `✨ Gemini: ${(gemini.status === 200 || gemini.status === 302) ? "🟢 完美支持" : "🔴 受限"}`,
-        `💻 Copilot: ${copilot.status === 200 ? "🟢 正常可用" : "🔴 受限"}`
-    ];
-    $done({ title: "🤖 AI 智能助手诊断", message: lines.join("\n"), content: lines.join("\n") });
-}
-checkAI();
+$.get("https://chatgpt.com/cdn-cgi/trace", (err, resp, body) => {
+    if (!err && resp && resp.statusCode === 200 && body) {
+        const m = body.match(/loc=([A-Z]{2})/);
+        results.openai = (m && (m[1] === "CN" || m[1] === "HK")) ? `🔴 不可用 (${m[1]})` : `🟢 支持访问 (${m ? m[1] : "OK"})`;
+    } else results.openai = "🔴 访问受阻";
+    finish();
+});
+$.get("https://claude.ai/login", (err, resp) => {
+    if (!err && resp && (resp.statusCode === 200 || resp.statusCode === 302)) results.claude = "🟢 支持访问";
+    else results.claude = "🔴 节点受限";
+    finish();
+});
+$.get("https://gemini.google.com/", (err, resp) => {
+    if (!err && resp && (resp.statusCode === 200 || resp.statusCode === 302)) results.gemini = "🟢 支持访问";
+    else results.gemini = "🔴 地区暂不支持";
+    finish();
+});
