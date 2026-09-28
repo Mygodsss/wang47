@@ -236,7 +236,6 @@ for cat, items in RULES_MAP.items():
             continue
         up_name = NAME_ALIAS.get(fname, name)
 
-        # 智能多路径候选下载（兼容大小写与不同上游命名习惯）
         candidates = [up_name, up_name.lower(), up_name.capitalize()]
         if fname == "applecn":
             candidates.extend(["AppleCN", "apple-cn", "Apple-CN", "Apple/AppleCN"])
@@ -624,8 +623,38 @@ if os.path.exists(readme_path):
         f.write(rm_text)
     print("🎉 README.md 分流表格与双端重写表格已实现 100% 动态对齐！")
 
+
+# ==============================================================================
+# 6. 全自动同步独立 JS 脚本 (流媒体与节点纯净度检测)
+# ==============================================================================
+def sync_custom_scripts(scripts_dir="scripts"):
+    """抓取上游权威 JS 脚本并托管至本地仓库，规避源站防盗链与 403 阻断"""
+    remote_scripts = {
+        "streaming-ui-check.js": "https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/Scripts/streaming-ui-check.js",
+        "server-info-pure.js": "https://raw.githubusercontent.com/ddgksf2013/scripts/master/server-info-pure.js"
+    }
+    
+    count = 0
+    for name, url in remote_scripts.items():
+        content = fetch_data(url)
+        if content:
+            target_path = os.path.join(scripts_dir, name)
+            write_file(target_path, content)
+            count += 1
+        else:
+            print(f"⚠️ 外部脚本拉取失败或源站不可用: {url}")
+            
+    print(f"✅ 独立 JS 脚本同步完成，共抓取托管 {count} 个脚本至 {scripts_dir}/ 目录！")
+
+
+# ------------------------------------------------------------------------------
+# 统一收尾执行流程
+# ------------------------------------------------------------------------------
 # 4. 同步更新时间戳与分流直链
 update_readme_markdown(qx_rule_dir, RULE_META)
 
 # 5. 全自动同步 Stash 规则集与配置
 sync_stash_rules_and_profile()
+
+# 6. 同步外部独立 JS 脚本
+sync_custom_scripts()
