@@ -8,7 +8,6 @@ on:
       - main
     paths:
       - 'Scripts/**'
-      - 'scripts/**'
       - 'Profiles/**'
       - 'rule/**'
       - 'rewrite/**'
@@ -75,7 +74,11 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add -A rule/ rewrite/ Profiles/ Scripts/ scripts/ QuantumultX.conf Stash.yaml README.md
+          for target in rule rewrite Profiles Scripts scripts QuantumultX.conf Stash.yaml README.md; do
+            if [ -e "$target" ]; then
+              git add -A "$target"
+            fi
+          done
 
           CORE_CHANGES=$(git diff --cached --name-only)
 
