@@ -152,7 +152,7 @@
 | 组件标签 | 图标 | 功能说明与检测维度 | 脚本直链 |
 | :--- | :---: | :--- | :--- |
 | **AI智能助手诊断** | 🤖 | OpenAI、Claude、Gemini 等全球前沿 AI 并发体检 | [查看脚本](Scripts/ai-check/ai-check.js) |
-| **交易所合规排查** | 🪙 | Binance、OKX、Bybit 等全球主流交易所连通性体检 | [查看脚本](Scripts/crypto-check/crypto-check.js) |
+| **交易所合规排查** | 🪙 | 全球 11 大主流 Web3 交易所真实 API 可用性并发深度体检 | [查看脚本](Scripts/crypto-check/crypto-check.js) |
 | **Google送中排查** | 🔍 | Google 搜索归属、原生未送中判定、风控拦截诊断 | [查看脚本](Scripts/google-check/google-check.js) |
 | **节点纯净度详情** | 🛡️ | Quantumult X 节点纯净度五维深度体检引擎 (Pro 旗舰版) | [查看脚本](Scripts/server-info-pure/server-info-pure.js) |
 | **流媒体解锁查询** | 🎬 | Thanks to & modified from | [查看脚本](Scripts/streaming-ui-check/streaming-ui-check.js) |
