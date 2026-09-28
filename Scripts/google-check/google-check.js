@@ -1,3 +1,6 @@
+/**
+ * Quantumult X Google 送中排查 (Pro 旗舰版)
+ */
 const targetNode = (typeof $environment !== "undefined" && $environment.executeNode) ?$environment.executeNode : undefined;
 function req(url) {
     return new Promise(resolve => {

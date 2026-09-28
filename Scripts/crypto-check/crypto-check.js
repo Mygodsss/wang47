@@ -1,3 +1,6 @@
+/**
+ * Quantumult X 交易所合规排查 (8大主流CEX)
+ */
 const targetNode = (typeof $environment !== "undefined" && $environment.executeNode) ?$environment.executeNode : undefined;
 function req(url) {
     return new Promise(resolve => {
