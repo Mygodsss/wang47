@@ -1,71 +1,102 @@
 /**
- * Quantumult X 节点纯净度与出口检测 (极速原生适配版)
+ * 节点纯净度 & IP 质量深度体检引擎 (Quantumult X 交互原生组件)
+ * 适配输出标准 message 与 htmlMessage 字段，彻底杜绝“无有效内容”警告
  */
 const $ = {
-    fetch: (url, cb) => {
-        $task.fetch({ url: url, timeout: 3500 }).then(
-            resp => cb(null, resp.body),
-            err => cb(err, null)
-        );
+    get: (url, cb) => {
+        if (typeof $httpClient !== "undefined") {
+            $httpClient.get({ url: url, timeout: 8 }, cb);
+        } else if (typeof $task !== "undefined") {
+            $task.fetch({ url: url, timeout: 8 }).then(
+                resp => cb(null, resp, resp.body),
+                err => cb(err, null, null)
+            );
+        }
     },
     done: (obj) => $done(obj)
 };
 
-function getFlag(code) {
-    if (!code || code.length !== 2) return "🌐";
-    return String.fromCodePoint(...code.toUpperCase().split("").map(c => 127397 + c.charCodeAt(0)));
+function getFlagEmoji(countryCode) {
+    if (!countryCode || countryCode.length !== 2) return "🌐";
+    const codePoints = countryCode
+        .toUpperCase()
+        .split("")
+        .map(char => 127397 + char.charCodeAt(0));
+    return String.fromCodePoint(...codePoints);
 }
 
-const apiUrl = "http://ip-api.com/json/?fields=status,message,country,countryCode,regionName,city,isp,org,as,query";
+// 核心查询主接口：HTTPS + 完整风控与数据中心标记
+const primaryUrl = "https://ipwho.is/";
+const backupUrl = "https://api.ip.sb/geoip";
 
-$.fetch(apiUrl, (err, body) => {
-    if (err || !body) {
-        $.done({
-            title: "节点纯净度检测",
-            htmlMessage: "<p style='color:#e74c3c;font-size:13px;'>⚠️ 节点连接超时，未能获取出口数据，请检查节点连通性。</p>"
-        });
-        return;
+$.get(primaryUrl, (err, resp, body) => {
+    if (!err && body) {
+        try {
+            const data = JSON.parse(body);
+            if (data.success) {
+                const flag = getFlagEmoji(data.country_code);
+                const isHosting = data.security && data.security.hosting;
+                const isProxy = data.security && (data.security.proxy || data.security.vpn || data.security.tor);
+                
+                let purityTag = "🟢 极高 (原生住宅/家庭宽带)";
+                if (isProxy) {
+                    purityTag = "🔴 较低 (公开代理/高风控节点)";
+                } else if (isHosting) {
+                    purityTag = "🟡 良好 (数据中心/商业机房)";
+                }
+
+                const nodeType = isHosting ? "数据中心广播 (Hosting)" : "原生家宽直连 (Residential)";
+                const ispName = data.connection ? data.connection.isp : (data.isp || "未知运营商");
+                const asnInfo = data.connection ? `AS${data.connection.asn || ""}` : "";
+
+                const title = `${flag} ${data.country} · ${data.city}`;
+                const lines = [
+                    `📍 节点出口: ${data.ip}`,
+                    `🏢 归属运营: ${ispName} ${asnInfo}`.trim(),
+                    `🛡️ 纯净评级: ${purityTag}`,
+                    `🏷️ 节点类型: ${nodeType}`,
+                    `⏱️ 所在时区: ${data.timezone ? data.timezone.id : "未知"}`
+                ];
+                const message = lines.join("\n");
+
+                $.done({
+                    title: title,
+                    message: message,
+                    content: message,
+                    htmlMessage: `<div style="font-family:-apple-system;font-size:13px;line-height:1.6;">${lines.join("<br>")}</div>`
+                });
+                return;
+            }
+        } catch (e) {}
     }
 
-    try {
-        const d = JSON.parse(body);
-        if (d.status === "success") {
-            const flag = getFlag(d.countryCode);
-            const asStr = (d.as || "").toLowerCase();
-            const orgStr = (d.org || "").toLowerCase();
-            const isHosting = asStr.includes("hosting") || asStr.includes("cloud") || asStr.includes("server") ||
-                              orgStr.includes("hosting") || orgStr.includes("cloud") || orgStr.includes("server") ||
-                              asStr.includes("amazon") || asStr.includes("google") || asStr.includes("digitalocean") ||
-                              asStr.includes("oracle") || asStr.includes("alibaba") || asStr.includes("linode");
-
-            const purityText = isHosting ? "🟡 商业机房数据中心 (Hosting)" : "🟢 原生家庭宽带 (Residential)";
-            const levelText = isHosting ? "风控中等" : "极高 (原生直连)";
-
-            const html = `
-            <div style="font-family:-apple-system,sans-serif;font-size:13px;line-height:1.7;color:#333;">
-                <p style="margin:0 0 6px 0;font-size:15px;font-weight:bold;color:#1a73e8;">${flag} ${d.country} · ${d.city}</p>
-                <p style="margin:0;"><b>出口 IP：</b><code>${d.query}</code></p>
-                <p style="margin:0;"><b>归属运营商：</b>${d.isp}</p>
-                <p style="margin:0;"><b>节点类型：</b>${purityText}</p>
-                <p style="margin:0;"><b>纯净评级：</b>${levelText}</p>
-                <p style="margin:0;"><b>自治域 AS：</b>${d.as || "未知"}</p>
-            </div>
-            `;
-
-            $.done({
-                title: `${flag} ${d.country} 纯净度检测`,
-                htmlMessage: html
-            });
-        } else {
-            $.done({
-                title: "节点纯净度检测",
-                htmlMessage: `<p style='color:#e74c3c;'>查询异常: ${d.message || "未知原因"}</p>`
-            });
+    // 备用兜底容灾链路
+    $.get(backupUrl, (bErr, bResp, bBody) => {
+        if (!bErr && bBody) {
+            try {
+                const bData = JSON.parse(bBody);
+                const title = `🌐 ${bData.country || "节点检测"} · ${bData.city || ""}`;
+                const lines = [
+                    `📍 节点出口: ${bData.ip || bData.query}`,
+                    `🏢 归属运营: ${bData.isp || bData.organization || "未知"}`,
+                    `🏷️ 节点属性: 商业机房节点 (备用链路)`,
+                    `⏱️ 所在时区: ${bData.timezone || "未知"}`
+                ];
+                const message = lines.join("\n");
+                $.done({
+                    title: title,
+                    message: message,
+                    content: message
+                });
+                return;
+            } catch (e) {}
         }
-    } catch (e) {
+
+        const failText = "⚠️ 节点出口网络超时，未能获取纯净度数据，请检查当前节点联通性。";
         $.done({
-            title: "节点纯净度检测",
-            htmlMessage: `<p style='color:#e74c3c;'>数据解析失败: ${e.message}</p>`
+            title: "节点纯净度体检",
+            message: failText,
+            content: failText
         });
-    }
+    });
 });
