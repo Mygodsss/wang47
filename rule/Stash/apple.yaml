@@ -1,6 +1,5 @@
 payload:
   - DOMAIN,apps.apple.com
-  - DOMAIN,itunes.apple.com
   - DOMAIN,a1.mzstatic.com
   - DOMAIN,a2.mzstatic.com
   - DOMAIN,a3.mzstatic.com
@@ -232,7 +231,6 @@ payload:
   - DOMAIN,audio.itunes.apple.com
   - DOMAIN,mvod.itunes.apple.com
   - DOMAIN,streamingaudio.itunes.apple.com
-  - DOMAIN,gspe1-ssl.ls.apple.com
   - DOMAIN,news-client-search.apple.com
   - DOMAIN,api-glb-sea.smoot.apple.com
   - DOMAIN,apple.comscoreresearch.com
@@ -243,6 +241,9 @@ payload:
   - DOMAIN,devimages-cdn.apple.com
   - DOMAIN,devstreaming-cdn.apple.com
   - DOMAIN,docs-assets.developer.apple.com
+  - DOMAIN,gspe1-ssl.ls.apple.com
+  - DOMAIN,hls-svod.itunes.apple.com
+  - DOMAIN,itunes.apple.com
   - DOMAIN,js-cdn.music.apple.com
   - DOMAIN,lookup-api.apple.com
   - DOMAIN,mask-api.fe.apple-dns.net
@@ -266,7 +267,6 @@ payload:
   - DOMAIN,fmipmobile.icloud.com
   - DOMAIN,statici.icloud.com
   - DOMAIN,amp-api.fitness.apple.com
-  - DOMAIN,hls-svod.itunes.apple.com
   - DOMAIN,guzzoni.apple.com
   - DOMAIN,beta.apple.com
   - DOMAIN,testflight.apple.com
@@ -1781,7 +1781,6 @@ payload:
   - DOMAIN-SUFFIX,appleenews.com
   - DOMAIN-SUFFIX,applemusic.berlin
   - DOMAIN-SUFFIX,applemusic.co
-  - DOMAIN-SUFFIX,applemusic.com
   - DOMAIN-SUFFIX,applemusic.com.au
   - DOMAIN-SUFFIX,applemusic.hamburg
   - DOMAIN-SUFFIX,applemusic.wang
@@ -1814,12 +1813,13 @@ payload:
   - DOMAIN-SUFFIX,iphoto.wang
   - DOMAIN-SUFFIX,musickit.net
   - DOMAIN-SUFFIX,wwwapplemusic.com
+  - DOMAIN-SUFFIX,applemusic.com
   - DOMAIN-SUFFIX,apple-dns.net
+  - DOMAIN-SUFFIX,cdn-apple.com
   - DOMAIN-SUFFIX,digicert.com
   - DOMAIN-SUFFIX,apple-cloudkit.com
   - DOMAIN-SUFFIX,apple-livephotoskit.com
   - DOMAIN-SUFFIX,apzones.com
-  - DOMAIN-SUFFIX,cdn-apple.com
   - DOMAIN-SUFFIX,icloud-content.com.cn
   - DOMAIN-SUFFIX,icloud.cn
   - DOMAIN-KEYWORD,apple-support.akadns.net
